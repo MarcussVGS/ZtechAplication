@@ -2,10 +2,15 @@ package Model.cadastroCli;
 
 import java.io.Serializable;
 import java.util.List;
+
+import Model.Estoque;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
 public class Cliente {
+	
+	@OneToMany(mappedBy = "Venda", cascade = CascadeType.REMOVE)
+	private List<Estoque> estoque;
 	
 	@Id
 	private int idCliente;
@@ -13,12 +18,12 @@ public class Cliente {
 	private String nomeCliente;
 	@NotEmpty
 	private String cpf;
-	@NotEmpty
-	private Email email;
-	@NotEmpty
-	private Endereco endereco;
-	@NotEmpty
-	private Telefone telefone;
+	@OneToMany(mappedBy = "Cliente", cascade = CascadeType.REMOVE)
+	private List<Email> email;
+	@OneToMany(mappedBy = "Cliente", cascade = CascadeType.REMOVE)
+	private List<Endereco> endereco;
+	@OneToMany(mappedBy = "Cliente", cascade = CascadeType.REMOVE)
+	private List<Telefone> telefone;
 	
 	public int getIdCliente() {
 		return idCliente;
@@ -40,22 +45,22 @@ public class Cliente {
 	}
 	
 	//chaves estrangeiras
-	public Email getEmail() {
+	public List<Email> getEmail() {
 		return email;
 	}
-	public void setEmail(Email email) {
+	public void setEmail(List<Email> email) {
 		this.email = email;
 	}
-	public Endereco getEndereco() {
+	public List<Endereco> getEndereco() {
 		return endereco;
 	}
-	public void setEndereco(Endereco endereco) {
+	public void setEndereco(List<Endereco> endereco) {
 		this.endereco = endereco;
 	}
-	public Telefone getTelefone() {
+	public List<Telefone> getTelefone() {
 		return telefone;
 	}
-	public void setTelefone(Telefone telefone) {
+	public void setTelefone(List<Telefone> telefone) {
 		this.telefone = telefone;
 	}
 	
