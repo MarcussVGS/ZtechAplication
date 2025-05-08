@@ -13,6 +13,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 @Configuration
 public class DataConfiguration {
 
+	//tem que configurar em relação ao banco
     String url = "jdbc:mysql://localhost:3306/ztech";
     String username = "";
     String password = "";
