@@ -9,14 +9,11 @@ import jakarta.validation.constraints.NotEmpty;
 
 public class Cliente {
 	
-	@OneToMany(mappedBy = "Venda", cascade = CascadeType.REMOVE)
-	private List<Estoque> estoque;
-	
 	@Id
 	private int idCliente;
 	@NotEmpty
 	private String nomeCliente;
-	@NotEmpty
+	@Column(unique = true)
 	private String cpf;
 	@OneToMany(mappedBy = "Cliente", cascade = CascadeType.REMOVE)
 	private List<Email> email;
