@@ -14,7 +14,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 public class DataConfiguration {
 
 	//tem que configurar em relação ao banco
-    String url = "jdbc:mysql://localhost:3306/BANCOTESTES";
+    String url = "jdbc:mysql://localhost:3306/bancotestes?";
     String username = "root";
     String password = "1234";
 

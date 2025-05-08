@@ -1,5 +1,5 @@
 package Model;
-
+// pagina 40 do documento do prof
 import Model.cadastroProd.*;
 
 import java.io.Serializable;
