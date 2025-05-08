@@ -11,6 +11,7 @@ import jakarta.validation.constraints.NotEmpty;
 public class Venda {
 	
 	@Id
+	@GeneratedValue
 	private int idVenda;
 	@NotEmpty
 	private LocalDateTime datahora;

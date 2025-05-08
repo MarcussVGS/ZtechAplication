@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 public class Categoria {
 	
 	@Id
+	@GeneratedValue
 	private int idCategoria;
 	@NotEmpty
 	private String nomeCategoria;

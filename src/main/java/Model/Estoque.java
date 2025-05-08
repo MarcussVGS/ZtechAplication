@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotEmpty;
 public class Estoque {
 	
 	@Id
+	@GeneratedValue
 	private int idEstoque ;
 	@NotEmpty
 	private int quantidade;

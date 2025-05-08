@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 public class Endereco {
 	
 	@Id
+	@GeneratedValue
 	private int idEndereco;
 	@NotEmpty
 	private String rua;

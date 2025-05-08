@@ -9,7 +9,10 @@ import jakarta.validation.constraints.NotEmpty;
 
 public class Cliente {
 	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
+	@GeneratedValue (strategy = GenerationType.AUTO)
 	private int idCliente;
 	@NotEmpty
 	private String nomeCliente;

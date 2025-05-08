@@ -11,6 +11,7 @@ import jakarta.validation.constraints.NotEmpty;
 public class OrdemServico {
 	
 	@Id
+	@GeneratedValue
 	private int idOS;
 	@NotEmpty
 	private LocalDateTime datahoraInicio;

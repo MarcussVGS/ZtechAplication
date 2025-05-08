@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 public class Email {
 	
 	@Id
+	@GeneratedValue
 	private int idEmail;
 	@NotEmpty
 	private String email;
