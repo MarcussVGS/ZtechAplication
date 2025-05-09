@@ -14,7 +14,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 public class DataConfiguration {
 
 	//tem que configurar em relação ao banco
-    String url = "jdbc:mysql://localhost:3306/bancotestes?";
+    String url = "jdbc:mysql://localhost:3306/testes?useTimezone=true&serverTimezone=UTC";
     String username = "root";
     String password = "1234";
 
@@ -35,7 +35,7 @@ public class DataConfiguration {
         adapter.setDatabase(Database.MYSQL);
         adapter.setShowSql(true);
         adapter.setGenerateDdl(true);
-        adapter.setDatabasePlatform("org.hibernate.dialect.MySQL8Dialect");
+        adapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
         adapter.setPrepareConnection(true);
 
         return adapter;
