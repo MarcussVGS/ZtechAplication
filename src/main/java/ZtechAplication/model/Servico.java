@@ -1,18 +1,25 @@
-package Model;
+package ZtechAplication.model;
 
-import java.io.Serializable;
-import java.util.List;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "tbServico")
 public class Servico {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idServico;
-	@NotEmpty
+	@Column(nullable = false)
 	private String descrisaoServico;
-	@NotEmpty
+    @ManyToOne
+    private OrdemServico ordemServico;
+	
 	private float valor;
 	
 	public int getIdServico() {

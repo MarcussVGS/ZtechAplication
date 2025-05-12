@@ -1,39 +1,45 @@
-package Model;
+package ZtechAplication.model;
 
-import Model.cadastroCli.*;
-
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tbOS")
 public class OrdemServico {
 	
 	@Id
-	@GeneratedValue
-	private int idOS;
-	@NotEmpty
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long idOS;
+
+    @Column(nullable = false)
 	private LocalDateTime datahoraInicio;
-	@NotEmpty
 	private LocalDateTime datahoraFim;
-	@NotEmpty
 	private String status;
-	@NotEmpty
 	private float valor;
-	@NotEmpty
 	private float lucro;
-	@NotEmpty
-	private Servico servico;
-	@NotEmpty
-	private Estoque estoque;
-	@NotEmpty
+	@OneToMany(mappedBy = "ordemServico", cascade = CascadeType.REMOVE)
+	private List<Servico> servico;
+	@OneToMany(mappedBy = "ordemServico", cascade = CascadeType.REMOVE)
+	private List<Estoque> estoque;
+	@OneToOne
+    @JoinColumn(name = "idCliente")  // ou "idCliente" se quiser bater com o nome exato
 	private Cliente cliente;
 	
-	public int getIdOS() {
+	public Long getIdOS() {
 		return idOS;
 	}
-	public void setIdOS(int idOS) {
+	public void setIdOS(Long idOS) {
 		this.idOS = idOS;
 	}
 	public LocalDateTime getDatahoraInicio() {
@@ -66,16 +72,16 @@ public class OrdemServico {
 	public void setLucro(float lucro) {
 		this.lucro = lucro;
 	}
-	public Servico getServico() {
+	public List<Servico> getServico() {
 		return servico;
 	}
-	public void setServico(Servico servico) {
+	public void setServico(List<Servico> servico) {
 		this.servico = servico;
 	}
-	public Estoque getEstoque() {
+	public List<Estoque> getEstoque() {
 		return estoque;
 	}
-	public void setEstoque(Estoque estoque) {
+	public void setEstoque(List<Estoque> estoque) {
 		this.estoque = estoque;
 	}
 	public Cliente getCliente() {

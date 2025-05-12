@@ -1,34 +1,43 @@
-package Model.cadastroCli;
+package ZtechAplication.model;
 
-import java.io.Serializable;
 import java.util.List;
 
-import Model.Estoque;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tbCliente")
 public class Cliente {
-	
-	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
-	private int idCliente;
-	@NotEmpty
+	private Long idCliente;
+
+    @Column(nullable = false)
 	private String nomeCliente;
 	@Column(unique = true)
 	private String cpf;
-	@OneToMany(mappedBy = "Cliente", cascade = CascadeType.REMOVE)
+	
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE)
 	private List<Email> email;
-	@OneToMany(mappedBy = "Cliente", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE)
 	private List<Endereco> endereco;
-	@OneToMany(mappedBy = "Cliente", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE)
 	private List<Telefone> telefone;
 	
-	public int getIdCliente() {
+	
+	
+	public Long getIdCliente() {
 		return idCliente;
 	}
-	public void setIdCliente(int idCliente) {
+	public void setIdCliente(Long idCliente) {
 		this.idCliente = idCliente;
 	}
 	public String getNomeCliente() {

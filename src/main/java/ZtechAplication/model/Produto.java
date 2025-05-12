@@ -1,24 +1,31 @@
-package Model.cadastroProd;
+package ZtechAplication.model;
 
-import java.io.Serializable;
-import java.util.List;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "tbProduto")
 public class Produto {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idProduto;
-	@NotEmpty
+	
+	@Column(nullable = false)
 	private String nomeProduto;
-	@NotEmpty
 	private float custo;
-	@NotEmpty
 	private String descricao;
-	@NotEmpty
+	@OneToOne
+	@JoinColumn(name = "idMarca")
 	private Marca marca;
-	@NotEmpty
+	@OneToOne
+	@JoinColumn(name = "idCategoria")
 	private Categoria categoria;
 	
 	public int getIdProduto() {

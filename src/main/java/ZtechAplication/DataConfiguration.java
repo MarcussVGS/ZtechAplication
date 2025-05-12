@@ -14,7 +14,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 public class DataConfiguration {
 
 	//tem que configurar em relação ao banco
-    String url = "jdbc:mysql://localhost:3306/testes?useTimezone=true&serverTimezone=UTC";
+    String url = "jdbc:mysql://localhost:3306/testes?useSSL=false&serverTimezone=UTC";
     String username = "root";
     String password = "1234";
 
@@ -22,14 +22,14 @@ public class DataConfiguration {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl(this.url);
-        dataSource.setUsername(this.username); 
-        dataSource.setPassword(this.password); 
+        dataSource.setUrl("jdbc:mysql://localhost:3306/testes?useSSL=false&serverTimezone=UTC");
+        dataSource.setUsername("root"); 
+        dataSource.setPassword("1234"); 
 
         return dataSource;
     }
 
-    @Bean
+    
     public JpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         adapter.setDatabase(Database.MYSQL);
