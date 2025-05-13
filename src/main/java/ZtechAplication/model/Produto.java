@@ -28,10 +28,10 @@ public class Produto {
 	private String descricao;
 	
 	@ManyToOne
-	@JoinColumn(name = "idMarca", referencedColumnName = "idMarca")
+	@JoinColumn(name = "id_Marca")
 	private Marca marca;
 	@ManyToOne
-	@JoinColumn(name = "idCategoria", referencedColumnName = "idCategoria")
+	@JoinColumn(name = "id_Categoria")
 	private Categoria categoria;
 	
 	public Long getid() {
