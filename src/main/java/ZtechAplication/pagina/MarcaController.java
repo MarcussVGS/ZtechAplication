@@ -40,24 +40,24 @@ public class MarcaController {
 		
 		if (result.hasErrors()) {
 			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
-			return "redirect:/cadastrarMarca";
+			return "redirect:/marca/cadastrarMarca";
 		}
 		
 		mr.save(marca);
 		attributes.addFlashAttribute("mensagem", "Marca cadastrada com sucesso!");
-		return "redirect:/cadastrarMarca";
+		return "redirect:/marca/cadastrarMarca";
 	}
 	
 	@GetMapping(value = "/listarMarca")
 	public ModelAndView listarMarca() {
-		ModelAndView mv = new ModelAndView("produto/listaMarcas");
+		ModelAndView mv = new ModelAndView("/marca/listarMarcas");
 		mv.addObject("marca", mr.findAll());
 		return mv;
 	}
 	
 	@PutMapping(value = "/editarMarca/{id}")
 	public ModelAndView editarMarca(@PathVariable Long id) {
-		ModelAndView mv = new ModelAndView("produto/editarMarca");
+		ModelAndView mv = new ModelAndView("/marca/editarMarca");
 		mv.addObject("marca", mr.findById(id).orElseThrow( () -> 
 					 new IllegalArgumentException("Marca invalida" + id) ));
 		return mv;
@@ -67,7 +67,12 @@ public class MarcaController {
 	public String remover(@PathVariable Long id, RedirectAttributes attributes) {
         mr.deleteById(id);
         attributes.addFlashAttribute("mensagem", "Marca removida com sucesso!");
-        return "redirect:/cadastrarMarca";
+        return "redirect:/marca/cadastrarMarca";
+	}
+	
+	@GetMapping(value = "/teste")
+	public String teste (){
+		return "correto";
 	}
 	
 }

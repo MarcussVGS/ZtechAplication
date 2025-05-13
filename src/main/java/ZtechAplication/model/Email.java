@@ -10,18 +10,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tbEmail")
+@Table(name = "tb_Email")
 public class Email {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idEmail")  // Mapeia para a coluna existente
 	private Long idEmail;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
 	private String endEmail;
-    @ManyToOne
-    @JoinColumn(name = "idCliente")  // ou "idCliente" se quiser bater com o nome exato
-    private Cliente cliente;
     
 	
 	public Long getIdEmail() {
@@ -35,12 +33,5 @@ public class Email {
 	}
 	public void setEmail(String endEmail) {
 		this.endEmail = endEmail;
-	}
-	//referencia da tabela
-	public Cliente getCliente() {
-		return cliente;
-	}
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
 	}
 }

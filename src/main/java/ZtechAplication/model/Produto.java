@@ -17,21 +17,23 @@ public class Produto {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_Produto")
+	@Column(name = "idProduto")
 	private Long idProduto;
 	
 	@Column(nullable = false, length = 50)
 	private String nome;
 	@Column(nullable = false, precision = 10, scale = 2)
 	private BigDecimal custo;
+	@Column(nullable = false, precision = 10, scale = 2)
+	private BigDecimal valor;
 	@Column(nullable = false, length = 255)
 	private String descricao;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_Marca")
+	@JoinColumn(name = "idMarca")
 	private Marca marca;
 	@ManyToOne
-	@JoinColumn(name = "id_Categoria")
+	@JoinColumn(name = "idCategoria")
 	private Categoria categoria;
 	
 	public Long getid() {

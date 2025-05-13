@@ -10,18 +10,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tbTelefone")
+@Table(name = "tb_Telefone")
 public class Telefone {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idTelefone")  // Mapeia para a coluna existente
 	private Long idTelefone;
-
-    @Column(nullable = false)
+    @Column(nullable = false, length = 15)
 	private String telefone;
-    @ManyToOne
-    @JoinColumn(name = "idCliente")  // ou "idCliente" se quiser bater com o nome exato
-    private Cliente cliente;
     
     
 	public Long getIdTelefone() {
@@ -35,12 +32,6 @@ public class Telefone {
 	}
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
-	}
-	public Cliente getCliente() {
-		return cliente;
-	}
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
 	}
     
     

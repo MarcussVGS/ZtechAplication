@@ -16,7 +16,7 @@ public class Categoria {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_Categoria")  // Mapeia para a coluna existente
+	@Column(name = "idCategoria")  // Mapeia para a coluna existente
 	private Integer idCategoria;
 
     @Column(nullable = false, length = 255)

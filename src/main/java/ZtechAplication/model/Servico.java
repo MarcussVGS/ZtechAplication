@@ -9,23 +9,22 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tbServico")
+@Table(name = "tb_Servico")
 public class Servico {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idServico;
-	@Column(nullable = false)
+	@Column(name = "idServico")  // Mapeia para a coluna existente
+	private Long idServico;
+	@Column(nullable = false, length = 255)
 	private String descrisaoServico;
-    @ManyToOne
-    private OrdemServico ordemServico;
-	
+	@Column(nullable = false)
 	private float valor;
 	
-	public int getIdServico() {
+	public Long getIdServico() {
 		return idServico;
 	}
-	public void setIdServico(int idServico) {
+	public void setIdServico(Long idServico) {
 		this.idServico = idServico;
 	}
 	public String getDescrisaoServico() {

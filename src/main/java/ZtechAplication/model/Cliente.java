@@ -13,23 +13,24 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tbCliente")
+@Table(name = "tb_Cliente")
 public class Cliente {
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
+	@Column(name = "idCliente")  // Mapeia para a coluna existente
 	private Long idCliente;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
 	private String nomeCliente;
-	@Column(unique = true)
+	@Column(unique = true, length = 20)
 	private String cpf;
 	
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "idEmail")
 	private List<Email> email;
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "idEndereco")
 	private List<Endereco> endereco;
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "idTelefone")
 	private List<Telefone> telefone;
 	
 	

@@ -1,6 +1,8 @@
 package ZtechAplication.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -15,22 +17,31 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tbOS")
+@Table(name = "tb_OS")
 public class OrdemServico {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idOS")  // Mapeia para a coluna existente
 	private Long idOS;
 
-    @Column(nullable = false)
-	private LocalDateTime datahoraInicio;
-	private LocalDateTime datahoraFim;
+	@Column(name = "data_inicio", nullable = false)
+	private LocalDate dataInicio;
+	@Column(name = "hora_inicio", nullable = false)
+	private LocalTime horaInicio;
+	@Column(name = "data_fim", nullable = false)
+	private LocalDate dataFim;
+	@Column(name = "hora_fim", nullable = false)
+	private LocalTime horaFim;
+	@Column(nullable = false, length = 10)
 	private String status;
+	@Column(nullable = false)
 	private float valor;
+	@Column(nullable = false)
 	private float lucro;
-	@OneToMany(mappedBy = "ordemServico", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "idServico")
 	private List<Servico> servico;
-	@OneToMany(mappedBy = "ordemServico", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "idEstoque")
 	private List<Estoque> estoque;
 	@OneToOne
     @JoinColumn(name = "idCliente")  // ou "idCliente" se quiser bater com o nome exato
@@ -42,17 +53,29 @@ public class OrdemServico {
 	public void setIdOS(Long idOS) {
 		this.idOS = idOS;
 	}
-	public LocalDateTime getDatahoraInicio() {
-		return datahoraInicio;
+	public LocalDate getDataInicio() {
+		return dataInicio;
 	}
-	public void setDatahoraInicio(LocalDateTime datahoraInicio) {
-		this.datahoraInicio = datahoraInicio;
+	public void setDataInicio(LocalDate dataInicio) {
+		this.dataInicio = dataInicio;
 	}
-	public LocalDateTime getDatahoraFim() {
-		return datahoraFim;
+	public LocalTime getHoraInicio() {
+		return horaInicio;
 	}
-	public void setDatahoraFim(LocalDateTime datahoraFim) {
-		this.datahoraFim = datahoraFim;
+	public void setHoraInicio(LocalTime horaInicio) {
+		this.horaInicio = horaInicio;
+	}
+	public LocalDate getDataFim() {
+		return dataFim;
+	}
+	public void setDataFim(LocalDate dataFim) {
+		this.dataFim = dataFim;
+	}
+	public LocalTime getHoraFim() {
+		return horaFim;
+	}
+	public void setHoraFim(LocalTime horaFim) {
+		this.horaFim = horaFim;
 	}
 	public String getStatus() {
 		return status;
