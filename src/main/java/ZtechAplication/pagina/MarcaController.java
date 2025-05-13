@@ -5,7 +5,9 @@ import javax.naming.Binding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +27,9 @@ public class MarcaController {
 	private MarcaRepository mr;
 	
 	//indicar o metodo get no HTML
-	@GetMapping(value = "/cadastrarMarca")
+	@GetMapping(value = "/formMarca")
 	public ModelAndView form() {
-		ModelAndView mv = new ModelAndView("cadastroProduto/fomrMarca");
+		ModelAndView mv = new ModelAndView("cadastroProduto/marca");
 		mv.addObject("marca", new Marca() ); //inicializa o obj para o formulario
 		return mv;
 	}
@@ -46,27 +48,26 @@ public class MarcaController {
 		return "redirect:/cadastrarMarca";
 	}
 	
-	@RequestMapping(value = "/marca")
+	@GetMapping(value = "/listarMarca")
 	public ModelAndView listarMarca() {
 		ModelAndView mv = new ModelAndView("produto/listaMarcas");
 		mv.addObject("marca", mr.findAll());
 		return mv;
 	}
 	
-	@RequestMapping(value = "/editarMarca")
-	public ModelAndView editarMarca(long id) {
-		Marca marca = mr.findById(id);
+	@PutMapping(value = "/editarMarca/{id}")
+	public ModelAndView editarMarca(@PathVariable Integer id) {
 		ModelAndView mv = new ModelAndView("produto/editarMarca");
-		mv.addObject("marca", marca);
+		mv.addObject("marca", mr.findById(id).orElseThrow( () -> 
+					 new IllegalArgumentException("Marca invalida" + id) ));
 		return mv;
 	}
 	
-	@RequestMapping(value = "/deletarMarca")
-	public String deletarMarca(long id, RedirectAttributes attributes) {
-		Marca marca = mr.findById(id);
-		mr.delete(marca);
-		attributes.addFlashAttribute("mensagem", "Marca Removida com Sucesso!");
-		return "redirect:/marca";
+	@DeleteMapping(value = "/deletarMarca/{id}")
+	public String remover(@PathVariable Integer id, RedirectAttributes attributes) {
+        mr.deleteById(id);
+        attributes.addFlashAttribute("mensagem", "Marca removida com sucesso!");
+        return "redirect:/cadastrarMarca";
 	}
 	
 }

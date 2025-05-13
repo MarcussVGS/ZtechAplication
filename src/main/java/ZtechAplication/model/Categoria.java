@@ -16,7 +16,8 @@ public class Categoria {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idCategoria;
+	@Column(name = "idCategoria")  // Mapeia para a coluna existente
+	private Integer idCategoria;
 
     @Column(nullable = false)
 	private String nomeCategoria;
@@ -27,10 +28,10 @@ public class Categoria {
     
 	
     //    
-	public Long getIdCategoria() {
+	public Integer getid() {
 		return idCategoria;
 	}
-	public void setIdCategoria(Long idCategoria) {
+	public void setid(Integer idCategoria) {
 		this.idCategoria = idCategoria;
 	}
 	

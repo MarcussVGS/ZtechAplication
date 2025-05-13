@@ -14,7 +14,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 public class DataConfiguration {
 
 	//tem que configurar em relação ao banco
-    String url = "jdbc:mysql://localhost:3306/testes?useSSL=false&serverTimezone=UTC";
+    String url = "jdbc:mysql://localhost:3306/testes2?useSSL=false&serverTimezone=UTC";
     String username = "root";
     String password = "1234";
 

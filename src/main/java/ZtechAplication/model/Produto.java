@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -15,31 +16,32 @@ public class Produto {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idProduto;
+	private int id;
 	
 	@Column(nullable = false)
-	private String nomeProduto;
+	private String nome;
 	private float custo;
 	private String descricao;
-	@OneToOne
-	@JoinColumn(name = "idMarca")
+	
+	@ManyToOne
+	@JoinColumn(name = "id_marca", referencedColumnName = "idMarca")
 	private Marca marca;
-	@OneToOne
-	@JoinColumn(name = "idCategoria")
+	@ManyToOne
+	@JoinColumn(name = "id_categoria", referencedColumnName = "id")
 	private Categoria categoria;
 	
-	public int getIdProduto() {
-		return idProduto;
+	public int getid() {
+		return id;
 	}
-	public void setIdProduto(int idProduto) {
-		this.idProduto = idProduto;
+	public void setid(int id) {
+		this.id = id;
 	}
 	
-	public String getNomeProduto() {
-		return nomeProduto;
+	public String getnome() {
+		return nome;
 	}
-	public void setNomeProduto(String nomeProduto) {
-		this.nomeProduto = nomeProduto;
+	public void setnome(String nome) {
+		this.nome = nome;
 	}
 	
 	public float getCusto() {
