@@ -1,0 +1,49 @@
+.banner{
+    margin: -20px;
+    background-color: #d9d9d9;
+    display: block;
+    justify-content: left;
+    font-family: var(--fonte-principal);
+    width: 1728px;
+    height: 200px;
+    flex-shrink: 0;
+
+}
+.botao_adicionar{
+    background-color: white;
+    border-radius: 20px;
+    width: 320px;
+    font-weight: 500;
+    line-height: 21px;
+    flex-direction: column;
+    display: flex;
+    position: absolute;
+    top: 7em;
+    left: 222px;
+    
+}
+.adicionar{
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.link_botao{
+    text-decoration: none;
+    color: black;
+}
+.banner_pesquisa{
+    width: 1409.005px;
+    height: 49.275px;
+    border-radius: 20px;
+    font-family: var(--fonte-principal);
+    font-size: 15px;
+    display: flex;
+    position: absolute;
+    top: 15em;
+    left: 222px;
+}
+.banner_pesquisa::placeholder{
+    background: url(../img/pesquisabotao.svg) no-repeat;
+    background-position: 0.5em;
+    text-align: center;
+}
