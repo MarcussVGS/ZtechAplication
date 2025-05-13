@@ -1,5 +1,7 @@
 package ZtechAplication.model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,34 +9,36 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tbProduto")
+@Table(name = "tb_Produto")
 public class Produto {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@Column(name = "id_Produto")
+	private Long idProduto;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 50)
 	private String nome;
-	private float custo;
+	@Column(nullable = false, precision = 10, scale = 2)
+	private BigDecimal custo;
+	@Column(nullable = false, length = 255)
 	private String descricao;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_marca", referencedColumnName = "idMarca")
+	@JoinColumn(name = "idMarca", referencedColumnName = "idMarca")
 	private Marca marca;
 	@ManyToOne
-	@JoinColumn(name = "id_categoria", referencedColumnName = "id")
+	@JoinColumn(name = "idCategoria", referencedColumnName = "idCategoria")
 	private Categoria categoria;
 	
-	public int getid() {
-		return id;
+	public Long getid() {
+		return idProduto;
 	}
-	public void setid(int id) {
-		this.id = id;
+	public void setid(Long idProduto) {
+		this.idProduto = idProduto;
 	}
 	
 	public String getnome() {
@@ -44,10 +48,10 @@ public class Produto {
 		this.nome = nome;
 	}
 	
-	public float getCusto() {
+	public BigDecimal getCusto() {
 		return custo;
 	}
-	public void setCusto(float custo) {
+	public void setCusto(BigDecimal custo) {
 		this.custo = custo;
 	}
 	

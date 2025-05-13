@@ -16,15 +16,11 @@ public class Categoria {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idCategoria")  // Mapeia para a coluna existente
+	@Column(name = "id_Categoria")  // Mapeia para a coluna existente
 	private Integer idCategoria;
 
-    @Column(nullable = false)
-	private String nomeCategoria;
-    
-    @OneToOne
-    @JoinColumn(name = "idProduto")  // ou "idCliente" se quiser bater com o nome exato
-    private Produto produto;
+    @Column(nullable = false, length = 255)
+	private String nome;
     
 	
     //    
@@ -36,17 +32,10 @@ public class Categoria {
 	}
 	
 	public String getNomeCategoria() {
-		return nomeCategoria;
+		return nome;
 	}
 	public void setNomeCategoria(String nomeCategoria) {
-		this.nomeCategoria = nomeCategoria;
-	}
-	//referencia da tabela
-	public Produto getProduto() {
-		return produto;
-	}
-	public void setProduto(Produto produto) {
-		this.produto = produto;
+		this.nome = nomeCategoria;
 	}
 	
 	

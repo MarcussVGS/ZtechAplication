@@ -56,7 +56,7 @@ public class MarcaController {
 	}
 	
 	@PutMapping(value = "/editarMarca/{id}")
-	public ModelAndView editarMarca(@PathVariable Integer id) {
+	public ModelAndView editarMarca(@PathVariable Long id) {
 		ModelAndView mv = new ModelAndView("produto/editarMarca");
 		mv.addObject("marca", mr.findById(id).orElseThrow( () -> 
 					 new IllegalArgumentException("Marca invalida" + id) ));
@@ -64,7 +64,7 @@ public class MarcaController {
 	}
 	
 	@DeleteMapping(value = "/deletarMarca/{id}")
-	public String remover(@PathVariable Integer id, RedirectAttributes attributes) {
+	public String remover(@PathVariable Long id, RedirectAttributes attributes) {
         mr.deleteById(id);
         attributes.addFlashAttribute("mensagem", "Marca removida com sucesso!");
         return "redirect:/cadastrarMarca";

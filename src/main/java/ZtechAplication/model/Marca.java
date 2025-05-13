@@ -17,35 +17,27 @@ public class Marca {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idMarca")  // Mapeia para a coluna existente
-	private Integer idMarca;
+	@Column(name = "id_Marca")  // Mapeia para a coluna existente
+	private Long idMarca;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
 	private String nome;
-    @OneToOne
-    @JoinColumn(name = "idMarcaProduto")  // ou "idMarcaCliente" se quiser bater com o nome exato
-    private Produto produto;
 	
-	public Integer getidMarcaMarca() {
+    //
+	public Long getidMarca() {
 		return idMarca;
 	}
-	public void setidMarcaMarca(Integer idMarca) {
+	public void setidMarca(Long idMarca) {
 		this.idMarca = idMarca;
 	}
 	
 	public String getNomeMarca() {
 		return nome;
 	}
-	public void setNomeMarca(String nome) {
-		this.nome = nome;
+	public void setNomeMarca(String nomeMarca) {
+		this.nome = nomeMarca;
 	}
-	//referencia da tabela
-	public Produto getProduto() {
-		return produto;
-	}
-	public void setProduto(Produto produto) {
-		this.produto = produto;
-	}
+	
 	
 	
 
