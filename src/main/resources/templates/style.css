@@ -1,6 +1,7 @@
 @import url(styles/entrar.css);
 @import url(styles/header.css);
 @import url(styles/barralateral.css);
+@import url(styles/banner.css);
 :root{
     --fonte-principal: "Roboto";
 }
