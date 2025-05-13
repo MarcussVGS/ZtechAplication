@@ -8,22 +8,41 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css" >
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="cabecalho">
-        <a href="inicio.html"> <img class="logo_cabecalho" src="img/logo-removebg-preview 1.svg" /></a> 
-            <div style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">Clientes</div>
+        <a href="inicio.html"> 
+            <img class="logo_cabecalho" src="img/logo-removebg-preview 1.svg" />
+        </a> 
+        <div style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
+            Clientes
         </div>
-        </header>
+    </header>
+
+    <div class="area-principal">
         <div class="barra">
             <ul>
-                <li class="opcao_lista"><a class="link_lista" href="clientes.html">CLIENTES</a></li>
+                <li class="opcao_lista"><a class="link_lista_atual" href="clientes.html">CLIENTES</a></li>
                 <li class="opcao_lista"><a class="link_lista" href="estoque.html">ESTOQUE</a></li>
                 <li class="opcao_lista"><a class="link_lista" href="vendas.html">VENDAS</a></li>
                 <li class="opcao_lista"><a class="link_lista" href="ordens.html">ORDENS DE SERVIÇO</a></li>
                 <li class="opcao_lista"><a class="link_lista" href="inicio.html">INÍCIO</a></li>
-              </ul>
+            </ul>
         </div>
-    
+
+        <!-- CONTEÚDO DA PÁGINA -->
+        <div class="conteudo">
+            <div class="banner">
+                <div class="botao_adicionar">
+                    <a class="link_botao" href="cadastro_cliente.html"><img class="adicionar" src="img/adicionarpeq.svg">Adicionar Cliente
+                </div></a>
+                <input type="search" class="banner_pesquisa" placeholder="Procure pelo nome, e-mail, telefone ou CEP do cliente">
+            </div>
+        </div>
+        <div class="filtro">
+        
+        </div>
+    </div>
 </body>
+</html>
