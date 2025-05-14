@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -44,7 +45,7 @@ public class OrdemServico {
 	@OneToMany(mappedBy = "idEstoque")
 	private List<Estoque> estoque;
 	@OneToOne
-    @JoinColumn(name = "idCliente")  // ou "idCliente" se quiser bater com o nome exato
+	@JoinColumn (name = "idCliente")// ou "idCliente" se quiser bater com o nome exato
 	private Cliente cliente;
 	
 	public Long getIdOS() {
