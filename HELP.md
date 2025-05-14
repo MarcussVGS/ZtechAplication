@@ -32,3 +32,27 @@ While most of the inheritance is fine, it also inherits unwanted elements like `
 To prevent this, the project POM contains empty overrides for these elements.
 If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
 
+
+##configação do aplication.properties
+
+spring.datasource.url=jdbc:mysql://localhost:3306/testesdois?useSSL=false&serverTimezone=UTC
+#spring.datasource.url=jdbc:mysql://localhost:3306/seu_banco?useSSL=true&requireSSL=true&serverTimezone=UTC&verifyServerCertificate=true
+spring.datasource.username=root
+spring.datasource.password=1234
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+
+
+spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+
+# quando desliga a aplica��o apaga as tabelas
+# e quando inicia a aplica��o recria as tabelas
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+# Garanta que data.sql seja executado ap�s a cria��o das tabelas
+#spring.sql.init.mode=always
+
+
+
