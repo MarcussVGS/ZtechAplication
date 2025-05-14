@@ -1,0 +1,27 @@
+.tabela{
+  width: 100%;
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.tabela table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  font-size: 14px;
+}
+
+.tabela th,
+.tabela td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.tabela th {
+  background-color: #f2f2f2;
+}
+
+.tabela td:last-child {
+  text-align: center;
+}
