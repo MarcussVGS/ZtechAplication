@@ -1,7 +1,5 @@
 package ZtechAplication.repository;
 
-import java.util.List;
-
 import org.springframework.data.repository.CrudRepository;
 
 import ZtechAplication.model.Marca;
