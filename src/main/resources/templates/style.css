@@ -2,6 +2,7 @@
 @import url(styles/header.css);
 @import url(styles/barralateral.css);
 @import url(styles/banner.css);
+@import url(styles/formulario_cliente.css);
 :root{
     --fonte-principal: "Roboto";
 }
