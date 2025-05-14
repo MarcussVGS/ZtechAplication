@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,15 +8,18 @@
     <link rel="stylesheet" href="reset.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <header class="cabecalho">
-        <a href="inicio.html"> 
+        <a href="inicio.html">
             <img class="logo_cabecalho" src="img/logo-removebg-preview 1.svg" />
-        </a> 
-        <div style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
+        </a>
+        <div
+            style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
             Clientes
         </div>
     </header>
@@ -35,14 +39,37 @@
         <div class="conteudo">
             <div class="banner">
                 <div class="botao_adicionar">
-                    <a class="link_botao" href="cadastro_cliente.html"><img class="adicionar" src="img/adicionarpeq.svg">Adicionar Cliente
+                    <a class="link_botao" href="cadastro_cliente.html"><img class="adicionar"
+                            src="img/adicionarpeq.svg">Adicionar Cliente
                 </div></a>
-                <input type="search" class="banner_pesquisa" placeholder="Procure pelo nome, e-mail, telefone ou CEP do cliente">
+                <input type="search" class="banner_pesquisa"
+                    placeholder="Procure pelo nome, e-mail, telefone ou CEP do cliente">
+            </div>
+            <div class="filtro">
+                <br>
+            </div>
+            <div class="tabela">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th>CEP</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <!-- Dados dinâmicos via Java serão inseridos aqui -->
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="filtro">
-        
-        </div>
+
+
+    </div>
     </div>
 </body>
+
 </html>
