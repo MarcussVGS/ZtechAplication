@@ -23,7 +23,7 @@ import ZtechAplication.repository.MarcaRepository;
 public class MarcaController {
 
 	@Autowired
-	private MarcaRepository mr;
+	private MarcaRepository classeRepo;
 	
 	//indicar o metodo get no HTML
 	@GetMapping(value = "/formMarca")
@@ -42,7 +42,7 @@ public class MarcaController {
 			return "redirect:/marca/cadastrarMarca";
 		}
 		
-		mr.save(marca);
+		classeRepo.save(marca);
 		attributes.addFlashAttribute("mensagem", "Marca cadastrada com sucesso!");
 		return "redirect:/marca/cadastrarMarca";
 	}
@@ -50,21 +50,21 @@ public class MarcaController {
 	@GetMapping(value = "/listarMarca")
 	public ModelAndView listarMarca() {
 		ModelAndView mv = new ModelAndView("/marca/listarMarcas");
-		mv.addObject("marca", mr.findAll());
+		mv.addObject("marca", classeRepo.findAll());
 		return mv;
 	}
 	
 	@PutMapping(value = "/editarMarca/{id}")
 	public ModelAndView editarMarca(@PathVariable Long id) {
 		ModelAndView mv = new ModelAndView("/marca/editarMarca");
-		mv.addObject("marca", mr.findById(id).orElseThrow( () -> 
+		mv.addObject("marca", classeRepo.findById(id).orElseThrow( () -> 
 					 new IllegalArgumentException("Marca invalida" + id) ));
 		return mv;
 	}
 	
 	@DeleteMapping(value = "/deletarMarca/{id}")
 	public String remover(@PathVariable Long id, RedirectAttributes attributes) {
-        mr.deleteById(id);
+        classeRepo.deleteById(id);
         attributes.addFlashAttribute("mensagem", "Marca removida com sucesso!");
         return "redirect:/marca/cadastrarMarca";
 	}
