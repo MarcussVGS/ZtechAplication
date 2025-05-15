@@ -40,12 +40,14 @@ public class OrdemServico {
 	private float valor;
 	@Column(nullable = false)
 	private float lucro;
-	@OneToMany(mappedBy = "idServico")
+	@OneToMany
+	@JoinColumn(name = "fk_Servico")
 	private List<Servico> servico;
-	@OneToMany(mappedBy = "idEstoque")
+	@OneToMany
+	@JoinColumn(name = "fk_Estoque")
 	private List<Estoque> estoque;
 	@OneToOne
-	@JoinColumn (name = "idCliente")// ou "idCliente" se quiser bater com o nome exato
+	@JoinColumn(name = "fk_Cliente")// ou "idCliente" se quiser bater com o nome exato
 	private Cliente cliente;
 	
 	public Long getIdOS() {
