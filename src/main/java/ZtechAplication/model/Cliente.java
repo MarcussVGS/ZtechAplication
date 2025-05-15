@@ -19,7 +19,7 @@ public class Cliente {
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	@Column(name = "idCliente")  // Mapeia para a coluna existente
-	private Long idCliente;
+	private int idCliente;
 
     @Column(nullable = false, length = 50)
 	private String nomeCliente;
@@ -35,10 +35,10 @@ public class Cliente {
 	
 	
 	
-	public Long getIdCliente() {
+	public int getIdCliente() {
 		return idCliente;
 	}
-	public void setIdCliente(Long idCliente) {
+	public void setIdCliente(int idCliente) {
 		this.idCliente = idCliente;
 	}
 	public String getNomeCliente() {

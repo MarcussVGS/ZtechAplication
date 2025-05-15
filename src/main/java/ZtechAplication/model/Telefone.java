@@ -16,15 +16,14 @@ public class Telefone {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idTelefone")  // Mapeia para a coluna existente
-	private Long idTelefone;
-    @Column(nullable = false, length = 15)
+	private int idTelefone;
 	private String telefone;
     
     
-	public Long getIdTelefone() {
+	public int getIdTelefone() {
 		return idTelefone;
 	}
-	public void setIdTelefone(Long idTelefone) {
+	public void setIdTelefone(int idTelefone) {
 		this.idTelefone = idTelefone;
 	}
 	public String getTelefone() {

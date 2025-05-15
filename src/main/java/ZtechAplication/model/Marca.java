@@ -14,16 +14,14 @@ public class Marca {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idMarca")  // Mapeia para a coluna existente
-	private Long idMarca;
-
-    @Column(nullable = false, length = 50)
+	private int idMarca;
 	private String nome;
 	
     //
-	public Long getidMarca() {
+	public int getidMarca() {
 		return idMarca;
 	}
-	public void setidMarca(Long idMarca) {
+	public void setidMarca(int idMarca) {
 		this.idMarca = idMarca;
 	}
 	

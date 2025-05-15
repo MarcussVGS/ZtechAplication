@@ -1,5 +1,7 @@
 package ZtechAplication.model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,16 +17,14 @@ public class Servico {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idServico")  // Mapeia para a coluna existente
-	private Long idServico;
-	@Column(nullable = false, length = 255)
+	private int idServico;
 	private String descrisaoServico;
-	@Column(nullable = false)
-	private float valor;
+	private BigDecimal valor;
 	
-	public Long getIdServico() {
+	public int getIdServico() {
 		return idServico;
 	}
-	public void setIdServico(Long idServico) {
+	public void setIdServico(int idServico) {
 		this.idServico = idServico;
 	}
 	public String getDescrisaoServico() {
@@ -33,10 +33,10 @@ public class Servico {
 	public void setDescrisaoServico(String descrisaoServico) {
 		this.descrisaoServico = descrisaoServico;
 	}
-	public float getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
-	public void setValor(float valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 	

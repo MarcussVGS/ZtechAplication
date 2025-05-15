@@ -19,19 +19,17 @@ public class Estoque {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idEstoque")  // Mapeia para a coluna existente
-	private Long idEstoque ;
-
-    @Column(nullable = false)
+	private int idEstoque ;
 	private int quantidade;
     @OneToMany
     @JoinColumn(name = "idProduto")
 	private List<Produto> produto;
 	
 	//
-    public Long getIdEstoque() {
+    public int getIdEstoque() {
 		return idEstoque;
 	}
-	public void setIdEstoque(Long idEstoque) {
+	public void setIdEstoque(int idEstoque) {
 		this.idEstoque = idEstoque;
 	}
 	public int getQuantidade() {

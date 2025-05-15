@@ -17,17 +17,15 @@ public class Categoria {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idCategoria")  // Mapeia para a coluna existente
-	private Integer idCategoria;
-
-    @Column(nullable = false, length = 255)
+	private int idCategoria;
 	private String nome;
     
 	
     //    
-	public Integer getid() {
+	public int getid() {
 		return idCategoria;
 	}
-	public void setid(Integer idCategoria) {
+	public void setid(int idCategoria) {
 		this.idCategoria = idCategoria;
 	}
 	

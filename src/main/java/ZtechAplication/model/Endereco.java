@@ -16,24 +16,18 @@ public class Endereco {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idEndereco")  // Mapeia para a coluna existente
-	private Long idEndereco;
-
-    @Column(nullable = false, length = 75)
+	private int idEndereco;
 	private String rua;
-    @Column(nullable = false, length = 10)
 	private String cep;
-    @Column(nullable = false, length = 30)
 	private String bairro;
-    @Column(nullable = false, length = 30)
 	private String cidade;
-    @Column(nullable = false)
 	private int numeroCasa;
 	
 	
-	public Long getIdEndereco() {
+	public int getIdEndereco() {
 		return idEndereco;
 	}
-	public void setIdEndereco(Long idEndereco) {
+	public void setIdEndereco(int idEndereco) {
 		this.idEndereco = idEndereco;
 	}
 	public String getRua() {

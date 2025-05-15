@@ -20,13 +20,9 @@ public class Produto {
 	@Column(name = "idProduto")
 	private Long idProduto;
 	
-	@Column(nullable = false, length = 50)
 	private String nome;
-	@Column(nullable = false, precision = 10, scale = 2)
 	private BigDecimal custo;
-	@Column(nullable = false, precision = 10, scale = 2)
 	private BigDecimal valor;
-	@Column(nullable = false, length = 255)
 	private String descricao;
 	
 	@ManyToOne

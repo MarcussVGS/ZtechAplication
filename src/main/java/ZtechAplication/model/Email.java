@@ -16,16 +16,16 @@ public class Email {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idEmail")  // Mapeia para a coluna existente
-	private Long idEmail;
+	private int idEmail;
 
     @Column(nullable = false, length = 50)
 	private String endEmail;
     
 	
-	public Long getIdEmail() {
+	public int getIdEmail() {
 		return idEmail;
 	}
-	public void setIdEmail(Long idEmail) {
+	public void setIdEmail(int idEmail) {
 		this.idEmail = idEmail;
 	}
 	public String getEmail() {

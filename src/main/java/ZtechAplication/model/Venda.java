@@ -2,12 +2,14 @@ package ZtechAplication.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,22 +19,20 @@ public class Venda {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_Venda")  // Mapeia para a coluna existente
-	private Long idVenda;
+	private int idVenda;
 	
-	@Column(name = "data_Venda", nullable = false)
 	private LocalDate dataInicio;
-	@Column(name = "hora_Venda", nullable = false)
 	private LocalTime horaInicio;
-	@Column(name = "valor")
 	private float valor;
-	@Column(name = "lucro")
 	private float lucro;
+	@OneToMany(mappedBy = "idEstoque")
+	private List<Estoque> estoque;
 	
 	
-	public Long getIdVenda() {
+	public int getIdVenda() {
 		return idVenda;
 	}
-	public void setIdVenda(Long idVenda) {
+	public void setIdVenda(int idVenda) {
 		this.idVenda = idVenda;
 	}
 	public LocalDate getDataInicio() {
@@ -59,6 +59,14 @@ public class Venda {
 	public void setLucro(float lucro) {
 		this.lucro = lucro;
 	}
+	public List<Estoque> getEstoque() {
+		return estoque;
+	}
+	public void setEstoque(List<Estoque> estoque) {
+		this.estoque = estoque;
+	}
+	
+	
 	
 	
 	
