@@ -18,7 +18,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_O")
+@Table(name = "tb_OS")
 public class OrdemServico {
 	
 	@Id
