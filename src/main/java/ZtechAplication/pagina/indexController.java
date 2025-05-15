@@ -27,9 +27,13 @@ public class indexController {
 	public String vendas() {
 		return "vendas";
 	}
-	@RequestMapping("ordens")
+	@RequestMapping("/ordens")
 	public String ordens() {
 		return "ordens";
+	}
+	@RequestMapping("/cadastro_cliente")
+	public String cadastro_cliente() {
+		return "cadastro_cliente";
 	}
 	
 	
