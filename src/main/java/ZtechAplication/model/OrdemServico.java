@@ -24,21 +24,14 @@ public class OrdemServico {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idOS")  // Mapeia para a coluna existente
-	private Long idOS;
+	private int idOS;
 
-	@Column(name = "data_inicio", nullable = false)
 	private LocalDate dataInicio;
-	@Column(name = "hora_inicio", nullable = false)
 	private LocalTime horaInicio;
-	@Column(name = "data_fim", nullable = false)
 	private LocalDate dataFim;
-	@Column(name = "hora_fim", nullable = false)
 	private LocalTime horaFim;
-	@Column(nullable = false, length = 10)
 	private String status;
-	@Column(nullable = false)
 	private float valor;
-	@Column(nullable = false)
 	private float lucro;
 	@OneToMany
 	@JoinColumn(name = "fk_Servico")
@@ -50,10 +43,10 @@ public class OrdemServico {
 	@JoinColumn(name = "fk_Cliente")// ou "idCliente" se quiser bater com o nome exato
 	private Cliente cliente;
 	
-	public Long getIdOS() {
+	public int getIdOS() {
 		return idOS;
 	}
-	public void setIdOS(Long idOS) {
+	public void setIdOS(int idOS) {
 		this.idOS = idOS;
 	}
 	public LocalDate getDataInicio() {
