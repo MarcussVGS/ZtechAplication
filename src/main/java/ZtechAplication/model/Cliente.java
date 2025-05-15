@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -26,11 +27,14 @@ public class Cliente {
 	@Column(unique = true, length = 20)
 	private String cpf;
 	
-	@OneToMany(mappedBy = "idEmail")
+	@OneToMany
+	@JoinColumn(name = "fk_Email")
 	private List<Email> email;
-	@OneToMany(mappedBy = "idEndereco")
+	@OneToMany
+	@JoinColumn(name = "fk_Endereco")
 	private List<Endereco> endereco;
-	@OneToMany(mappedBy = "idTelefone")
+	@OneToMany
+	@JoinColumn(name = "fk_Telefone")
 	private List<Telefone> telefone;
 	
 	

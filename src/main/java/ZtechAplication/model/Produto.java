@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,24 +20,24 @@ public class Produto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idProduto")
-	private Long idProduto;
+	private int idProduto;
 	
 	private String nome;
 	private BigDecimal custo;
 	private BigDecimal valor;
 	private String descricao;
 	
-	@ManyToOne
-	@JoinColumn(name = "idMarca")
+	@OneToOne
+	@JoinColumn(name = "fk_Marca")
 	private Marca marca;
-	@ManyToOne
-	@JoinColumn(name = "idCategoria")
+	@OneToOne
+	@JoinColumn(name = "fk_Categoria")
 	private Categoria categoria;
 	
-	public Long getid() {
+	public int getid() {
 		return idProduto;
 	}
-	public void setid(Long idProduto) {
+	public void setid(int idProduto) {
 		this.idProduto = idProduto;
 	}
 	

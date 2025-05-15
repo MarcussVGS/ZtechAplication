@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,9 +22,9 @@ public class Estoque {
 	@Column(name = "idEstoque")  // Mapeia para a coluna existente
 	private int idEstoque ;
 	private int quantidade;
-    @OneToMany
-    @JoinColumn(name = "idProduto")
-	private List<Produto> produto;
+	@OneToOne
+	@JoinColumn(name = "fk_Produto")
+	private Produto produto;
 	
 	//
     public int getIdEstoque() {
@@ -38,10 +39,10 @@ public class Estoque {
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
 	}
-	public List<Produto> getProduto() {
+	public Produto getProduto() {
 		return produto;
 	}
-	public void setProduto(List<Produto> produto) {
+	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
 	
