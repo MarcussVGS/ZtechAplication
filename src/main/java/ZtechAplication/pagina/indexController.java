@@ -31,6 +31,10 @@ public class indexController {
 	public String ordens() {
 		return "ordens";
 	}
+	@RequestMapping("/cadastro_cliente")
+	public String cadastro_cliente() {
+		return "cadastro_cliente";
+	}
 	
 	
 	
