@@ -15,5 +15,24 @@ public class indexController {
 	public String inicio() {
 		return "inicio";
 	}
+	@RequestMapping("/clientes")
+	public String clientes() {
+		return "clientes";
+	}
+	@RequestMapping("/estoque")
+	public String estoque() {
+		return "estoque";
+	}
+	@RequestMapping("/vendas")
+	public String vendas() {
+		return "vendas";
+	}
+	@RequestMapping("ordens")
+	public String ordens() {
+		return "ordens";
+	}
+	
+	
+	
 
 }

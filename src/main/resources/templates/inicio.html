@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Início</title>
-    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" th:href="@{styles/reset.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/style.css" >
+    <link rel="stylesheet" th:href="@{styles/style.css}" >
 </head>
 <body>
     <header class="cabecalho">
@@ -22,11 +22,10 @@
     <div class="area-principal">
         <div class="barra">
             <ul>
-                <li class="opcao_lista"><a class="link_lista" href="clientes.html">CLIENTES</a></li>
-                <li class="opcao_lista"><a class="link_lista" href="estoque.html">ESTOQUE</a></li>
-                <li class="opcao_lista"><a class="link_lista" href="vendas.html">VENDAS</a></li>
-                <li class="opcao_lista"><a class="link_lista" href="ordens.html">ORDENS DE SERVIÇO</a></li>
-                <li class="opcao_lista"><a class="link_lista" href="inicio.html">INÍCIO</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{clientes}">CLIENTES</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{estoque}">ESTOQUE</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{vendas}">VENDAS</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{ordens}">ORDENS DE SERVIÇO</a></li>
             </ul>
         </div>
 </body>
