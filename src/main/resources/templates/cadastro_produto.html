@@ -2,83 +2,91 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estoque</title>
-    <link rel="stylesheet" th:href="@{styles/reset.css}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" th:href="@{styles/style.css}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estoque</title>
+<link rel="stylesheet" th:href="@{styles/reset.css}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" th:href="@{styles/style.css}">
 </head>
 
 <body>
-    <header class="cabecalho">
-        <a th:href="@{inicio}">
-            <img class="logo_cabecalho" src="img/logo-removebg-preview 1.svg" />
-        </a>
-        <div
-            style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
-            Cadastro de Produto
-        </div>
-    </header>
+	<header class="cabecalho">
+		<a th:href="@{inicio}"> <img class="logo_cabecalho"
+			src="img/logo-removebg-preview 1.svg" />
+		</a>
+		<div
+			style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
+			Cadastro de Produto</div>
+	</header>
 
-    <div class="area-principal">
-        <div class="barra">
-            <ul>
-				<li class="opcao_lista"><a class="link_lista" th:href="@{clientes}">CLIENTES</a></li>
-				<li class="opcao_lista"><a class="link_lista" th:href="@{estoque}">ESTOQUE</a></li>
-				<li class="opcao_lista"><a class="link_lista" th:href="@{vendas}">VENDAS</a></li>
-				<li class="opcao_lista"><a class="link_lista" th:href="@{ordens}">ORDENS DE SERVIÇO</a></li>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{inicio}">INÍCIO</a></li>
-            </ul>
-        </div>
-        <div class="formulario-cliente">
-            <form class="formulario">
-                <!-- Coluna 1: Dados Pessoais -->
-                <div class="coluna">
-                    <h3 class="titulo_formulario">Dados do Produto</h3>
+	<div class="area-principal">
+		<div class="barra">
+			<ul>
+				<li class="opcao_lista"><a class="link_lista"
+					th:href="@{clientes}">CLIENTES</a></li>
+				<li class="opcao_lista"><a class="link_lista"
+					th:href="@{estoque}">ESTOQUE</a></li>
+				<li class="opcao_lista"><a class="link_lista"
+					th:href="@{vendas}">VENDAS</a></li>
+				<li class="opcao_lista"><a class="link_lista"
+					th:href="@{ordens}">ORDENS DE SERVIÇO</a></li>
+				<li class="opcao_lista"><a class="link_lista"
+					th:href="@{inicio}">INÍCIO</a></li>
+			</ul>
+		</div>
+		<div class="formulario-cliente">
+			<form class="formulario">
+				<!-- Coluna 1: Dados do Produto -->
+				<div class="coluna">
+					<h3 class="titulo_formulario">Dados do Produto</h3>
 
-                    <label>Nome do Produto:</label>
-                    <input class="campo_digitacao" type="text" name="nome" required>
-aaaa
-                    <label>Categoria</label>
-                    <input class="campo_digitacao" type="checkbox" name="email" required>
+					<label>Nome do Produto:</label> <input class="campo_digitacao"
+						type="text" name="nome" required> <label for="categoria">Categoria:</label>
+					<select id="categoria" name="categoria">
+						<option value="">Selecione uma categoria</option>
+						<option value="Tela">Tela</option>
+						<option value="Carregador">Carregador</option>
+						<option value="Capinha">Capinha</option>
+						<option value="Película">Película</option>
+						<option value="Fone de ouvido">Fone de Ouvido</option>
+						
+					</select>
+					 <label>Imagem do Produto</label> <input class="campo_imagem"
+						type="file" name="imagem_produto" required> 
+				</div>
+				<hr class="separador"></hr>
+				<!-- Coluna 2: Dados de Endereço -->
+				<div class="coluna">
+					<h3 class="titulo_formulario"></h3>
 
-                    <label>Telefone:</label>
-                    <input class="campo_digitacao" type="text" name="telefone" required>
+					<label></label> <input class="campo_digitacao" type="text"
+						name="rua" required>
+					<div class="linha">
+						<div class="metade">
+							<label></label> <input class="campo_digitacao" type="text"
+								name="bairro" required>
+						</div>
+						<div class="numero">
+							<label>Nº:</label> <input class="campo_digitacao" type="text"
+								name="numero" required>
+						</div>
+					</div>
+					<label>Cidade:</label> <input class="campo_digitacao" type="text"
+						name="cidade" required> <label>CEP:</label> <input
+						class="campo_digitacao" type="text" name="cep" required>
+				</div>
+			</form>
 
-                    <label>CPF:</label>
-                    <input class="campo_digitacao" type="text" name="cpf" required>
-                </div>
-                    <hr class="separador"></hr>
-                <!-- Coluna 2: Dados de Endereço -->
-                <div class="coluna">
-                    <h3 class="titulo_formulario"></h3>
-
-                    <label></label>
-                    <input class="campo_digitacao" type="text" name="rua" required>
-                    <div class="linha">
-                        <div class="metade">
-                            <label></label>
-                            <input class="campo_digitacao" type="text" name="bairro" required>
-                        </div>
-                        <div class="numero">
-                            <label>Nº:</label>
-                            <input class="campo_digitacao" type="text" name="numero" required>
-                        </div>
-                    </div>
-                    <label>Cidade:</label>
-                    <input class="campo_digitacao" type="text" name="cidade" required>
-                    <label>CEP:</label>
-                    <input class="campo_digitacao" type="text" name="cep" required>
-                </div>
-            </form>
-
-            <div class="botoes">
-                <a class="link_cancelar" th:href="@{clientes}"><button class="cancelar">❌ Cancelar</button></a>
-                <a class="link_confirmar" th:href="@{clientes}"><button class="cadastrar">✔️ Cadastrar</button></a>
-            </div>
-        </div>
-    </div>
+			<div class="botoes">
+				<a class="link_cancelar" th:href="@{clientes}"><button
+						class="cancelar">❌ Cancelar</button></a> <a class="link_confirmar"
+					th:href="@{clientes}"><button class="cadastrar">✔️
+						Cadastrar</button></a>
+			</div>
+		</div>
+	</div>

@@ -93,3 +93,27 @@ button:hover {
     opacity: 0.8;
     color: #7C1F1F;
 }
+select {
+    width: 340px;
+    padding: 10px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    background-color: #f2d6d6; /* mesmo tom rosa dos inputs */
+    appearance: none; /* remove estilo padrão do navegador */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font-size: 14px;
+    margin-bottom: 20px;
+    background-image: url(../img/poligono.svg);
+    background-repeat: no-repeat;
+    background-position: right;
+   
+}
+
+select:focus {
+    outline: none;
+    box-shadow: 0 0 5px #999;
+}
+campo_imagem{
+	margin: 20px;
+}
