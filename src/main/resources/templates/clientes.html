@@ -53,16 +53,38 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
+							<th>CPF</th>
                             <th>E-mail</th>
                             <th>Telefone</th>
-                            <th>CEP</th>
-                            <th>Ações</th>
+                            <th>Bairro</th>
+                            <th colspan="2" class="acoes">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-						
+						<!-- Dados dinâmicos via Java serão inseridos aqui -->
+						<tr th:each="cliente : ${clientes}">
+							<td th:text="${cliente.nomeCliente}"></td>
+							<td th:text="${cliente.cpf}"></td>
+							<td th:text="${cliente.email[0].endEmail}"></td>
+							<td th:text="${cliente.telefone[0].telefone}"></td>
+							<td th:text="${cliente.endereco[0].bairro}"></td>
+							<td class="acoes"> <!-- Adicionar esta classe CSS-->
+								<a  th:href="@{'/editarCliente'(cpf=${cliente.cpf} )}" 
+									onclick="return confirm('Tem Certeza que deseja Editar estes dados?')"
+									class="botao-acao editar"> <!-- Adicionar esta classe CSS-->
+									
+								</a>
+							</td>
+							<td class="acoes"> <!-- Adicionar esta classe CSS-->
+								<a  th:href="@{'/deletarCliente'(cpf=${cliente.cpf} )}" 
+									onclick="return confirm('Tem Certeza que deseja Deletar estes dados?')"
+									class="botao-acao deletar"> <!-- Adicionar esta classe CSS-->
+									>
+								</a>
+							</td>
+						</tr>
 
-                        <!-- Dados dinâmicos via Java serão inseridos aqui -->
+                        
                     </tbody>
                 </table>
             </div>

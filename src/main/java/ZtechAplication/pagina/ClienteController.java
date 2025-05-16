@@ -2,6 +2,7 @@ package ZtechAplication.pagina;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,8 +19,8 @@ import ZtechAplication.model.Cliente;
 import ZtechAplication.repository.ClienteRepository;
 
 
-@RestController
-@RequestMapping(value = {"/cliente", "/Cliente"} ) //para que qualquer um deles seja valido
+@Controller
+//@RequestMapping(value = "/cliente" ) //para que qualquer um deles seja valido
 public class ClienteController {
 
 	@Autowired
@@ -47,24 +48,26 @@ public class ClienteController {
 		return "redirect:/cliente/cadastrarCliente";
 	}
 	
-	@GetMapping(value = "/listarCliente")
+	@RequestMapping(value = "/listarCliente")
 	public ModelAndView listarCliente() {
-		ModelAndView mv = new ModelAndView("/cliente/listarClientes");
-		mv.addObject("cliente", classeRepo.findAll());
+		ModelAndView mv = new ModelAndView("/clientes");
+		mv.addObject("clientes", classeRepo.findAll());
 		return mv;
 	}
 	
-	@PutMapping(value = "/editarCliente/{id}")
-	public ModelAndView editarCliente(@PathVariable Integer id) {
+	@RequestMapping(value = "/editarCliente")
+	public ModelAndView editarCliente(@PathVariable String cpf) {
 		ModelAndView mv = new ModelAndView("/cliente/editarCliente");
-		mv.addObject("cliente", classeRepo.findById(id).orElseThrow( () -> 
-					 new IllegalArgumentException("Cliente invalida" + id) ));
+		mv.addObject("cliente", classeRepo.findByCpf(cpf).orElseThrow( () -> 
+					 new IllegalArgumentException("Cliente invalida" + cpf) ));
 		return mv;
 	}
 	
-	@DeleteMapping(value = "/deletarCliente/{id}")
-	public String remover(@PathVariable Integer id, RedirectAttributes attributes) {
-        classeRepo.deleteById(id);
+	@RequestMapping(value = "/deletarCliente")
+	public String remover(@PathVariable String cpf, RedirectAttributes attributes) {
+		classeRepo.findByCpf(cpf).orElseThrow(() -> 
+        new IllegalArgumentException("Cliente inválido: " + cpf));
+		classeRepo.deleteByCpf(cpf);
         attributes.addFlashAttribute("mensagem", "Cliente removida com sucesso!");
         return "redirect:/cliente/cadastrarCliente";
 	}
