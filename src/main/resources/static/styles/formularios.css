@@ -9,7 +9,7 @@
 .formulario {
     display: flex;
     gap: 100px;
-    margin-bottom: 100px;
+    margin-bottom: 80px;
     margin-left: 300px;
 }
 
@@ -54,10 +54,11 @@ label {
 .metade input,
 .numero input {
     width: 120px;
+	margin-right: 5px;
 }
 
 .numero input {
-    width: 80px;
+    width: 50px;
 }
 
 .botoes {
