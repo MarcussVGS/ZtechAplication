@@ -29,13 +29,13 @@ public class Cliente {
 	private String cpf;
 	
 	@OneToMany
-	@JoinColumn(name = "fk_Email")
+	@JoinColumn(name = "fk_Cliente")
 	private List<Email> email;
 	@OneToMany
-	@JoinColumn(name = "fk_Endereco")
+	@JoinColumn(name = "fk_Cliente")
 	private List<Endereco> endereco;
 	@OneToMany
-	@JoinColumn(name = "fk_Telefone")
+	@JoinColumn(name = "fk_Cliente")
 	private List<Telefone> telefone;
 	
 	
