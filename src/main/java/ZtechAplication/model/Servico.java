@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@Entity
+@Entity //safadassssss
 @Table(name = "tb_Servico")
 public class Servico {
 	
@@ -18,6 +18,7 @@ public class Servico {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idServico")  // Mapeia para a coluna existente
 	private int idServico;
+	private String nome;
 	private String descrisaoServico;
 	private BigDecimal valor;
 	
@@ -26,6 +27,12 @@ public class Servico {
 	}
 	public void setIdServico(int idServico) {
 		this.idServico = idServico;
+	}
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome= nome;
 	}
 	public String getDescrisaoServico() {
 		return descrisaoServico;

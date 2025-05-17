@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -22,7 +23,7 @@ public class Estoque {
 	@Column(name = "idEstoque")  // Mapeia para a coluna existente
 	private int idEstoque ;
 	private int quantidade;
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "fk_Produto")
 	private Produto produto;
 	

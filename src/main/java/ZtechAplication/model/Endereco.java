@@ -23,6 +23,9 @@ public class Endereco {
 	private String cidade;
 	private int numeroCasa;
 	
+	@ManyToOne
+	@JoinColumn(name = "fk_Cliente")
+	private Cliente cliente;
 	
 	public int getIdEndereco() {
 		return idEndereco;
@@ -59,6 +62,12 @@ public class Endereco {
 	}
 	public void setNumeroCasa(int numeroCasa) {
 		this.numeroCasa = numeroCasa;
+	}
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 	
 	

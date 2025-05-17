@@ -27,17 +27,8 @@ public class Cliente {
 	private String nomeCliente;
 	@Column(unique = true, length = 20)
 	private String cpf;
-	
-	@ManyToOne
-	@JoinColumn(name = "fk_Email")
-	private Email email;
-	@OneToMany
-	@JoinColumn(name = "fk_Endereco")
-	private List<Endereco> endereco;
-	@OneToMany
-	@JoinColumn(name = "fk_Telefone")
-	private List<Telefone> telefone;
-	
+
+//	remove as chaves estrangeiras
 	
 	
 	public int getIdCliente() {
@@ -58,27 +49,4 @@ public class Cliente {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
-	//chaves estrangeiras
-	public Email getEmail() {
-		return email;
-	}
-	public void setEmail(Email email) {
-		this.email = email;
-	}
-	public List<Endereco> getEndereco() {
-		return endereco;
-	}
-	public void setEndereco(List<Endereco> endereco) {
-		this.endereco = endereco;
-	}
-	public List<Telefone> getTelefone() {
-		return telefone;
-	}
-	public void setTelefone(List<Telefone> telefone) {
-		this.telefone = telefone;
-	}
-	
-	
-
 }
