@@ -1,7 +1,9 @@
 CREATE TABLE IF NOT EXISTS tb_Email (
     idEmail INT PRIMARY KEY AUTO_INCREMENT,
-    end_Email VARCHAR(50) default NULL
-);
+    end_Email VARCHAR(50) default NULL,
+	fk_Cliente INT NOT NULL,
+	FOREIGN KEY (fk_cliente) REFERENCES tb_Cliente (idCliente)
+    );
 
 CREATE TABLE IF NOT EXISTS tb_Endereco (
     idEndereco INT PRIMARY KEY AUTO_INCREMENT,
@@ -9,24 +11,22 @@ CREATE TABLE IF NOT EXISTS tb_Endereco (
     cep VARCHAR(9) default NULL,
     bairro VARCHAR(30) default NULL,
     cidade VARCHAR(30) default NULL,
-    numero_Casa INT NOT NULL
+    numero_Casa INT NOT NULL,
+    fk_Cliente INT NOT NULL,
+    FOREIGN KEY (fk_cliente) REFERENCES tb_Cliente (idCliente)
 );
 
 CREATE TABLE IF NOT EXISTS tb_Telefone (
     idTelefone INT PRIMARY KEY AUTO_INCREMENT,
-    telefone VARCHAR(20) default NULL
+    telefone VARCHAR(20) default NULL,
+    fk_Cliente INT NOT NULL,
+     FOREIGN KEY (fk_cliente) REFERENCES tb_Cliente (idCliente)
 );
 
 CREATE TABLE IF NOT EXISTS tb_Cliente (
     idCliente INT PRIMARY KEY AUTO_INCREMENT,
     nome_Cliente VARCHAR(50) default NULL,
-    cpf VARCHAR(20) default NULL,
-    fk_Email INT NOT NULL,
-    fk_Endereco INT NOT NULL,
-    fk_Telefone INT NOT NULL,
-    FOREIGN KEY (fk_Email) REFERENCES tb_Email (idEmail),
-    FOREIGN KEY (fk_Endereco) REFERENCES tb_Endereco (idEndereco),
-    FOREIGN KEY (fk_Telefone) REFERENCES tb_Telefone (idTelefone)
+    cpf VARCHAR(20) default NULL
 );
 
 CREATE TABLE IF NOT EXISTS tb_Categoria (
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS tb_Estoque (
     idEstoque INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(50) NOT NULL,
     quantidade INT NOT NULL,
-    fk_produto INT NOT NULL,
+    fk_Produto INT NOT NULL,
     FOREIGN KEY (fk_produto) REFERENCES tb_Produto (idProduto)
 );
 
@@ -73,8 +73,8 @@ CREATE TABLE IF NOT EXISTS tb_Venda (
     hora_Inicio DATE NOT NULL,
     valor DECIMAL(10,2) NOT NULL,
     lucro DECIMAL(10,2) NOT NULL,
-    fk_produto INT NOT NULL,
-    fk_cliente INT NOT NULL,
+    fk_Produto INT NOT NULL,
+    fk_Cliente INT NOT NULL,
     FOREIGN KEY (fk_produto) REFERENCES tb_Produto (idProduto),
     FOREIGN KEY (fk_cliente) REFERENCES tb_Cliente (idCliente)
 );

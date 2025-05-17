@@ -827,3 +827,21 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Cabelo 
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 48 more
+2025-05-17 18:33:47.762636-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TB_CLIENTE" not found; SQL statement:
+CREATE TABLE IF NOT EXISTS tb_Email ( idEmail INT PRIMARY KEY AUTO_INCREMENT, end_Email VARCHAR(50) default NULL, fk_Cliente INT NOT NULL, FOREIGN KEY (fk_cliente) REFERENCES tb_Cliente (idCliente) ) [42102-232]
+2025-05-17 18:33:55.861791-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TB_CLIENTE" not found; SQL statement:
+CREATE TABLE IF NOT EXISTS tb_Email ( idEmail INT PRIMARY KEY AUTO_INCREMENT, end_Email VARCHAR(50) default NULL, fk_Cliente INT NOT NULL, FOREIGN KEY (fk_cliente) REFERENCES tb_Cliente (idCliente) ) [42102-232]
+2025-05-17 18:34:00.790642-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TB_CLIENTE" not found; SQL statement:
+CREATE TABLE IF NOT EXISTS tb_Email ( idEmail INT PRIMARY KEY AUTO_INCREMENT, end_Email VARCHAR(50) default NULL, fk_Cliente INT NOT NULL, FOREIGN KEY (fk_cliente) REFERENCES tb_Cliente (idCliente) ) [42102-232]
+2025-05-17 18:35:39.264692-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TB_CLIENTE" not found; SQL statement:
+CREATE TABLE IF NOT EXISTS tb_Email ( idEmail INT PRIMARY KEY AUTO_INCREMENT, end_Email VARCHAR(50) default NULL, fk_Cliente INT NOT NULL, FOREIGN KEY (fk_cliente) REFERENCES tb_Cliente (idCliente) ) [42102-232]
+2025-05-17 18:36:36.122006-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TB_CLIENTE" not found; SQL statement:
+CREATE TABLE IF NOT EXISTS tb_Email ( idEmail INT PRIMARY KEY AUTO_INCREMENT, end_Email VARCHAR(50) default NULL, fk_Cliente INT NOT NULL, FOREIGN KEY (fk_cliente) REFERENCES tb_Cliente (idCliente) ) [42102-232]
+2025-05-17 18:37:03.766740-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "TB_CLIENTE" not found; SQL statement:
+CREATE TABLE IF NOT EXISTS tb_Email ( idEmail INT PRIMARY KEY AUTO_INCREMENT, end_Email VARCHAR(50) default NULL, fk_Cliente INT NOT NULL, FOREIGN KEY (fk_cliente) REFERENCES tb_Cliente (idCliente) ) [42102-232]
