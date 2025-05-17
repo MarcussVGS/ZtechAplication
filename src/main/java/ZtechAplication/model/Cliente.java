@@ -28,15 +28,14 @@ public class Cliente {
 	@Column(unique = true, length = 20)
 	private String cpf;
 	
-	@OneToMany
-	@JoinColumn(name = "fk_Cliente")
-	private List<Email> email;
-	@OneToMany
-	@JoinColumn(name = "fk_Cliente")
-	private List<Endereco> endereco;
-	@OneToMany
-	@JoinColumn(name = "fk_Cliente")
-	private List<Telefone> telefone;
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Email> emails;
+    
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Endereco> enderecos;
+    
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Telefone> telefones;
 	
 	
 	
@@ -58,23 +57,23 @@ public class Cliente {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public List<Email> getEmail() {
-		return email;
+	public List<Email> getEmails() {
+		return emails;
 	}
-	public void setEmail(List<Email> email) {
-		this.email = email;
+	public void setEmails(List<Email> emails) {
+		this.emails = emails;
 	}
-	public List<Endereco> getEndereco() {
-		return endereco;
+	public List<Endereco> getEnderecos() {
+		return enderecos;
 	}
-	public void setEndereco(List<Endereco> endereco) {
-		this.endereco = endereco;
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
 	}
-	public List<Telefone> getTelefone() {
-		return telefone;
+	public List<Telefone> getTelefones() {
+		return telefones;
 	}
-	public void setTelefone(List<Telefone> telefone) {
-		this.telefone = telefone;
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
 	}
 	
 	//chaves estrangeiras

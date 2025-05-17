@@ -23,8 +23,8 @@ public class Telefone {
 	private String telefone;
     
 	@ManyToOne
-	@JoinColumn(name = "fk_Cliente")
-	private Cliente cliente;
+    @JoinColumn(name = "fk_Cliente", nullable = false)
+    private Cliente cliente;
     
 	public int getIdTelefone() {
 		return idTelefone;

@@ -1,3 +1,9 @@
+CREATE TABLE IF NOT EXISTS tb_Cliente (
+    idCliente INT PRIMARY KEY AUTO_INCREMENT,
+    nome_Cliente VARCHAR(50) default NULL,
+    cpf VARCHAR(20) default NULL
+);
+
 CREATE TABLE IF NOT EXISTS tb_Email (
     idEmail INT PRIMARY KEY AUTO_INCREMENT,
     end_Email VARCHAR(50) default NULL,
@@ -21,12 +27,6 @@ CREATE TABLE IF NOT EXISTS tb_Telefone (
     telefone VARCHAR(20) default NULL,
     fk_Cliente INT NOT NULL,
      FOREIGN KEY (fk_cliente) REFERENCES tb_Cliente (idCliente)
-);
-
-CREATE TABLE IF NOT EXISTS tb_Cliente (
-    idCliente INT PRIMARY KEY AUTO_INCREMENT,
-    nome_Cliente VARCHAR(50) default NULL,
-    cpf VARCHAR(20) default NULL
 );
 
 CREATE TABLE IF NOT EXISTS tb_Categoria (

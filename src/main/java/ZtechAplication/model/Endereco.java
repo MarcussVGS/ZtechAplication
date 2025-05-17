@@ -27,8 +27,8 @@ public class Endereco {
 	private int numeroCasa;
 	
 	@ManyToOne
-	@JoinColumn(name = "fk_Cliente")
-	private Cliente cliente;
+    @JoinColumn(name = "fk_Cliente", nullable = false)
+    private Cliente cliente;
 	
 	public int getIdEndereco() {
 		return idEndereco;
