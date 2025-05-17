@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -27,9 +28,9 @@ public class Cliente {
 	@Column(unique = true, length = 20)
 	private String cpf;
 	
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "fk_Email")
-	private List<Email> email;
+	private Email email;
 	@OneToMany
 	@JoinColumn(name = "fk_Endereco")
 	private List<Endereco> endereco;
@@ -59,10 +60,10 @@ public class Cliente {
 	}
 	
 	//chaves estrangeiras
-	public List<Email> getEmail() {
+	public Email getEmail() {
 		return email;
 	}
-	public void setEmail(List<Email> email) {
+	public void setEmail(Email email) {
 		this.email = email;
 	}
 	public List<Endereco> getEndereco() {
