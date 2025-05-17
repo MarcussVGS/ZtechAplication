@@ -17,16 +17,35 @@
 			text-align: center; justify-content: center; display: flex; flex-direction: column; 
 			color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; 
 			word-wrap: break-word">Início</div>
-        </div>
         </header>
     <div class="area-principal">
         <div class="barra">
             <ul>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{clientes}">CLIENTES</a></li>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{estoque}">ESTOQUE</a></li>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{vendas}">VENDAS</a></li>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{ordens}">ORDENS DE SERVIÇO</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{clientes}">CLIENTES</a></li>
+			<li class="opcao_lista"><a class="link_lista_atual" th:href="@{estoque}">ESTOQUE</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{vendas}">VENDAS</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{ordens}">ORDENS DE SERVIÇO</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{inicio}">INÍCIO</a></li>
             </ul>
+	</div>
+            <div class="tabela">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th>CEP</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <!-- Dados dinâmicos via Java serão inseridos aqui -->
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
 </body>
 </html>

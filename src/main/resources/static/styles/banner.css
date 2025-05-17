@@ -22,7 +22,25 @@
     left: 222px;
     
 }
+.botao_atualizar{
+    background-color: white;
+    border-radius: 20px;
+    width: 320px;
+    font-weight: 500;
+    line-height: 21px;
+    flex-direction: column;
+    display: flex;
+    position: absolute;
+    top: 7em;
+    left: 600px;
+    padding: 5px;
+    
+}
 .adicionar{
+    padding-left: 1em;
+    padding-right: 1em;
+}
+.atualizar{
     padding-left: 1em;
     padding-right: 1em;
 }
