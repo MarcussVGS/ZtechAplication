@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@Entity //safadas
+@Entity //safadassss
 @Table(name = "tb_Servico")
 public class Servico {
 	
