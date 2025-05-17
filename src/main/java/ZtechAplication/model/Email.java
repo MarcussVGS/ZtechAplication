@@ -17,12 +17,11 @@ public class Email {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idEmail")  // Mapeia para a coluna existente
 	private int idEmail;
+
+    @Column(nullable = false, length = 50)
 	private String endEmail;
     
-    @ManyToOne
-	@JoinColumn(name = "fk_Cliente")
-	private Cliente cliente;
-    
+	
 	public int getIdEmail() {
 		return idEmail;
 	}
@@ -34,11 +33,5 @@ public class Email {
 	}
 	public void setEmail(String endEmail) {
 		this.endEmail = endEmail;
-	}
-	public Cliente getCliente() {
-		return cliente;
-	}
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
 	}
 }
