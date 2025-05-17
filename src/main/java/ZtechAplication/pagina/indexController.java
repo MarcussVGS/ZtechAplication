@@ -43,6 +43,10 @@ public class indexController {
 	public String cadastro_OS() {
 		return "cadastro_OS";
 	}
+	@RequestMapping("/atualizar_estoque")
+	public String atualizar_estoque() {
+		return "atualizar_estoque";
+	}
 	
 	
 	

@@ -1,73 +1,108 @@
 <!DOCTYPE html>
-<html lang="en"	xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estoque</title>
-    <link rel="stylesheet" th:href="@{styles/reset.css}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" th:href="@{styles/style.css}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estoque</title>
+<link rel="stylesheet" th:href="@{styles/reset.css}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" th:href="@{styles/style.css}">
 </head>
 
 <body>
-    <header class="cabecalho">
-        <a th:href="inicio.html">
-            <img class="logo_cabecalho" src="img/logo-removebg-preview 1.svg" />
-        </a>
-        <div
-            style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
-            Estoque
-        </div>
-    </header>
+	<header class="cabecalho">
+		<a th:href="inicio.html"> <img class="logo_cabecalho"
+			src="img/logo-removebg-preview 1.svg" />
+		</a>
+		<div
+			style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
+			Estoque</div>
+	</header>
 
-    <div class="area-principal">
-        <div class="barra">
-            <ul>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{clientes}">CLIENTES</a></li>
-			<li class="opcao_lista"><a class="link_lista_atual" th:href="@{estoque}">ESTOQUE</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{vendas}">VENDAS</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{ordens}">ORDENS DE SERVIÇO</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{inicio}">INÍCIO</a></li>
-            </ul>
-        </div>
+	<div class="area-principal">
+		<div class="barra">
+			<ul>
+				<li class="opcao_lista"><a class="link_lista"
+					th:href="@{clientes}">CLIENTES</a></li>
+				<li class="opcao_lista"><a class="link_lista_atual"
+					th:href="@{estoque}">ESTOQUE</a></li>
+				<li class="opcao_lista"><a class="link_lista"
+					th:href="@{vendas}">VENDAS</a></li>
+				<li class="opcao_lista"><a class="link_lista"
+					th:href="@{ordens}">ORDENS DE SERVIÇO</a></li>
+				<li class="opcao_lista"><a class="link_lista"
+					th:href="@{inicio}">INÍCIO</a></li>
+			</ul>
+		</div>
 
-        <!-- CONTEÚDO DA PÁGINA -->
-        <div class="conteudo">
-            <div class="banner">
-                <div class="botao_adicionar">
-                    <a class="link_botao" th:href="@{cadastro_produto}"><img class="adicionar"
-                            src="img/adicionarpeq.svg">Adicionar Produto</a>
-                </div>
-                <div class="botao_atualizar">
-                    <a class="link_botao" th:href="@{atualizar_estoque}"><img class="atualizar"
-                            src="img/atualizar.svg">Atualizar Estoque</a>
-                </div>
-                <input type="search" class="banner_pesquisa" placeholder="Procure pelo nome do Produto">
-            </div>
-            <div class="filtro">
-                <br>
-            </div>
-            <div class="tabela">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>E-mail</th>
-                            <th>Telefone</th>
-                            <th>CEP</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+		<!-- CONTEÚDO DA PÁGINA -->
+		<div class="conteudo">
+			<div class="banner">
+				<div class="botao_adicionar">
+					<a class="link_botao" th:href="@{cadastro_produto}"><img
+						class="adicionar" src="img/adicionarpeq.svg">Adicionar
+						Produto</a>
 
-                        <!-- Dados dinâmicos via Java serão inseridos aqui -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+				</div>
+				<div class="botao_atualizar">
+					<a class="link_botao" th:href="@{atualizar_estoque}"><img
+						class="atualizar" src="img/atualizar.svg">Atualizar Estoque</a>
+					<div class="popup-container" id="popup">
+						<div class="popup">
+							<h2>Atualizar Estoque</h2>
+
+							<div class="linha">
+								<label>Cod produto.</label> <input type="text"> <label>Nome
+									Produto</label> <input type="text">
+							</div>
+
+							<p style="text-align: center; font-weight: bold;">Quantidade
+								em Estoque</p>
+
+							<div class="linha">
+								<label>Mínimo:</label> <input type="number"> <label>Atual:</label>
+								<input type="number"> <label>Máximo:</label> <input
+									type="number">
+							</div>
+
+							<div class="botoes">
+								<label for="fechar-popup" class="btn-fechar">Cancelar</label>
+								<button class="btn-atualizar">ATUALIZAR</button>
+							</div>
+						</div>
+
+						<!-- Checkbox invisível para controlar a exibição -->
+						<input type="checkbox" id="fechar-popup" class="esconder-popup">
+					</div>
+				</div>
+				<input type="search" class="banner_pesquisa"
+					placeholder="Procure pelo nome do Produto">
+			</div>
+			<div class="filtro">
+				<br>
+			</div>
+			<div class="tabela">
+				<table>
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>E-mail</th>
+							<th>Telefone</th>
+							<th>CEP</th>
+							<th>Ações</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<!-- Dados dinâmicos via Java serão inseridos aqui -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </body>
