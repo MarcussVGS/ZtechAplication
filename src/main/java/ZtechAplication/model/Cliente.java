@@ -27,7 +27,8 @@ public class Cliente {
 	private String nomeCliente;
 	@Column(unique = true, length = 20)
 	private String cpf;
-	
+
+//	remove as chaves estrangeiras
 	
 	
 	public int getIdCliente() {
@@ -48,5 +49,4 @@ public class Cliente {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
 }
