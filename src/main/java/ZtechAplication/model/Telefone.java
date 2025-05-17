@@ -19,6 +19,9 @@ public class Telefone {
 	private int idTelefone;
 	private String telefone;
     
+	@ManyToOne
+	@JoinColumn(name = "fk_Cliente")
+	private Cliente cliente;
     
 	public int getIdTelefone() {
 		return idTelefone;
@@ -31,6 +34,12 @@ public class Telefone {
 	}
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
     
     
