@@ -39,6 +39,10 @@ public class indexController {
 	public String cadastro_produto() {
 		return "cadastro_produto";
 	}
+	@RequestMapping("/cadastro_OS")
+	public String cadastro_OS() {
+		return "cadastro_OS";
+	}
 	
 	
 	

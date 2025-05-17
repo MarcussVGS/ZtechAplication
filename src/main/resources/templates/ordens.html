@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -39,7 +39,7 @@
         <div class="conteudo">
             <div class="banner">
                 <div class="botao_adicionar">
-                    <a class="link_botao" href="cadastro_os.html"><img class="adicionar"
+                    <a class="link_botao" th:href="@{cadastro_OS.html}"><img class="adicionar"
                             src="img/adicionarpeq.svg">Adicionar O.S
                 </div></a>
                 <input type="search" class="banner_pesquisa"
