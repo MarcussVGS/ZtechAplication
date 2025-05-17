@@ -1,5 +1,6 @@
 package ZtechAplication.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -13,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -20,95 +22,120 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_OS")
 public class OrdemServico {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idOS")  // Mapeia para a coluna existente
-	private int idOS;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idOS;
 
-	private LocalDate dataInicio;
-	private LocalTime horaInicio;
-	private LocalDate dataFim;
-	private LocalTime horaFim;
-	private String status;
-	private float valor;
-	private float lucro;
-	@OneToMany
-	@JoinColumn(name = "fk_Servico")
-	private List<Servico> servico;
-	@OneToMany
-	@JoinColumn(name = "fk_Estoque")
-	private List<Estoque> estoque;
-	@OneToOne
-	@JoinColumn(name = "fk_Cliente")// ou "idCliente" se quiser bater com o nome exato
-	private Cliente cliente;
-	
-	public int getIdOS() {
-		return idOS;
-	}
-	public void setIdOS(int idOS) {
-		this.idOS = idOS;
-	}
-	public LocalDate getDataInicio() {
-		return dataInicio;
-	}
-	public void setDataInicio(LocalDate dataInicio) {
-		this.dataInicio = dataInicio;
-	}
-	public LocalTime getHoraInicio() {
-		return horaInicio;
-	}
-	public void setHoraInicio(LocalTime horaInicio) {
-		this.horaInicio = horaInicio;
-	}
-	public LocalDate getDataFim() {
-		return dataFim;
-	}
-	public void setDataFim(LocalDate dataFim) {
-		this.dataFim = dataFim;
-	}
-	public LocalTime getHoraFim() {
-		return horaFim;
-	}
-	public void setHoraFim(LocalTime horaFim) {
-		this.horaFim = horaFim;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	public float getValor() {
-		return valor;
-	}
-	public void setValor(float valor) {
-		this.valor = valor;
-	}
-	public float getLucro() {
-		return lucro;
-	}
-	public void setLucro(float lucro) {
-		this.lucro = lucro;
-	}
-	public List<Servico> getServico() {
-		return servico;
-	}
-	public void setServico(List<Servico> servico) {
-		this.servico = servico;
-	}
-	public List<Estoque> getEstoque() {
-		return estoque;
-	}
-	public void setEstoque(List<Estoque> estoque) {
-		this.estoque = estoque;
-	}
-	public Cliente getCliente() {
-		return cliente;
-	}
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+    @Column(name = "data_Inicio")
+    private LocalDate dataInicio;
+
+    @Column(name = "hora_Inicio")
+    private LocalTime horaInicio;
+
+    @Column(name = "data_Fim")
+    private LocalDate dataFim;
+
+    @Column(name = "hora_Fim")
+    private LocalTime horaFim;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal valor;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal lucro;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_Servico", nullable = false)
+    private Servico servico;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_Estoque", nullable = false)
+    private Estoque estoque;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_Cliente", nullable = false)
+    private Cliente cliente;
+
+    // Getters e Setters
+    public Integer getIdOS() {
+        return idOS;
+    }
+
+    public void setIdOS(Integer idOS) {
+        this.idOS = idOS;
+    }
+
+    public LocalDate getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(LocalDate dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public LocalTime getHoraInicio() {
+        return horaInicio;
+    }
+
+    public void setHoraInicio(LocalTime horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public LocalDate getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(LocalDate dataFim) {
+        this.dataFim = dataFim;
+    }
+
+    public LocalTime getHoraFim() {
+        return horaFim;
+    }
+
+    public void setHoraFim(LocalTime horaFim) {
+        this.horaFim = horaFim;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+
+    public BigDecimal getLucro() {
+        return lucro;
+    }
+
+    public void setLucro(BigDecimal lucro) {
+        this.lucro = lucro;
+    }
+
+    public Servico getServico() {
+        return servico;
+    }
+
+    public void setServico(Servico servico) {
+        this.servico = servico;
+    }
+
+    public Estoque getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Estoque estoque) {
+        this.estoque = estoque;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 	
 	
 	

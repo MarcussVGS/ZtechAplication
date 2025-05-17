@@ -25,19 +25,31 @@ public class Telefone {
 	@ManyToOne
     @JoinColumn(name = "fk_Cliente", nullable = false)
     private Cliente cliente;
-    
-	public int getIdTelefone() {
-		return idTelefone;
-	}
-	public void setIdTelefone(int idTelefone) {
-		this.idTelefone = idTelefone;
-	}
-	public String getTelefone() {
-		return telefone;
-	}
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
+
+    // Getters e Setters
+    public Integer getIdTelefone() {
+        return idTelefone;
+    }
+
+    public void setIdTelefone(Integer idTelefone) {
+        this.idTelefone = idTelefone;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
     
     
 

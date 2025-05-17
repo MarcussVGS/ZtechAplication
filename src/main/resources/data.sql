@@ -96,7 +96,19 @@ CREATE TABLE IF NOT EXISTS tb_OS (
 );
 
 
+INSERT INTO tb_Cliente (nome_Cliente, cpf) VALUES 
+('João Silva', '123.456.789-01'),
+('Maria Oliveira', '987.654.321-09'),
+('Carlos Souza', '456.789.123-45'),
+('Ana Santos', '321.654.987-09'),
+('Pedro Costa', '789.123.456-78');
 
--- safadas sss ss
+INSERT INTO tb_Email (end_Email, fk_cliente) VALUES 
+('joao.silva@gmail.com', 1), 
+('maria.oliveira@hotmail.com', 2), 
+('carlos.souza@yahoo.com', 3), 
+('ana.santos@outlook.com', 4), 
+('pedro.costa@gmail.com', 5);
 
 
+--ss
