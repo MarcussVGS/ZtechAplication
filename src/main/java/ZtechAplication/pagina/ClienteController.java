@@ -1,6 +1,8 @@
 package ZtechAplication.pagina;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -51,6 +53,9 @@ public class ClienteController {
 	@RequestMapping(value = "/listarCliente")
 	public ModelAndView listarCliente() {
 		ModelAndView mv = new ModelAndView("/clientes");
+		List<Cliente> clientes = (List<Cliente>) classeRepo.findAll(); // Conversão explícita
+	    System.out.println("Clientes encontrados: " + clientes.size()); // Agora funciona!
+		
 		mv.addObject("clientes", classeRepo.findAll());
 		return mv;
 	}
