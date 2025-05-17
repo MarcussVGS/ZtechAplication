@@ -31,12 +31,12 @@ public class Cliente {
 	@ManyToOne
 	@JoinColumn(name = "fk_Email")
 	private Email email;
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "fk_Endereco")
-	private List<Endereco> endereco;
-	@OneToMany
+	private Endereco endereco;
+	@ManyToOne
 	@JoinColumn(name = "fk_Telefone")
-	private List<Telefone> telefone;
+	private Telefone telefone;
 	
 	
 	
@@ -66,16 +66,16 @@ public class Cliente {
 	public void setEmail(Email email) {
 		this.email = email;
 	}
-	public List<Endereco> getEndereco() {
+	public Endereco getEndereco() {
 		return endereco;
 	}
-	public void setEndereco(List<Endereco> endereco) {
+	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	public List<Telefone> getTelefone() {
+	public Telefone getTelefone() {
 		return telefone;
 	}
-	public void setTelefone(List<Telefone> telefone) {
+	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
 	}
 	
