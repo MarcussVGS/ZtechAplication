@@ -44,11 +44,11 @@ CREATE TABLE IF NOT EXISTS tb_Produto (
     nome VARCHAR(50) NOT NULL,
     custo DECIMAL(10,2) NOT NULL,
     valor DECIMAL(10,2) NOT NULL,
-    observacao TEXT DEFAULT NULL,
-    fk_categoria INT NOT NULL,
-    fk_marca INT NOT NULL,
-    FOREIGN KEY (fk_categoria) REFERENCES tb_Categoria (idCategoria),
-    FOREIGN KEY (fk_marca) REFERENCES tb_Marca (idMarca)
+    descricao TEXT DEFAULT NULL,
+    fk_Categoria INT NOT NULL,
+    fk_Marca INT NOT NULL,
+    FOREIGN KEY (fk_Categoria) REFERENCES tb_Categoria (idCategoria),
+    FOREIGN KEY (fk_Marca) REFERENCES tb_Marca (idMarca)
 );
 
 CREATE TABLE IF NOT EXISTS tb_Estoque (
@@ -69,12 +69,32 @@ CREATE TABLE IF NOT EXISTS tb_Servico (
 CREATE TABLE IF NOT EXISTS tb_Venda (
     idVenda INT AUTO_INCREMENT PRIMARY KEY,
     quantidade INT NOT NULL,
+    dataInicio DATE NOT NULL,
+    horaInicio DATE NOT NULL,
+    valor DECIMAL(10,2) NOT NULL,
+    lucro DECIMAL(10,2) NOT NULL,
     fk_produto INT NOT NULL,
     fk_cliente INT NOT NULL,
-    dataVenda DATETIME NOT NULL,
     FOREIGN KEY (fk_produto) REFERENCES tb_Produto (idProduto),
     FOREIGN KEY (fk_cliente) REFERENCES tb_Cliente (idCliente)
 );
+
+CREATE TABLE IF NOT EXISTS tb_OS (
+	idOS INT AUTO_INCREMENT PRIMARY KEY,
+	dataInicio DATE,
+	horaInicio TIME,
+	dataFim DATE,
+	horaFim TIME,
+	valor DECIMAL(10,2) NOT NULL,
+	lucro DECIMAL(10,2) NOT NULL,
+	fk_Servico INT NOT NULL,
+	fk_Estoque INT NOT NULL,
+	fk_Cliente INT NOT NULL,
+	FOREIGN KEY (fk_Servico) REFERENCES tb_Servico (idServico),
+	FOREIGN KEY (fk_Estoque) REFERENCES tb_Estoque (idEstoque),
+	FOREIGN KEY (fk_Cliente) REFERENCES tb_Cliente (idCliente)
+);
+
 
 
 
