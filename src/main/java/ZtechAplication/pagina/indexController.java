@@ -43,8 +43,4 @@ public class indexController {
 	public String cadastro_OS() {
 		return "cadastro_OS";
 	}
-	
-	
-	
-
 }

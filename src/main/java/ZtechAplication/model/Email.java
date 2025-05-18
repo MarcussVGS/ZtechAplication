@@ -31,10 +31,10 @@ public class Email {
 	public int getIdEmail() {
 		return idEmail;
 	}
-	public void setIdEmail(int idEmail) {
+	public void setIdEndEmail(int idEmail) {
 		this.idEmail = idEmail;
 	}
-	public String getEmail() {
+	public String getEndEmail() {
 		return endEmail;
 	}
 	public void setEmail(String endEmail) {
