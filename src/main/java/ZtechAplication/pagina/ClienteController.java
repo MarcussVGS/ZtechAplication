@@ -60,11 +60,11 @@ public class ClienteController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "/editar/{idCliente}")
-	public ModelAndView editarCliente(@PathVariable Long id) {
-		ModelAndView mv = new ModelAndView("editarCliente");
-		mv.addObject("cliente", classeRepo.findById(id).orElseThrow( () -> 
-					 new IllegalArgumentException("Cliente invalida" + id) ));
+	@RequestMapping(value = "/editar/{cpf}")
+	public ModelAndView editarCliente(@PathVariable String cpf) {
+		ModelAndView mv = new ModelAndView("cadastro_cliente");
+		mv.addObject("cliente", classeRepo.findByCpf(cpf).orElseThrow( () -> 
+					 new IllegalArgumentException("Cliente invalida" + cpf) ));
 		return mv;
 	}
 	

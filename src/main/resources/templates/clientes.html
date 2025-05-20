@@ -41,7 +41,7 @@
         <div class="conteudo">
             <div class="banner">
                 <div class="botao_adicionar">
-                    <a class="link_botao" th:href="@{cadastro_cliente}"><img class="adicionar"
+                    <a class="link_botao" th:href="@{/cliente/form}"><img class="adicionar"
                             th:src="@{/img/adicionarpeq.svg}" alt="Adicionar">Adicionar Cliente
                 </div></a>
                 <input type="search" class="banner_pesquisa"
@@ -71,14 +71,14 @@
 							<td th:text="${cliente.telefone?.telefone} ?: 'N/A'"></td>
 							<td th:text="${cliente.endereco?.bairro} ?: 'N/A'"></td>
 							<td class="acoes"> <!-- Adicionar esta classe CSS-->
-								<a  th:href="@{'/cliente/editar/' + ${cliente.idCliente}}" 
+								<a  th:href="@{'/cliente/editar/' + ${cliente.cpf}}" 
 									onclick="return confirm('Tem Certeza que deseja Editar estes dados?')"
 									class="botao-acao editar"> <!-- Adicionar esta classe CSS-->
 									<i class="fa fa-edit"></i>
 								</a>
 							</td>
 							<td class="acoes"> <!-- Adicionar esta classe CSS-->
-								<a  th:href="@{'/cliente/deletar/' + ${cliente.idCliente}}" 
+								<a  th:href="@{/cliente/deletar/ + ${cliente.IdCliente}}" 
 									onclick="return confirm('Tem Certeza que deseja Deletar estes dados?')"
 									class="botao-acao deletar"> <!-- Adicionar esta classe CSS-->
 									<i class="fa fa-trash-alt"></i>
