@@ -1,14 +1,24 @@
 package ZtechAplication.repository;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import ZtechAplication.model.Cliente;
 
-public interface ClienteRepository extends CrudRepository<Cliente, Integer>{
+public interface ClienteRepository extends CrudRepository<Cliente, Long>{
+	@Query("SELECT c FROM Cliente c "
+			+ "LEFT JOIN FETCH c.email "
+			+ "LEFT JOIN FETCH c.telefone "
+			+ "LEFT JOIN FETCH c.endereco")
+    List<Cliente> findAllWithRelationships();
+	
 	Optional<Cliente> findByCpf(String cpf);
 	Optional<Cliente> deleteByCpf(String cpf);
+
+	Optional<Cliente> findById(Long id);
 
 
 }

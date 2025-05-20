@@ -43,6 +43,7 @@ public class indexController {
 	public String cadastro_OS() {
 		return "cadastro_OS";
 	}
+<<<<<<< HEAD
 	@RequestMapping("/atualizar_estoque")
 	public String atualizar_estoque() {
 		return "atualizar_estoque";
@@ -51,4 +52,6 @@ public class indexController {
 	
 	
 
+=======
+>>>>>>> branch 'main' of https://github.com/MarcussVGS/ZtechAplication.git
 }

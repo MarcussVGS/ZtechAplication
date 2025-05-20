@@ -22,59 +22,59 @@ import ZtechAplication.repository.ClienteRepository;
 
 
 @Controller
-//@RequestMapping(value = "/cliente" ) //para que qualquer um deles seja valido
+@RequestMapping(value = "/cliente" ) //para que qualquer um deles seja valido
 public class ClienteController {
 
 	@Autowired
 	private ClienteRepository classeRepo;
 	
 	//indicar o metodo get no HTML
-	@GetMapping(value = "/formCliente")
+	@GetMapping(value = "/form") //popula os campos da tela de cadastro
 	public ModelAndView form() {
-		ModelAndView mv = new ModelAndView("cadastroProduto/cliente");
+		ModelAndView mv = new ModelAndView("cadastro_Cliente");
 		mv.addObject("cliente", new Cliente() ); //inicializa o obj para o formulario
 		return mv;
 	}
 	
 	//indicar o metodo post no HTML
-	@PostMapping(value = "/cadastrarCliente")
+	@PostMapping(value = "/cadastrar")
 	public String form(@Validated Cliente cliente, BindingResult result, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {
 			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
-			return "redirect:/cliente/cadastrarCliente";
+			return "redirect:/clientes/form";
 		}
 		
 		classeRepo.save(cliente);
 		attributes.addFlashAttribute("mensagem", "Cliente cadastrada com sucesso!");
-		return "redirect:/cliente/cadastrarCliente";
+		return "redirect:/clientes/listar";
 	}
 	
-	@RequestMapping(value = "/listarCliente")
+	@RequestMapping(value = "/listar")
 	public ModelAndView listarCliente() {
-		ModelAndView mv = new ModelAndView("/clientes");
-		List<Cliente> clientes = (List<Cliente>) classeRepo.findAll(); // Conversão explícita
+		ModelAndView mv = new ModelAndView("clientes");
+		List<Cliente> clientes = (List<Cliente>) classeRepo.findAllWithRelationships(); // Conversão explícita
 	    System.out.println("Clientes encontrados: " + clientes.size()); // Agora funciona!
 		
-		mv.addObject("clientes", classeRepo.findAll());
+		mv.addObject("clientes", clientes);
 		return mv;
 	}
 	
-	@RequestMapping(value = "/editarCliente")
-	public ModelAndView editarCliente(@PathVariable String cpf) {
-		ModelAndView mv = new ModelAndView("/cliente/editarCliente");
-		mv.addObject("cliente", classeRepo.findByCpf(cpf).orElseThrow( () -> 
-					 new IllegalArgumentException("Cliente invalida" + cpf) ));
+	@RequestMapping(value = "/editar/{idCliente}")
+	public ModelAndView editarCliente(@PathVariable Long id) {
+		ModelAndView mv = new ModelAndView("editarCliente");
+		mv.addObject("cliente", classeRepo.findById(id).orElseThrow( () -> 
+					 new IllegalArgumentException("Cliente invalida" + id) ));
 		return mv;
 	}
 	
-	@RequestMapping(value = "/deletarCliente")
-	public String remover(@PathVariable String cpf, RedirectAttributes attributes) {
-		classeRepo.findByCpf(cpf).orElseThrow(() -> 
-        new IllegalArgumentException("Cliente inválido: " + cpf));
-		classeRepo.deleteByCpf(cpf);
+	@RequestMapping(value = "/deletar/{idCliente}")
+	public String remover(@PathVariable Long id, RedirectAttributes attributes) {
+		Cliente cliente = classeRepo.findById(id)
+	            .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + id));
+	    classeRepo.delete(cliente);
         attributes.addFlashAttribute("mensagem", "Cliente removida com sucesso!");
-        return "redirect:/cliente/cadastrarCliente";
+        return "redirect:/clientes/listar";
 	}
 	
 	@GetMapping(value = "/teste")
