@@ -15,8 +15,8 @@
 
 <body>
     <header class="cabecalho">
-        <a th:href="inicio.html">
-            <img class="logo_cabecalho" src="img/logo-removebg-preview 1.svg" />
+        <a th:href="@{inicio}">
+            <img class="logo_cabecalho" src="img/logo-removebg.svg" />
         </a>
         <div
             style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
@@ -27,11 +27,11 @@
     <div class="area-principal">
         <div class="barra">
             <ul>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{clientes}">CLIENTES</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{/clientes}">CLIENTES</a></li>
 			<li class="opcao_lista"><a class="link_lista_atual" th:href="@{estoque}">ESTOQUE</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{vendas}">VENDAS</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{ordens}">ORDENS DE SERVIÇO</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{inicio}">INÍCIO</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{/vendas}">VENDAS</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{/ordens}">ORDENS DE SERVIÇO</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
             </ul>
         </div>
 
