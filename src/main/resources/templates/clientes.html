@@ -30,10 +30,10 @@
         <div class="barra">
             <ul>
 			    <li class="opcao_lista"><a class="link_lista_atual" th:href="@{clientes}">CLIENTES</a></li>
-			    <li class="opcao_lista"><a class="link_lista" th:href="@{/estoque}">ESTOQUE</a></li>
-			    <li class="opcao_lista"><a class="link_lista" th:href="@{/vendas}">VENDAS</a></li>
-			    <li class="opcao_lista"><a class="link_lista" th:href="@{/ordens}">ORDENS DE SERVIÇO</a></li>
-				<li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
+			    <li class="opcao_lista"><a class="link_lista" th:href="@{estoque}">ESTOQUE</a></li>
+			    <li class="opcao_lista"><a class="link_lista" th:href="@{vendas}">VENDAS</a></li>
+			    <li class="opcao_lista"><a class="link_lista" th:href="@{ordens}">ORDENS DE SERVIÇO</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{inicio}">INÍCIO</a></li>
 			</ul>
         </div>
 
@@ -41,9 +41,10 @@
         <div class="conteudo">
             <div class="banner">
                 <div class="botao_adicionar">
-                    <a class="link_botao" th:href="@{/cliente/form}"><img class="adicionar"
+                    <a class="link_botao" th:href="@{/cliente/cadastrarForm}"><img class="adicionar"
                             th:src="@{/img/adicionarpeq.svg}" alt="Adicionar">Adicionar Cliente
-                </div></a>
+               	    </a>
+				</div>
                 <input type="search" class="banner_pesquisa"
                     placeholder="Procure pelo nome, e-mail, telefone ou CEP do cliente">
             </div>
@@ -71,14 +72,14 @@
 							<td th:text="${cliente.telefone?.telefone} ?: 'N/A'"></td>
 							<td th:text="${cliente.endereco?.bairro} ?: 'N/A'"></td>
 							<td class="acoes"> <!-- Adicionar esta classe CSS-->
-								<a  th:href="@{'/cliente/editar/' + ${cliente.cpf}}" 
+								<a  th:href="@{'/cliente/editar/'+${cliente.cpf}}" 
 									onclick="return confirm('Tem Certeza que deseja Editar estes dados?')"
 									class="botao-acao editar"> <!-- Adicionar esta classe CSS-->
 									<i class="fa fa-edit"></i>
 								</a>
 							</td>
 							<td class="acoes"> <!-- Adicionar esta classe CSS-->
-								<a  th:href="@{/cliente/deletar/ + ${cliente.IdCliente}}" 
+								<a  th:href="@{'/cliente/deletar/'+${cliente.IdCliente}}" 
 									onclick="return confirm('Tem Certeza que deseja Deletar estes dados?')"
 									class="botao-acao deletar"> <!-- Adicionar esta classe CSS-->
 									<i class="fa fa-trash-alt"></i>

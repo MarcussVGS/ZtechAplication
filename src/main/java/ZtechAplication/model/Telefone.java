@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,7 +23,7 @@ public class Telefone {
 	private int idTelefone;
 	private String telefone;
     
-	@ManyToOne
+	@OneToOne
     @JoinColumn(name = "fk_Cliente", nullable = false)
     private Cliente cliente;
 

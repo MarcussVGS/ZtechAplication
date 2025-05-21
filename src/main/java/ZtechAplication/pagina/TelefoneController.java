@@ -2,6 +2,7 @@ package ZtechAplication.pagina;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,17 +19,17 @@ import ZtechAplication.model.Telefone;
 import ZtechAplication.repository.TelefoneRepository;
 
 
-@RestController
-@RequestMapping(value = {"/telefone", "/Telefone"} ) //para que qualquer um deles seja valido
+@Controller
+@RequestMapping(value = "/telefone") //para que qualquer um deles seja valido
 public class TelefoneController {
 
 	@Autowired
 	private TelefoneRepository classeRepo;
 	
 	//indicar o metodo get no HTML
-	@GetMapping(value = "/formTelefone")
+	@GetMapping(value = "/form")
 	public ModelAndView form() {
-		ModelAndView mv = new ModelAndView("cadastroProduto/telefone");
+		ModelAndView mv = new ModelAndView("cadastro_cliente");  //editar cliente
 		mv.addObject("telefone", new Telefone() ); //inicializa o obj para o formulario
 		return mv;
 	}
@@ -39,7 +40,7 @@ public class TelefoneController {
 		
 		if (result.hasErrors()) {
 			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
-			return "redirect:/telefone/cadastrarTelefone";
+			return "redirect:clientes";
 		}
 		
 		classeRepo.save(telefone);

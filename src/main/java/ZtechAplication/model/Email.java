@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,7 +25,7 @@ public class Email {
     @Column(nullable = false, length = 50)
 	private String endEmail;
     
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "fk_Cliente", nullable = false)
     private Cliente cliente;
 	
@@ -40,4 +41,11 @@ public class Email {
 	public void setEmail(String endEmail) {
 		this.endEmail = endEmail;
 	}
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	
 }

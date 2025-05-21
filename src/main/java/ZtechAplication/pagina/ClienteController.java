@@ -13,11 +13,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ZtechAplication.DTO.ClienteDTO;
 import ZtechAplication.model.Cliente;
+import ZtechAplication.model.Email;
+import ZtechAplication.model.Endereco;
+import ZtechAplication.model.Telefone;
 import ZtechAplication.repository.ClienteRepository;
 
 
@@ -29,25 +34,52 @@ public class ClienteController {
 	private ClienteRepository classeRepo;
 	
 	//indicar o metodo get no HTML
-	@GetMapping(value = "/form") //popula os campos da tela de cadastro
+	@GetMapping(value = "/cadastrarForm") //popula os campos da tela de cadastro
 	public ModelAndView form() {
-		ModelAndView mv = new ModelAndView("cadastro_Cliente");
-		mv.addObject("cliente", new Cliente() ); //inicializa o obj para o formulario
+		ModelAndView mv = new ModelAndView("cadastroCliente"); //editar cliente
+		mv.addObject("cliente", new ClienteDTO() ); //inicializa o obj para o formulario
 		return mv;
 	}
 	
 	//indicar o metodo post no HTML
-	@PostMapping(value = "/cadastrar")
-	public String form(@Validated Cliente cliente, BindingResult result, RedirectAttributes attributes) {
+	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST) //  \/aqui usamos uma classe só para coletar as informações
+	public String form(@Validated ClienteDTO clienteDTO, BindingResult result, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {
 			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
-			return "redirect:/clientes/form";
+			return "redirect:/cadastroCliente";
 		}
 		
-		classeRepo.save(cliente);
-		attributes.addFlashAttribute("mensagem", "Cliente cadastrada com sucesso!");
-		return "redirect:/clientes/listar";
+//		aqui passamos tudo para a cliente
+		Cliente cliente = new Cliente();
+		cliente.setNomeCliente(clienteDTO.getNomeCliente());
+		cliente.setCpf(clienteDTO.getCpf());
+		
+		
+		//		aqui mapeamos as classes model com a classe DTO que coletou os dados
+		Email email = new Email();
+		email.setEmail(clienteDTO.getEndEmail());
+		email.setCliente(cliente);
+		cliente.setEmail(email);
+		
+		Telefone tele = new Telefone();
+		tele.setTelefone(clienteDTO.getTelefone());
+		tele.setCliente(cliente);
+		cliente.setTelefone(tele);
+		
+		Endereco end = new Endereco();
+		end.setRua(clienteDTO.getRua());
+		end.setCep(clienteDTO.getCep());
+		end.setBairro(clienteDTO.getBairro());
+		end.setCidade(clienteDTO.getCidade());
+		end.setNumeroCasa(clienteDTO.getNumeroCasa());
+		end.setCliente(cliente);
+		cliente.setEndereco(end);
+		
+
+		classeRepo.save(cliente); // salva todas as informaç~eos por conta do CASCATE
+		attributes.addFlashAttribute("mensagem", "Cliente cadastrado(a) com sucesso!");
+		return "redirect:/cliente/cadastrarForm";
 	}
 	
 	@RequestMapping(value = "/listar")
@@ -62,7 +94,7 @@ public class ClienteController {
 	
 	@RequestMapping(value = "/editar/{cpf}")
 	public ModelAndView editarCliente(@PathVariable String cpf) {
-		ModelAndView mv = new ModelAndView("cadastro_cliente");
+		ModelAndView mv = new ModelAndView("/templates/cadastro_cliente");
 		mv.addObject("cliente", classeRepo.findByCpf(cpf).orElseThrow( () -> 
 					 new IllegalArgumentException("Cliente invalida" + cpf) ));
 		return mv;

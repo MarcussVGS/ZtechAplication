@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,7 +27,7 @@ public class Endereco {
 	private String cidade;
 	private int numeroCasa;
 	
-	@ManyToOne
+	@OneToOne
     @JoinColumn(name = "fk_Cliente", nullable = false)
     private Cliente cliente;
 	
@@ -66,6 +67,13 @@ public class Endereco {
 	public void setNumeroCasa(int numeroCasa) {
 		this.numeroCasa = numeroCasa;
 	}
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	
 	
 	
 
