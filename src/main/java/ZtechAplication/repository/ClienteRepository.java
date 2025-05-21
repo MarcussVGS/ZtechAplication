@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import ZtechAplication.model.Cliente;
 
-public interface ClienteRepository extends CrudRepository<Cliente, Long>{
+public interface ClienteRepository extends CrudRepository<Cliente, Integer>{
 	@Query("SELECT c FROM Cliente c "
 			+ "LEFT JOIN FETCH c.email "
 			+ "LEFT JOIN FETCH c.telefone "
@@ -18,7 +18,7 @@ public interface ClienteRepository extends CrudRepository<Cliente, Long>{
 	Optional<Cliente> findByCpf(String cpf);
 	Optional<Cliente> deleteByCpf(String cpf);
 
-	Optional<Cliente> findById(Long id);
+	Optional<Cliente> findById(Integer id);
 
 
 }

@@ -94,19 +94,58 @@ public class ClienteController {
 	
 	@RequestMapping(value = "/editar/{cpf}")
 	public ModelAndView editarCliente(@PathVariable String cpf) {
-		ModelAndView mv = new ModelAndView("/templates/cadastro_cliente");
-		mv.addObject("cliente", classeRepo.findByCpf(cpf).orElseThrow( () -> 
-					 new IllegalArgumentException("Cliente invalida" + cpf) ));
-		return mv;
+		ModelAndView mv = new ModelAndView("cadastroCliente");
+	    Cliente cliente = classeRepo.findByCpf(cpf)
+	        .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + cpf));
+	    
+	    // Converte para DTO
+	    ClienteDTO clienteDTO = converterParaDTO(cliente);
+	    mv.addObject("cliente", clienteDTO);
+	    return mv;
 	}
 	
-	@RequestMapping(value = "/deletar/{idCliente}")
-	public String remover(@PathVariable Long id, RedirectAttributes attributes) {
-		Cliente cliente = classeRepo.findById(id)
-	            .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + id));
+	@RequestMapping(value = "/deletar/{cpf}")
+	public String remover(@PathVariable String cpf, RedirectAttributes attributes) {
+		Cliente cliente = classeRepo.findByCpf(cpf)
+	            .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + cpf));
 	    classeRepo.delete(cliente);
         attributes.addFlashAttribute("mensagem", "Cliente removida com sucesso!");
         return "redirect:/clientes/listar";
+	}
+	
+	
+	
+	private ClienteDTO converterParaDTO(Cliente cliente) {
+	    ClienteDTO dto = new ClienteDTO();
+	    dto.setIdCliente(cliente.getIdCliente());
+	    dto.setNomeCliente(cliente.getNomeCliente());
+	    dto.setCpf(cliente.getCpf());
+	    
+	    // Verifica e converte Email (se existir)
+	    if (cliente.getEmail() != null) {
+	        dto.setEndEmail(cliente.getEmail().getEndEmail());
+	    } else {
+	        dto.setEndEmail(""); // Valor padrão
+	    }
+	    
+	    // Verifica e converte Telefone (se existir)
+	    if (cliente.getTelefone() != null) {
+	        dto.setTelefone(cliente.getTelefone().getTelefone());
+	    } else {
+	        dto.setTelefone(""); // Valor padrão
+	    }
+	    
+	    // Verifica e converte Endereco (se existir)
+	    if (cliente.getEndereco() != null) {
+	        Endereco end = cliente.getEndereco();
+	        dto.setRua(end.getRua());
+	        dto.setCep(end.getCep());
+	        dto.setBairro(end.getBairro());
+	        dto.setCidade(end.getCidade());
+	        dto.setNumeroCasa(end.getNumeroCasa());
+	    }
+	    
+	    return dto;
 	}
 	
 	@GetMapping(value = "/teste")

@@ -1,7 +1,7 @@
 package ZtechAplication.DTO;
 
 public class ClienteDTO {
-	private Long idCliente;
+	private Integer idCliente;
 	private String nomeCliente;
 	private String cpf;
 	private String endEmail;
@@ -14,10 +14,10 @@ public class ClienteDTO {
 	private int numeroCasa;
 	
 	
-	public Long getIdCliente() {
+	public Integer getIdCliente() {
 		return idCliente;
 	}
-	public void setIdCliente(Long idCliente) {
+	public void setIdCliente(Integer idCliente) {
 		this.idCliente = idCliente;
 	}
 	public String getNomeCliente() {
