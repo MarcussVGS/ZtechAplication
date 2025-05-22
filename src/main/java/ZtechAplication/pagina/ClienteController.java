@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -104,6 +105,16 @@ public class ClienteController {
 	    mv.addObject("cliente", clienteDTO);
 	    return mv;
 	}
+	
+	@GetMapping("/editar/{idCliente}")
+	public String editarForm(@PathVariable("idCliente") Integer id, RedirectAttributes attributes, Model model ) {
+	    Cliente cliente = classeRepo.findById(id)
+			   .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + id));
+	    model.addAttribute("ObjetoCliente", cliente);
+		return "redirect:/clientes/listar" ;
+	}
+	
+	
 	
 	//indicar o metodo post no HTML
 		@RequestMapping(value = "/editar/{idCliente}", method = RequestMethod.POST) //  \/aqui usamos uma classe só para coletar as informações

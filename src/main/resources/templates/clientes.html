@@ -69,8 +69,9 @@
 							<td th:text="${cliente.email?.EndEmail} ?: 'N/A'"></td>
 							<td th:text="${cliente.telefone?.telefone} ?: 'N/A'"></td>
 							<td th:text="${cliente.endereco?.bairro} ?: 'N/A'"></td>
-							<td class="acoes"> <!-- Adicionar esta classe CSS-->
-								<a  th:href="@{'/cliente/editarForm/'+${cliente.idCliente}}" 
+							<td class="acoes"> <!-- Adicionar esta classe CSS -->
+							<!--abaixo, chamos o endPoint da controller passando e indicando quem é o IDCliente  -->
+								<a  th:href="@{editarForm/{idCliente} (idCliente=${cliente.idCliente}) }" 
 									onclick="return confirm('Tem Certeza que deseja Editar estes dados?')"
 									class="botao-acao editar"> <!-- Adicionar esta classe CSS-->
 									<i class="fa fa-edit"></i>
