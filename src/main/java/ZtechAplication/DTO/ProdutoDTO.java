@@ -4,10 +4,14 @@ import java.math.BigDecimal;
 
 public class ProdutoDTO {
 	private Integer idProduto;
+	private Integer IdMarca;
+	private Integer IdCategoria;
 	private String nome;
 	private BigDecimal custo;
 	private BigDecimal valor;
 	private String descricao;
+	private String categoria;
+	private String marca;
 	
 	//getters and setters
 	public Integer getIdProduto() {
@@ -39,6 +43,30 @@ public class ProdutoDTO {
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	public String getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
+	public String getMarca() {
+		return marca;
+	}
+	public void setMarca(String marca) {
+		this.marca = marca;
+	}
+	public Integer getIdMarca() {
+		return IdMarca;
+	}
+	public void setIdMarca(Integer idMarca) {
+		IdMarca = idMarca;
+	}
+	public Integer getIdCategoria() {
+		return IdCategoria;
+	}
+	public void setIdCategoria(Integer idCategoria) {
+		IdCategoria = idCategoria;
 	}
 	
 	
