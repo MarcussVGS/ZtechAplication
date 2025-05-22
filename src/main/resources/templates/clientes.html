@@ -55,6 +55,7 @@
                 <table border='1'>
                     <thead>
                         <tr>
+							<th>ID</th>
                             <th>Nome</th>
 							<th>CPF</th>
                             <th>E-mail</th>
@@ -66,13 +67,14 @@
                     <tbody>
 						<!-- Dados dinâmicos via Java serão inseridos aqui -->
 						<tr th:each="cliente : ${clientes}">
+							<td th:text="${cliente.idCliente}" type="hidden"></td>
 							<td th:text="${cliente.nomeCliente}"></td>
 							<td th:text="${cliente.cpf}"></td>
 							<td th:text="${cliente.email?.EndEmail} ?: 'N/A'"></td>
 							<td th:text="${cliente.telefone?.telefone} ?: 'N/A'"></td>
 							<td th:text="${cliente.endereco?.bairro} ?: 'N/A'"></td>
 							<td class="acoes"> <!-- Adicionar esta classe CSS-->
-								<a  th:href="@{'/cliente/editar/'+${cliente.cpf}}" 
+								<a  th:href="@{'/cliente/editarForm/'+${cliente.idCliente}}" 
 									onclick="return confirm('Tem Certeza que deseja Editar estes dados?')"
 									class="botao-acao editar"> <!-- Adicionar esta classe CSS-->
 									<i class="fa fa-edit"></i>

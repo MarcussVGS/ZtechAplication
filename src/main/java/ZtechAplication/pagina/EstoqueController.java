@@ -19,7 +19,7 @@ import ZtechAplication.repository.EstoqueRepository;
 
 
 @RestController
-@RequestMapping(value = {"/estoque", "/Estoque"} ) //para que qualquer um deles seja valido
+@RequestMapping(value = "/estoque")
 public class EstoqueController {
 
 	@Autowired
@@ -47,10 +47,9 @@ public class EstoqueController {
 		return "redirect:/estoque/cadastrarEstoque";
 	}
 	
-	@GetMapping(value = "/listarEstoque")
-	public ModelAndView listarEstoque() {
-		ModelAndView mv = new ModelAndView("/estoque/listarEstoques");
-		mv.addObject("estoque", classeRepo.findAll());
+	@RequestMapping(value = "/listar")
+	public ModelAndView listarCliente() {
+		ModelAndView mv = new ModelAndView("vendas");
 		return mv;
 	}
 	

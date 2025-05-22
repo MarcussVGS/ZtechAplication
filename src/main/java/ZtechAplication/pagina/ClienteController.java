@@ -43,7 +43,7 @@ public class ClienteController {
 	
 	//indicar o metodo post no HTML
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST) //  \/aqui usamos uma classe só para coletar as informações
-	public String form(@Validated ClienteDTO clienteDTO, BindingResult result, RedirectAttributes attributes) {
+	public String formCadastrar(@Validated ClienteDTO clienteDTO, BindingResult result, RedirectAttributes attributes) {
 		
 		if (result.hasErrors()) {
 			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
@@ -92,28 +92,44 @@ public class ClienteController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "/editar/{cpf}")
-	public ModelAndView editarCliente(@PathVariable String cpf) {
+	@RequestMapping(value = "/editarForm/{idCliente}")
+	public ModelAndView editarCliente(@PathVariable Integer idCliente) {
 		ModelAndView mv = new ModelAndView("cadastroCliente");
-	    Cliente cliente = classeRepo.findByCpf(cpf)
-	        .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + cpf));
+	    Cliente cliente = classeRepo.findById(idCliente)
+	        .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + idCliente));
 	    
 	    // Converte para DTO
+	    teste(idCliente);
 	    ClienteDTO clienteDTO = converterParaDTO(cliente);
 	    mv.addObject("cliente", clienteDTO);
 	    return mv;
 	}
 	
-	@RequestMapping(value = "/deletar/{cpf}")
-	public String remover(@PathVariable String cpf, RedirectAttributes attributes) {
-		Cliente cliente = classeRepo.findByCpf(cpf)
-	            .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + cpf));
+	//indicar o metodo post no HTML
+		@RequestMapping(value = "/editar/{idCliente}", method = RequestMethod.POST) //  \/aqui usamos uma classe só para coletar as informações
+		public String formEditar(@Validated ClienteDTO clienteDTO,@PathVariable Integer id, BindingResult result, RedirectAttributes attributes) {
+			
+			if (result.hasErrors()) {
+				attributes.addFlashAttribute("mensagem", "Verifique os campos...");
+				return "/editar/{idCliente}";
+			}
+			
+//			// Chama o serviço para atualização completa
+            atualizarClienteCompleto(id, clienteDTO);
+			
+
+			attributes.addFlashAttribute("mensagem", "Cliente atualizado(a) com sucesso!");
+			return "redirect:/cliente/cadastrarForm";
+		}
+	
+	@RequestMapping(value = "/deletar/{idCliente}")
+	public String remover(@PathVariable Integer idCliente, RedirectAttributes attributes) {
+		Cliente cliente = classeRepo.findById(idCliente)
+	            .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + idCliente));
 	    classeRepo.delete(cliente);
         attributes.addFlashAttribute("mensagem", "Cliente removida com sucesso!");
-        return "redirect:/clientes/listar";
+        return "redirect:/cliente/listar";
 	}
-	
-	
 	
 	private ClienteDTO converterParaDTO(Cliente cliente) {
 	    ClienteDTO dto = new ClienteDTO();
@@ -148,9 +164,31 @@ public class ClienteController {
 	    return dto;
 	}
 	
+	private void atualizarClienteCompleto(Integer id, ClienteDTO clienteDTO) {
+	    // Atualiza cliente
+	    classeRepo.updateCliente(id, clienteDTO.getNomeCliente(), clienteDTO.getCpf());
+	    
+	    // Atualiza relacionamentos
+	    classeRepo.updateEmail(id, clienteDTO.getEndEmail());
+	    classeRepo.updateTelefone(id, clienteDTO.getTelefone());
+	    classeRepo.updateEndereco(
+	        id,
+	        clienteDTO.getRua(),
+	        clienteDTO.getCep(),
+	        clienteDTO.getBairro(),
+	        clienteDTO.getCidade(),
+	        clienteDTO.getNumeroCasa()
+	    );
+	    
+	}
+	
 	@GetMapping(value = "/teste")
 	public String teste (){
 		return "correto";
+	}
+	
+	public void teste(Integer inf) {
+		System.out.print(inf);
 	}
 	
 }

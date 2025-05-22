@@ -19,7 +19,7 @@ import ZtechAplication.repository.OrdemServicoRepository;
 
 
 @RestController
-@RequestMapping(value = {"/ordemServico", "/OrdemServico"} ) //para que qualquer um deles seja valido
+@RequestMapping(value = "/ordens")
 public class OrdemServicoController {
 
 	@Autowired
@@ -47,13 +47,11 @@ public class OrdemServicoController {
 		return "redirect:/ordemServico/cadastrarOrdemServico";
 	}
 	
-	@GetMapping(value = "/listarOrdemServico")
-	public ModelAndView listarOrdemServico() {
-		ModelAndView mv = new ModelAndView("/ordemServico/listarOrdemServicos");
-		mv.addObject("ordemServico", classeRepo.findAll());
+	@RequestMapping(value = "/listar")
+	public ModelAndView listarCliente() {
+		ModelAndView mv = new ModelAndView("ordens");
 		return mv;
 	}
-	
 	@PutMapping(value = "/editarOrdemServico/{id}")
 	public ModelAndView editarOrdemServico(@PathVariable Long id) {
 		ModelAndView mv = new ModelAndView("/ordemServico/editarOrdemServico");

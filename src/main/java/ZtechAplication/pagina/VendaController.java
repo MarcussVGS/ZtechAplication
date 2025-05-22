@@ -1,6 +1,8 @@
 package ZtechAplication.pagina;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -14,12 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ZtechAplication.model.Cliente;
 import ZtechAplication.model.Venda;
 import ZtechAplication.repository.VendaRepository;
 
 
 @RestController
-@RequestMapping(value = {"/venda", "/Venda"} ) //para que qualquer um deles seja valido
+@RequestMapping(value = "/venda")
 public class VendaController {
 
 	@Autowired
@@ -47,10 +50,9 @@ public class VendaController {
 		return "redirect:/venda/cadastrarVenda";
 	}
 	
-	@GetMapping(value = "/listarVenda")
-	public ModelAndView listarVenda() {
-		ModelAndView mv = new ModelAndView("/venda/listarVendas");
-		mv.addObject("venda", classeRepo.findAll());
+	@RequestMapping(value = "/listar")
+	public ModelAndView listarCliente() {
+		ModelAndView mv = new ModelAndView("vendas");
 		return mv;
 	}
 	

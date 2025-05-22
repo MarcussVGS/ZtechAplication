@@ -27,11 +27,11 @@
     <div class="area-principal">
         <div class="barra">
             <ul>
-				<li class="opcao_lista"><a class="link_lista" th:href="@{clientes}">CLIENTES</a></li>
-				<li class="opcao_lista"><a class="link_lista" th:href="@{estoque}">ESTOQUE</a></li>
-				<li class="opcao_lista"><a class="link_lista" th:href="@{vendas}">VENDAS</a></li>
-				<li class="opcao_lista"><a class="link_lista" th:href="@{ordens}">ORDENS DE SERVIÇO</a></li>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{inicio}">INÍCIO</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/cliente/listar}">CLIENTES</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/estoque/listar}">ESTOQUE</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listas}">VENDAS</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
             </ul>
         </div>
         <div class="formulario-cliente">
@@ -39,7 +39,8 @@
                 <!-- Coluna 1: Dados Pessoais -->
                 <div class="coluna">
                     <h3 class="titulo_formulario">Dados Pessoais</h3>
-					<input type="hidden" th:field="*{IdCliente}">	
+					<label for="idCliente"></label>
+					<input type="hidden" id="idCliente" th:field="*{idCliente}">	
 
                     <label for="nomeCliente">Nome Completo:</label>
                     <input class="campo_digitacao" type="text" id="nomeCliente" th:field="*{nomeCliente}" required>
@@ -89,7 +90,8 @@
             <div class="botoes">
                 <a class="link_cancelar" th:href="@{/cliente/listar}">
 					<button type="button" class="cancelar"  >❌ Cancelar</button></a>
-					<button type="submit"  class="cadastrar" onclick="confirmarAtualização(event)">✔️ Cadastrar</button>
+				<a class="link_cancelar" th:href="@{/editar/{idCliente}}">
+					<button type="submit"  class="cadastrar" onclick="confirmarAtualização(event)">✔️ Cadastrar</button></a>
             </div>
 			
         </div>
@@ -110,7 +112,7 @@
 	</script>
 	<script>
 	    function confirmarAtualizacao(event) {
-	        const id = document.getElementById("codigo").value;
+	        const id = document.getElementById("idCliente").value;
 	        if (parseInt(id) > 0) {
 	            const confirmar = confirm("Deseja realmente atualizar os dados desta vaga?");
 	            if (!confirmar) {
