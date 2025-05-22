@@ -39,11 +39,8 @@
         <!-- CONTEÚDO DA PÁGINA -->
         <div class="conteudo">
             <div class="banner">
-                <div class="botao_adicionar">
-                    <a class="link_botao" th:href="@{cadastro_produto/}"><img class="adicionar"
-                            src="img/adicionarpeq.svg">Adicionar Produto</a>
-                            
-                </div>
+               	  <a th:href="@{/cadastroCliente/cadastrarForm}"><input class="botao_adicionar" type="button" value="Adicionar Cliente"></a>
+
                 <div class="botao_atualizar">
                     <a class="link_botao" th:href="@{atualizar_estoque}"><img class="atualizar"
                             src="img/atualizar.svg">Atualizar Estoque</a>

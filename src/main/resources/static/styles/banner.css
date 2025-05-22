@@ -12,15 +12,22 @@
 .botao_adicionar{
     background-color: white;
     border-radius: 20px;
-    width: 320px;
+    width: 300px;
     font-weight: 500;
     line-height: 21px;
     flex-direction: column;
     display: flex;
     position: absolute;
     top: 7em;
-    left: 222px;
-    
+    left: 220px;
+    justify-content: center;
+    background-image: url("../img/adicionarpeq.svg");
+    background-repeat: no-repeat;
+    padding: 8px;
+    text-align: center;
+    margin-top:  15px;
+    cursor: pointer;
+    border: 10px;
 }
 .botao_atualizar{
     background-color: white;

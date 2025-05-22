@@ -40,11 +40,7 @@
         <!-- CONTEÚDO DA PÁGINA -->
         <div class="conteudo">
             <div class="banner">
-                <div class="botao_adicionar">
-                    <a class="link_botao" th:href="@{/cliente/cadastrarForm}"><img class="adicionar"
-                            th:src="@{/img/adicionarpeq.svg}" alt="Adicionar">Adicionar Cliente
-               	    </a>
-				</div>
+               	  <a th:href="@{/cadastroCliente/cadastrarForm}"><input class="botao_adicionar" type="button" value="Adicionar Cliente"></a>
                 <input type="search" class="banner_pesquisa"
                     placeholder="Procure pelo nome, e-mail, telefone ou CEP do cliente">
             </div>

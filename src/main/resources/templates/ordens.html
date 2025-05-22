@@ -37,10 +37,8 @@
         <!-- CONTEÚDO DA PÁGINA -->
         <div class="conteudo">
             <div class="banner">
-                <div class="botao_adicionar">
-                    <a class="link_botao" th:href="@{cadastro_OS}"><img class="adicionar"
-                            src="img/adicionarpeq.svg">Adicionar O.S
-                </div></a>
+               	  <a th:href="@{/cadastro_OS/cadastrarForm}"><input class="botao_adicionar" type="button" value="Adicionar O.S"></a>
+
                 <input type="search" class="banner_pesquisa"
                     placeholder="Procure pelo Cod da O.S, nome do cliente ou Serviço">
             </div>
