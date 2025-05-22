@@ -121,8 +121,7 @@ public class ClienteController {
 				cliente.setIdCliente(idCliente);
 				return "/editar/{idCliente}";
 			}
-//			// Chama o serviçe para atualização completa
-//            atualizarClienteCompleto(id, clienteDTO);
+			
 //			aqui passamos tudo para a cliente
 			cliente.setIdCliente(idCliente);
 			cliente.setNomeCliente(clienteDTO.getNomeCliente());
