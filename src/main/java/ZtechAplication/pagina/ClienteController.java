@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -95,43 +96,55 @@ public class ClienteController {
 	
 	@RequestMapping(value = "/editarForm/{idCliente}")
 	public ModelAndView editarCliente(@PathVariable Integer idCliente) {
-		ModelAndView mv = new ModelAndView("cadastroCliente");
+		ModelAndView mv = new ModelAndView("alterarCliente");
 	    Cliente cliente = classeRepo.findById(idCliente)
 	        .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + idCliente));
 	    
 	    // Converte para DTO
-	    teste(idCliente);
 	    ClienteDTO clienteDTO = converterParaDTO(cliente);
+	    System.out.println(clienteDTO.toString());
 	    mv.addObject("cliente", clienteDTO);
 	    return mv;
 	}
 	
-	@GetMapping("/editar/{idCliente}")
-	public String editarForm(@PathVariable("idCliente") Integer id, RedirectAttributes attributes, Model model ) {
-	    Cliente cliente = classeRepo.findById(id)
-			   .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + id));
-	    model.addAttribute("ObjetoCliente", cliente);
-		return "redirect:/clientes/listar" ;
-	}
-	
-	
-	
 	//indicar o metodo post no HTML
-		@RequestMapping(value = "/editar/{idCliente}", method = RequestMethod.POST) //  \/aqui usamos uma classe só para coletar as informações
-		public String formEditar(@Validated ClienteDTO clienteDTO,@PathVariable Integer id, BindingResult result, RedirectAttributes attributes) {
-			
+		@PostMapping(value = "/editar/{idCliente}") //  \/aqui usamos uma classe só para coletar as informações
+		public String formEditar(@ModelAttribute("cliente") @Validated ClienteDTO clienteDTO,
+								 @PathVariable Integer idCliente, 
+								 BindingResult result, 
+								 RedirectAttributes attributes) {
+
+			Cliente cliente = classeRepo.findById(idCliente)
+				    .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + idCliente));
 			if (result.hasErrors()) {
 				attributes.addFlashAttribute("mensagem", "Verifique os campos...");
+				cliente.setIdCliente(idCliente);
 				return "/editar/{idCliente}";
 			}
+//			// Chama o serviçe para atualização completa
+//            atualizarClienteCompleto(id, clienteDTO);
+//			aqui passamos tudo para a cliente
+			cliente.setIdCliente(idCliente);
+			cliente.setNomeCliente(clienteDTO.getNomeCliente());
+			cliente.setCpf(clienteDTO.getCpf());
 			
-//			// Chama o serviço para atualização completa
-            atualizarClienteCompleto(id, clienteDTO);
+			// aqui mapeamos as classes model com a classe DTO que coletou os dados
+			cliente.getEmail().setEmail(clienteDTO.getEndEmail());
 			
-
+			cliente.getTelefone().setTelefone(clienteDTO.getTelefone());
+			
+			cliente.getEndereco().setRua(clienteDTO.getRua());
+			cliente.getEndereco().setCep(clienteDTO.getCep());
+			cliente.getEndereco().setBairro(clienteDTO.getBairro());
+			cliente.getEndereco().setCidade(clienteDTO.getCidade());
+			cliente.getEndereco().setNumeroCasa(clienteDTO.getNumeroCasa());
+			
+			classeRepo.save(cliente); // salva todas as informaç~eos por conta do CASCATE
 			attributes.addFlashAttribute("mensagem", "Cliente atualizado(a) com sucesso!");
 			return "redirect:/cliente/cadastrarForm";
 		}
+		
+		
 	
 	@RequestMapping(value = "/deletar/{idCliente}")
 	public String remover(@PathVariable Integer idCliente, RedirectAttributes attributes) {
@@ -175,31 +188,6 @@ public class ClienteController {
 	    return dto;
 	}
 	
-	private void atualizarClienteCompleto(Integer id, ClienteDTO clienteDTO) {
-	    // Atualiza cliente
-	    classeRepo.updateCliente(id, clienteDTO.getNomeCliente(), clienteDTO.getCpf());
-	    
-	    // Atualiza relacionamentos
-	    classeRepo.updateEmail(id, clienteDTO.getEndEmail());
-	    classeRepo.updateTelefone(id, clienteDTO.getTelefone());
-	    classeRepo.updateEndereco(
-	        id,
-	        clienteDTO.getRua(),
-	        clienteDTO.getCep(),
-	        clienteDTO.getBairro(),
-	        clienteDTO.getCidade(),
-	        clienteDTO.getNumeroCasa()
-	    );
-	    
-	}
 	
-	@GetMapping(value = "/teste")
-	public String teste (){
-		return "correto";
-	}
-	
-	public void teste(Integer inf) {
-		System.out.print(inf);
-	}
 	
 }

@@ -48,7 +48,6 @@
 
                     <label for="endEmail">E-mail:</label>
                     <input class="campo_digitacao" type="text" id="endEmail" th:field="*{endEmail}" required>
-					<span th:if="${#fields.hasErrors('endEmail')}" th:errors="*{endEmail}" class="error"></span>
 
                     <label for="telefone">Telefone:</label>
                     <input class="campo_digitacao" type="text" id="telefone" th:field="*{telefone}" required>
@@ -93,11 +92,11 @@
 				<a class="link_cancelar" th:href="@{/editar/{idCliente}}">
 					<button type="submit"  class="cadastrar" onclick="confirmarAtualização(event)">✔️ Cadastrar</button></a>
             </div>
-			
+		</form>
         </div>
-		
+	 
     </div>
-	</form>
+	
 	
 	<script th:if="${mensagem != null}">
 	    Swal.fire({

@@ -20,7 +20,7 @@
         </a>
         <div
             style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
-            Cadastro de Clientes
+            Atualizar de Clientes
         </div>
     </header>
 
@@ -35,7 +35,7 @@
             </ul>
         </div>
         <div class="formulario-cliente">
-            <form th:action="@{/cliente/cadastrar}"th:object="${cliente}"method="post"class="formulario">
+            <form th:action="@{/cliente/editar/{idCliente} (idCliente=${cliente.idCliente})}"th:object="${cliente}"method="post"class="formulario">
                 <!-- Coluna 1: Dados Pessoais -->
                 <div class="coluna">
                     <h3 class="titulo_formulario">Dados Pessoais</h3>
@@ -46,6 +46,8 @@
                     <input class="campo_digitacao" type="text" id="nomeCliente" th:field="*{nomeCliente}" required>
 					<span th:if="${#fields.hasErrors('nomeCliente')}" th:errors="*{nomeCliente}" class="error"></span>
 
+					<label for="idEmail"></label>
+					<input type="hidden" id="idEmail" th:field="*{idCliente}">	
                     <label for="endEmail">E-mail:</label>
                     <input class="campo_digitacao" type="text" id="endEmail" th:field="*{endEmail}" required>
 					<span th:if="${#fields.hasErrors('endEmail')}" th:errors="*{endEmail}" class="error"></span>
@@ -90,14 +92,14 @@
             <div class="botoes">
                 <a class="link_cancelar" th:href="@{/cliente/listar}">
 					<button type="button" class="cancelar"  >❌ Cancelar</button></a>
-				<a class="link_cancelar" th:href="@{/editar/{idCliente}}">
-					<button type="submit"  class="cadastrar" onclick="confirmarAtualização(event)">✔️ Cadastrar</button></a>
+				<a class="link_cancelar" th:href="@{'/cliente/editar/'+${cliente.idCliente}}">
+					<button type="submit"  class="cadastrar" >✔️ Cadastrar</button></a>
             </div>
 			
         </div>
-		
+		</form>
     </div>
-	</form>
+	
 	
 	<script th:if="${mensagem != null}">
 	    Swal.fire({

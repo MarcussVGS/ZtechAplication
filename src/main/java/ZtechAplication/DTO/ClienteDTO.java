@@ -1,9 +1,16 @@
 package ZtechAplication.DTO;
 
 public class ClienteDTO {
+	@Override
+	public String toString() {
+		return "ClienteDTO [idCliente=" + idCliente + ", nomeCliente=" + nomeCliente + ", cpf=" + cpf + ", endEmail="
+				+ endEmail + ", telefone=" + telefone + ", rua=" + rua + ", cep=" + cep + ", bairro=" + bairro
+				+ ", cidade=" + cidade + ", numeroCasa=" + numeroCasa + "]";
+	}
 	private Integer idCliente;
 	private String nomeCliente;
 	private String cpf;
+	
 	private String endEmail;
 	private String telefone;
 	
@@ -12,6 +19,7 @@ public class ClienteDTO {
 	private String bairro;
 	private String cidade;
 	private int numeroCasa;
+	
 	
 	
 	public Integer getIdCliente() {
