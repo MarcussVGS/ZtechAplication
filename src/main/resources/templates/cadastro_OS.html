@@ -21,39 +21,34 @@
 		</a>
 		<div
 			style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
-			Cadastro de Produto</div>
+			Cadastro de O.S.</div>
 	</header>
 
 	<div class="area-principal">
-		<div class="barra">
-			<ul>
-				<li class="opcao_lista"><a class="link_lista"
-					th:href="@{clientes}">CLIENTES</a></li>
-				<li class="opcao_lista"><a class="link_lista"
-					th:href="@{estoque}">ESTOQUE</a></li>
-				<li class="opcao_lista"><a class="link_lista"
-					th:href="@{vendas}">VENDAS</a></li>
-				<li class="opcao_lista"><a class="link_lista"
-					th:href="@{ordens}">ORDENS DE SERVIÇO</a></li>
-				<li class="opcao_lista"><a class="link_lista"
-					th:href="@{inicio}">INÍCIO</a></li>
-			</ul>
-		</div>
+        <div class="barra">
+            <ul>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{/clientes/listar}">CLIENTES</a></li>
+			<li class="opcao_lista"><a class="link_lista_atual" th:href="@{/estoque/listar}">ESTOQUE</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{/inicio/listar}">INÍCIO</a></li>
+            </ul>
+        </div>
 		<div class="formulario-cliente">
 			<form class="formulario">
 				<!-- Coluna 1: Dados do Produto -->
 				<div class="coluna">
-					<h3 class="titulo_formulario">Dados do Produto</h3>
+					<h3 class="titulo_formulario">Dados da O.S</h3>
 
 					<label>Serviço</label>
 						<select id="categoria" name="categoria">
-						<option value="">Selecione uma Marca</option>
+						<option value="">Selecione um Serviço:</option>
 						<option value="Samsung">Troca de tela</option>
 						<option value="IPhone">Troca de Bateria</option>
 						<option value="Xiaomi">Troca de carregador</option>
 						<option value="Motorola">Limpeza</option>					
 					</select>
-					<label>Nome do Cliente:</label> <input class="campo_digitacao"
+					<label>Produto usado no Serviço:</label> <input class="campo_digitacao"
 						type="text" name=" nome" required> 
 				</div>
 				<hr class="separador"></hr>
@@ -67,6 +62,8 @@
 						name="preco" required>
 					<label>Data de Finalização:</label> <input class="campo_digitacao" type="date"
 						name="preco" required>
+					<label>Nome do Cliente:</label> <input class="campo_digitacao"
+						type="text" name=" nome" required> 
 
 				</div>
 			</form>
