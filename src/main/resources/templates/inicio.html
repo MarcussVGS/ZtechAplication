@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{styles/style.css}" >
+    <link rel="stylesheet" th:href="@{/styles/style.css}" >
 </head>
 <body>
     <header class="cabecalho">
@@ -21,10 +21,10 @@
     <div class="area-principal">
         <div class="barra">
             <ul>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{/cliente/listar}" >CLIENTES</a></li>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{/estoque/listar}">ESTOQUE</a></li>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{cliente/listar}" >CLIENTES</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{estoque/listar}">ESTOQUE</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{vendas/listar}">VENDAS</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{ordens/listar}">ORDENS DE SERVIÇO</a></li>
             </ul>
 	</div>
             <div class="tabela">

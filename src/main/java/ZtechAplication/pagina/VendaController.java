@@ -22,7 +22,7 @@ import ZtechAplication.repository.VendaRepository;
 
 
 @RestController
-@RequestMapping(value = "/venda")
+@RequestMapping(value = "/vendas")
 public class VendaController {
 
 	@Autowired
