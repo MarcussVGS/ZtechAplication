@@ -98,8 +98,8 @@ select {
     padding: 10px;
     border-radius: 25px;
     border: 1px solid #ccc;
-    background-color: #f2d6d6; /* mesmo tom rosa dos inputs */
-    appearance: none; /* remove estilo padrão do navegador */
+    background-color: #f2d6d6;
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     font-size: 14px;
@@ -107,7 +107,8 @@ select {
     background-image: url(../img/poligono.svg);
     background-repeat: no-repeat;
     background-position: right;
-   
+    background-size: 16px;
+    background-position: 310px;
 }
 
 select:focus {
