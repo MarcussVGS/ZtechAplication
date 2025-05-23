@@ -4,6 +4,9 @@ package ZtechAplication.pagina;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -94,6 +98,15 @@ public class ClienteController {
 		return mv;
 	}
 	
+	@RequestMapping("/buscar")
+	public String buscar (@RequestParam(value ="termo", required=false) String termo,
+						  @PageableDefault (size=12 ) Pageable pageale, 
+						  Model model 	) {
+		model.addAttribute("clientes", pesquisar(termo, pageale));
+		model.addAttribute("termo", termo);
+		return "clientes";
+	}
+	
 	@RequestMapping(value = "/editarForm/{idCliente}")
 	public ModelAndView editarCliente(@PathVariable Integer idCliente) {
 		ModelAndView mv = new ModelAndView("alterarCliente");
@@ -166,14 +179,12 @@ public class ClienteController {
 	    } else {
 	        dto.setEndEmail(""); // Valor padrão
 	    }
-	    
 	    // Verifica e converte Telefone (se existir)
 	    if (cliente.getTelefone() != null) {
 	        dto.setTelefone(cliente.getTelefone().getTelefone());
 	    } else {
 	        dto.setTelefone(""); // Valor padrão
 	    }
-	    
 	    // Verifica e converte Endereco (se existir)
 	    if (cliente.getEndereco() != null) {
 	        Endereco end = cliente.getEndereco();
@@ -183,8 +194,13 @@ public class ClienteController {
 	        dto.setCidade(end.getCidade());
 	        dto.setNumeroCasa(end.getNumeroCasa());
 	    }
-	    
 	    return dto;
+	}
+	
+	public Page<Cliente> pesquisar(String termo, Pageable pegeable){
+		return classeRepo.findAll(
+				SpecificationController.comTermoCli(termo), 
+				pegeable);
 	}
 	
 	

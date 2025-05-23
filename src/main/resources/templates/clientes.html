@@ -40,9 +40,14 @@
         <!-- CONTEÚDO DA PÁGINA -->
         <div class="conteudo">
             <div class="banner">
-               	  <a th:href="@{/cliente/cadastrarForm}"><input class="botao_adicionar" type="button" value="Adicionar Cliente"></a>
-                <input type="search" class="banner_pesquisa"
+				<a th:href="@{/cliente/cadastrarForm}">
+					<input class="botao_adicionar" type="button" value="Adicionar Cliente"></a>
+				<form th:action="@{/cliente/buscar}" >
+                <input type="search" name="termo" th:value="${termo}" class="banner_pesquisa"
                     placeholder="Procure pelo nome, e-mail, telefone ou CEP do cliente">
+			    <button type="submit"> Pesquisar 
+					<i class="fas fa-search"></i> </button>
+				</form>
             </div>
             <div class="filtro">
                 <br>
