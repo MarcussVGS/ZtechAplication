@@ -17,7 +17,7 @@
 <body>
     <header class="cabecalho">
         <a th:href="@{inicio}">
-            <img class="logo_cabecalho" th:src="@{img/logo-removebg.svg}" />
+            <img class="logo_cabecalho" th:src="@{/img/logo-removebg.svg}" />
         </a>
         <div
             style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
@@ -39,11 +39,12 @@
         <!-- CONTEÚDO DA PÁGINA -->
         <div class="conteudo">
             <div class="banner">
-               	  <a th:href="@{/cadastroCliente/cadastrarForm}"><input class="botao_adicionar" type="button" value="Adicionar Cliente"></a>
+               	  <a th:href="@{/cadastroCliente/cadastrarForm}">
+					<input class="botao_adicionar" type="button" value="Adicionar Produto"></a>
 
                 <div class="botao_atualizar">
                     <a class="link_botao" th:href="@{atualizar_estoque}"><img class="atualizar"
-                            src="img/atualizar.svg">Atualizar Estoque</a>
+                             th:src="@{/img/atualizar.svg}">Atualizar Estoque</a>
                 </div>
                 <input type="search" class="banner_pesquisa" placeholder="Procure pelo nome do Produto">
             </div>

@@ -121,40 +121,40 @@ public class ClienteController {
 	}
 	
 	//indicar o metodo post no HTML
-		@PostMapping(value = "/editar/{idCliente}") //  \/aqui usamos uma classe só para coletar as informações
-		public String formEditar(@ModelAttribute("cliente") @Validated ClienteDTO clienteDTO,
-								 @PathVariable Integer idCliente, 
-								 BindingResult result, 
-								 RedirectAttributes attributes) {
+	@PostMapping(value = "/editar/{idCliente}") //  \/aqui usamos uma classe só para coletar as informações
+	public String formEditar(@ModelAttribute("cliente") @Validated ClienteDTO clienteDTO,
+							 @PathVariable Integer idCliente, 
+							 BindingResult result, 
+							 RedirectAttributes attributes) {
 
-			Cliente cliente = classeRepo.findById(idCliente)
-				    .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + idCliente));
-			if (result.hasErrors()) {
-				attributes.addFlashAttribute("mensagem", "Verifique os campos...");
-				cliente.setIdCliente(idCliente);
-				return "/editar/{idCliente}";
-			}
-			
-//			aqui passamos tudo para a cliente
+		Cliente cliente = classeRepo.findById(idCliente)
+			    .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + idCliente));
+		if (result.hasErrors()) {
+			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
 			cliente.setIdCliente(idCliente);
-			cliente.setNomeCliente(clienteDTO.getNomeCliente());
-			cliente.setCpf(clienteDTO.getCpf());
-			
-			// aqui mapeamos as classes model com a classe DTO que coletou os dados
-			cliente.getEmail().setEmail(clienteDTO.getEndEmail());
-			
-			cliente.getTelefone().setTelefone(clienteDTO.getTelefone());
-			
-			cliente.getEndereco().setRua(clienteDTO.getRua());
-			cliente.getEndereco().setCep(clienteDTO.getCep());
-			cliente.getEndereco().setBairro(clienteDTO.getBairro());
-			cliente.getEndereco().setCidade(clienteDTO.getCidade());
-			cliente.getEndereco().setNumeroCasa(clienteDTO.getNumeroCasa());
-			
-			classeRepo.save(cliente); // salva todas as informaç~eos por conta do CASCATE
-			attributes.addFlashAttribute("mensagem", "Cliente atualizado(a) com sucesso!");
-			return "redirect:/cliente/cadastrarForm";
+			return "/editar/{idCliente}";
 		}
+		
+//		aqui passamos tudo para a cliente
+		cliente.setIdCliente(idCliente);
+		cliente.setNomeCliente(clienteDTO.getNomeCliente());
+		cliente.setCpf(clienteDTO.getCpf());
+		
+		// aqui mapeamos as classes model com a classe DTO que coletou os dados
+		cliente.getEmail().setEmail(clienteDTO.getEndEmail());
+		
+		cliente.getTelefone().setTelefone(clienteDTO.getTelefone());
+		
+		cliente.getEndereco().setRua(clienteDTO.getRua());
+		cliente.getEndereco().setCep(clienteDTO.getCep());
+		cliente.getEndereco().setBairro(clienteDTO.getBairro());
+		cliente.getEndereco().setCidade(clienteDTO.getCidade());
+		cliente.getEndereco().setNumeroCasa(clienteDTO.getNumeroCasa());
+		
+		classeRepo.save(cliente); // salva todas as informaç~eos por conta do CASCATE
+		attributes.addFlashAttribute("mensagem", "Cliente atualizado(a) com sucesso!");
+		return "redirect:/cliente/cadastrarForm";
+	}
 		
 		
 	
@@ -165,6 +165,15 @@ public class ClienteController {
 	    classeRepo.delete(cliente);
         attributes.addFlashAttribute("mensagem", "Cliente removida com sucesso!");
         return "redirect:/cliente/listar";
+	}
+	
+	
+
+//	metodos axulizares
+	public Page<Cliente> pesquisar(String termo, Pageable pegeable){
+		return classeRepo.findAll(
+				SpecificationController.comTermoCli(termo), 
+				pegeable);
 	}
 	
 	private ClienteDTO converterParaDTO(Cliente cliente) {
@@ -196,13 +205,5 @@ public class ClienteController {
 	    }
 	    return dto;
 	}
-	
-	public Page<Cliente> pesquisar(String termo, Pageable pegeable){
-		return classeRepo.findAll(
-				SpecificationController.comTermoCli(termo), 
-				pegeable);
-	}
-	
-	
 	
 }

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +32,9 @@ public class Produto {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal valor;
     
+    @Column(nullable = false)
+    private Integer quantidade;
+    
     @Column(columnDefinition = "TEXT")
     private String descricao;
     
@@ -42,12 +46,22 @@ public class Produto {
     @JoinColumn(name = "fk_Marca", nullable = false)
     private Marca marca;
     
-    @OneToMany(mappedBy = "produto")
-    private List<Estoque> estoques = new ArrayList<>();
-    
-    @OneToMany(mappedBy = "produto")
-    private List<Venda> vendas = new ArrayList<>();
+    @ManyToOne
+    private Venda vendas;
 
+ // Métodos auxiliares
+    public void adicionarQuantidade(int quantidade) {
+        this.quantidade += quantidade;
+    }
+
+    public void removerQuantidade(int quantidade) {
+        if (this.quantidade >= quantidade) {
+            this.quantidade -= quantidade;
+        } else {
+            throw new IllegalStateException("Quantidade em estoque insuficiente");
+        }
+    }
+    
     // Getters e Setters
     public Integer getIdProduto() {
         return idProduto;
@@ -80,8 +94,17 @@ public class Produto {
     public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
+    
 
-    public String getDescricao() {
+    public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public String getDescricao() {
         return descricao;
     }
 
@@ -105,19 +128,12 @@ public class Produto {
         this.marca = marca;
     }
 
-    public List<Estoque> getEstoques() {
-        return estoques;
-    }
 
-    public void setEstoques(List<Estoque> estoques) {
-        this.estoques = estoques;
-    }
-
-    public List<Venda> getVendas() {
+    public Venda getVendas() {
         return vendas;
     }
 
-    public void setVendas(List<Venda> vendas) {
+    public void setVendas(Venda vendas) {
         this.vendas = vendas;
     }
 	

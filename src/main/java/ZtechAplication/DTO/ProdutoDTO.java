@@ -9,6 +9,7 @@ public class ProdutoDTO {
 	private String nome;
 	private BigDecimal custo;
 	private BigDecimal valor;
+	private Integer quantidade;
 	private String descricao;
 	private String categoria;
 	private String marca;
@@ -37,6 +38,13 @@ public class ProdutoDTO {
 	}
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
+	}
+	
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
 	}
 	public String getDescricao() {
 		return descricao;
