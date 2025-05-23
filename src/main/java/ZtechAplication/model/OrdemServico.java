@@ -49,8 +49,8 @@ public class OrdemServico {
     private Servico servico;
 
     @ManyToOne
-    @JoinColumn(name = "fk_Estoque", nullable = false)
-    private Estoque estoque;
+    @JoinColumn(name = "fk_Produto", nullable = false)
+    private Produto produto;
 
     @ManyToOne
     @JoinColumn(name = "fk_Cliente", nullable = false)
@@ -121,12 +121,12 @@ public class OrdemServico {
         this.servico = servico;
     }
 
-    public Estoque getEstoque() {
-        return estoque;
+    public Produto getProduto() {
+        return produto;
     }
 
-    public void setEstoque(Estoque estoque) {
-        this.estoque = estoque;
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
     public Cliente getCliente() {

@@ -48,20 +48,20 @@ INSERT INTO TB_MARCA (NOME) VALUES
 ('DELL');
 
 -- INSERTS PARA TB_PRODUTO
-INSERT INTO TB_PRODUTO (NOME, CUSTO, VALOR, DESCRICAO, FK_CATEGORIA, FK_MARCA) VALUES 
-('Smartphone Galaxy S20', 2500.00, 3500.00, 'Smartphone top de linha', 4, 1),
-('Notebook Inspiron 15', 3000.00, 4500.00, 'Notebook para trabalho', 3, 5),
-('TV OLED 55"', 3500.00, 5000.00, 'TV com melhor imagem do mercado', 1, 4),
-('PlayStation 5', 3500.00, 4500.00, 'Console de última geração', 5, 3),
-('iPhone 13', 4000.00, 5500.00, 'Melhor smartphone da Apple', 4, 2);
+INSERT INTO TB_PRODUTO (NOME, CUSTO, VALOR, QUANTIDADE, DESCRICAO, FK_CATEGORIA, FK_MARCA) VALUES 
+('Smartphone Galaxy S20', 2500.00, 3500.00, 8, 'Smartphone top de linha', 4, 1),
+('Notebook Inspiron 15', 3000.00, 4500.00, 2, 'Notebook para trabalho', 3, 5),
+('TV OLED 55"', 3500.00, 5000.00, 1, 'TV com melhor imagem do mercado', 1, 4),
+('PlayStation 5', 3500.00, 4500.00, 3, 'Console de última geração', 5, 3),
+('iPhone 13', 4000.00, 5500.00, 5, 'Melhor smartphone da Apple', 4, 2);
 
 -- INSERTS PARA TB_ESTOQUE
-INSERT INTO TB_ESTOQUE (NOME, QUANTIDADE, FK_PRODUTO) VALUES 
-('Estoque Principal SP', 50, 1),
-('Estoque RJ', 30, 2),
-('Estoque DF', 20, 3),
-('Estoque MG', 15, 4),
-('Estoque RS', 10, 5);
+INSERT INTO TB_ESTOQUE (QUANTIDADE, FK_PRODUTO) VALUES 
+(50, 1),
+(30, 2),
+(20, 3),
+(15, 4),
+(10, 5);
 
 -- INSERTS PARA TB_SERVICO
 INSERT INTO TB_SERVICO (NOME, DESCRICAO_SERVICO, VALOR) VALUES 
@@ -80,7 +80,7 @@ INSERT INTO TB_VENDA (QUANTIDADE, DATA_INICIO, HORA_INICIO, VALOR, LUCRO, FK_PRO
 (1, '2023-03-01', '11:10:00', 5500.00, 1500.00, 5, 5);
 
 -- INSERTS PARA TB_OS
-INSERT INTO TB_OS (DATA_INICIO, HORA_INICIO, DATA_FIM, HORA_FIM, VALOR, LUCRO, FK_SERVICO, FK_ESTOQUE, FK_CLIENTE) VALUES 
+INSERT INTO TB_OS (DATA_INICIO, HORA_INICIO, DATA_FIM, HORA_FIM, VALOR, LUCRO, FK_SERVICO, FK_PRODUTO, FK_CLIENTE) VALUES 
 ('2023-01-05', '09:00:00', '2023-01-05', '12:00:00', 150.00, 50.00, 1, 1, 1),
 ('2023-01-12', '10:00:00', '2023-01-12', '13:30:00', 300.00, 100.00, 2, 2, 2),
 ('2023-02-01', '14:00:00', '2023-02-01', '15:30:00', 120.00, 40.00, 3, 3, 3),
