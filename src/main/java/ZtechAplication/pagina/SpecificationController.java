@@ -15,7 +15,6 @@ public class SpecificationController {
 			} 
 			
 			String likeTerm = "%" + termo.toLowerCase() + "%";
-			Integer termoNumerico = Integer.valueOf(termo);
 			return cb.or(
 					cb.like(cb.lower(root.get("nomeCliente")), likeTerm),
 					cb.like(cb.lower(root.get("cpf")), likeTerm),
@@ -34,7 +33,6 @@ public class SpecificationController {
 			} 
 			
 			String likeTerm = "%" + termo.toLowerCase() + "%";
-			Integer termoNumerico = Integer.valueOf(termo);
 			return cb.or(
 					cb.like(cb.lower(root.get("nome")), likeTerm),
 					cb.like(cb.lower(root.get("descricao")), likeTerm),

@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ZtechAplication.DTO.ProdutoDTO;
+import ZtechAplication.DTO.ProdutoDTO;
 import ZtechAplication.model.Categoria;
 import ZtechAplication.model.Cliente;
 import ZtechAplication.model.Marca;
@@ -34,7 +36,7 @@ import ZtechAplication.repository.ProdutoRepository;
 
 
 @RestController
-@RequestMapping(value = "/estoque") //para que qualquer um deles seja valido
+@RequestMapping(value = "/produto") //para que qualquer um deles seja valido
 public class ProdutoController {
 
 	@Autowired
@@ -131,6 +133,44 @@ public class ProdutoController {
 		mv.addObject("produtos", produtoDTO);
 		return mv;
 	}
+	
+	
+//	falta metodo EDITAR
+	@PostMapping(value = "/editar/{idProduto}") //  \/aqui usamos uma classe só para coletar as informações
+	public String formEditar(@ModelAttribute("produto") @Validated ProdutoDTO produtoDTO,
+							 @PathVariable Integer idProduto, 
+							 BindingResult result, 
+							 RedirectAttributes attributes) {
+
+		Produto produto = classeRepo.findById(idProduto)
+			    .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + idProduto));
+		if (result.hasErrors()) {
+			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
+			produto.setIdProduto(idProduto);
+			return "/editar/{idProduto}";
+		}
+		
+//		aqui passamos tudo para a produto
+//      aqui mapeamos as classes model com a classe DTO que coletou os dados
+		produto.setIdProduto(idProduto);
+		produto.setNome(produtoDTO.getNome());
+		produto.setCusto(produtoDTO.getCusto());
+		produto.setValor(produtoDTO.getValor());
+		produto.setQuantidade(produtoDTO.getQuantidade());
+		produto.setDescricao(produtoDTO.getDescricao());
+		produto.setQuantidade(produtoDTO.getQuantidade());
+		
+		
+		produto.getCategoria().setNome(produtoDTO.getCategoria());
+		produto.getMarca().setNome(produtoDTO.getMarca());
+		
+		classeRepo.save(produto); // salva todas as informaç~eos por conta do CASCATE
+		attributes.addFlashAttribute("mensagem", "Cliente atualizado(a) com sucesso!");
+		return "redirect:/produto/cadastrarForm";
+	}
+	
+	
+	
 	
 	@RequestMapping(value = "/deletar/{idProduto}")
 	public String remover(@PathVariable Integer idProduto, RedirectAttributes attributes) {

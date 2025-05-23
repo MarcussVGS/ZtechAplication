@@ -11,6 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+		<!-- linha a seguir tras os icones da tabela-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
 
@@ -28,46 +30,88 @@
     <div class="area-principal">
         <div class="barra">
             <ul>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{/clientes/listar}">CLIENTES</a></li>
-			<li class="opcao_lista"><a class="link_lista_atual" th:href="@{/estoque/listar}">ESTOQUE</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{/inicio/listar}">INÍCIO</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{/cliente/listar}">CLIENTES</a></li>
+			<li class="opcao_lista"><a class="link_lista_atual" th:href="@{/produto/listar}">ESTOQUE</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{/vendas}">VENDAS</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{/ordens}">ORDENS DE SERVIÇO</a></li>
+			<li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
             </ul>
         </div>
 
         <!-- CONTEÚDO DA PÁGINA -->
         <div class="conteudo">
             <div class="banner">
-               	  <a th:href="@{/cadastroCliente/cadastrarForm}">
+               	  <a th:href="@{/produto/cadastrarForm}">
 					<input class="botao_adicionar" type="button" value="Adicionar Produto"></a>
 
                 <div class="botao_atualizar">
                     <a class="link_botao" th:href="@{atualizar_estoque}"><img class="atualizar"
                              th:src="@{/img/atualizar.svg}">Atualizar Estoque</a>
                 </div>
-                <input type="search" class="banner_pesquisa" placeholder="Procure pelo nome do Produto">
+				<form th:action="@{/produto/buscar}" >
+				      <input type="search" name="termo" th:value="${termo}" class="banner_pesquisa"
+				         placeholder="Procure pelo nome, e-mail, telefone ou CEP do produto">
+					  <button type="submit"> Pesquisar 
+						 <i class="fas fa-search"></i> </button>
+				</form>
             </div>
             <div class="filtro">
                 <br>
             </div>
             <div class="tabela">
-                <table>
+                <table border='1'>
                     <thead>
                         <tr>
-                            <th>Nome</th>
-                            <th>E-mail</th>
-                            <th>Telefone</th>
-                            <th>CEP</th>
-                            <th>Ações</th>
+							<th>ID</th>
+                            <th>Produto</th>
+                            <th>Valor</th>
+							<th>Quantidade em Estoque</th>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Marca</th>
+							<th colspan="1" class="acoes">Atualizar quantidade</th>
+							<th colspan="2" class="acoes">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-
                         <!-- Dados dinâmicos via Java serão inseridos aqui -->
+						<tr th:each="produto : ${produtos}">
+							<td th:text="${produto.idProduto}" type="hidden"></td>
+							<td th:text="${produto.nome}"></td>
+							<td th:text="${produto.valor}"></td>
+							<td th:text="${produto.quantidade} ?: 'N/A'"></td>
+							<td th:text="${produto.descricao} ?: 'N/A'"></td>
+							<td th:text="${produto.categoria?.nome} ?: 'N/A'"></td>
+							<td th:text="${produto.marca?.nome} ?: 'N/A'"></td>
+							<td class="acoes"> <!-- Adicionar esta classe CSS --><!--abaixo, chamos o endPoint da controller passando e indicando quem é o IDCliente  -->
+								<a  th:href="@{editarForm/{idProduto} (idProduto=${produto.idProduto}) }" 
+								onclick="return confirm('Tem Certeza que deseja Editar estes dados?')"
+								class="botao-acao editar"> <!-- Adicionar esta classe CSS-->
+								<i class="fa fa-edit"></i>
+								</a>
+							</td>
+							<td class="acoes"> <!-- Adicionar esta classe CSS -->
+							<!--abaixo, chamos o endPoint da controller passando e indicando quem é o IDCliente  -->
+								<a  th:href="@{editarForm/{idProduto} (idProduto=${produto.idProduto}) }" 
+									onclick="return confirm('Tem Certeza que deseja Editar estes dados?')"
+									class="botao-acao editar"> <!-- Adicionar esta classe CSS-->
+									<i class="fa fa-edit"></i>
+								</a>
+						    </td>
+						    <td class="acoes"> <!-- Adicionar esta classe CSS-->
+								<a  th:href="@{'/produto/deletar/'+${produto.idProduto}}" 
+									onclick="return confirm('Tem Certeza que deseja Deletar estes dados?')"
+									class="botao-acao deletar"> <!-- Adicionar esta classe CSS-->
+									<i class="fa fa-trash-alt"></i>
+								</a>
+							</td>
+						
+						
+						
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </body>
+</html>
