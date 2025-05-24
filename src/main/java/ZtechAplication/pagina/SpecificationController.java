@@ -7,7 +7,8 @@ import ZtechAplication.model.Produto;
 
 public class SpecificationController {
 
-	// metodo de busca especificada
+	// METODO DE BUSCA ESPECIFICADA
+//	POR AHORA BUSCA APENAS POR STRING, ENTÃO COLOQUE APENAS CAMPOS DE STRING
 	public static Specification<Cliente> comTermoCli (String termo){
 		return (root, query, cb) -> {
 			if ( termo == null || termo.trim().isEmpty() ) {

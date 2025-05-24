@@ -113,6 +113,7 @@ public class ProdutoController {
 		return mv;
 	}
 	
+//	BUSCA COM DEFEITO, TEM Q CORRIGIR
 	@RequestMapping("/buscar")
 	public String buscar (@RequestParam(value ="termo", required=false) String termo,
 						  @PageableDefault (size=12 ) Pageable pageale, 
@@ -124,7 +125,7 @@ public class ProdutoController {
 	
 	@RequestMapping(value = "/editarForm/{idProduto}")
 	public ModelAndView editarProduto(@PathVariable Integer idProduto) {
-		ModelAndView mv = new ModelAndView("alterarProduto");
+		ModelAndView mv = new ModelAndView("alterarProduto"); // TEM QUE CRIAR
 		Produto produto = classeRepo.findById(idProduto)
 				.orElseThrow(() -> new IllegalArgumentException("Produto inválido: " + idProduto));
 				
@@ -135,7 +136,7 @@ public class ProdutoController {
 	}
 	
 	
-//	falta metodo EDITAR
+
 	@PostMapping(value = "/editar/{idProduto}") //  \/aqui usamos uma classe só para coletar as informações
 	public String formEditar(@ModelAttribute("produto") @Validated ProdutoDTO produtoDTO,
 							 @PathVariable Integer idProduto, 
@@ -166,7 +167,7 @@ public class ProdutoController {
 		
 		classeRepo.save(produto); // salva todas as informaç~eos por conta do CASCATE
 		attributes.addFlashAttribute("mensagem", "Cliente atualizado(a) com sucesso!");
-		return "redirect:/produto/cadastrarForm";
+		return "redirect:/produto/listar";
 	}
 	
 	
