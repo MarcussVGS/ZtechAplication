@@ -46,13 +46,14 @@ public class VendaController {
 
     @GetMapping(value = "/cadastrarForm")
     public ModelAndView form() {
-        ModelAndView mv = new ModelAndView("cadastroVenda");
-        VendaDTO vendaDTO = new VendaDTO();
-        vendaDTO.setDataInicio(LocalDate.now());
-        vendaDTO.setHoraInicio(LocalTime.now());
-        mv.addObject("venda", vendaDTO);
-        mv.addObject("produtos", produtoRepository.findAllWithRelationships());
-        mv.addObject("clientes", clienteRepository.findAllWithRelationships());
+        ModelAndView mv = new ModelAndView("cadastro_vendas");
+//        comentado
+//        VendaDTO vendaDTO = new VendaDTO();
+//        vendaDTO.setDataInicio(LocalDate.now());
+//        vendaDTO.setHoraInicio(LocalTime.now());
+//        mv.addObject("venda", vendaDTO);
+//        mv.addObject("produtos", produtoRepository.findAllWithRelationships());
+//        mv.addObject("clientes", clienteRepository.findAllWithRelationships());
         return mv;
     }
 
