@@ -44,10 +44,6 @@
                	  <a th:href="@{/produto/cadastrarForm}">
 					<input class="botao_adicionar" type="button" value="Adicionar Produto"></a>
 
-                <div class="botao_atualizar">
-                    <a class="link_botao" th:href="@{atualizar_estoque}"><img class="atualizar"
-                             th:src="@{/img/atualizar.svg}">Atualizar Estoque</a>
-                </div>
 				<form th:action="@{/produto/buscar}" >
 				      <input type="search" name="termo" th:value="${termo}" class="banner_pesquisa"
 				         placeholder="Procure pelo nome, e-mail, telefone ou CEP do produto">
