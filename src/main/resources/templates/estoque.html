@@ -44,11 +44,11 @@
                	  <a th:href="@{/produto/cadastrarForm}">
 					<input class="botao_adicionar" type="button" value="Adicionar Produto"></a>
 
-				<form th:action="@{/produto/buscar}" >
-				      <input type="search" name="termo" th:value="${termo}" class="banner_pesquisa"
-				         placeholder="Procure pelo nome, e-mail, telefone ou CEP do produto">
-					  <button type="submit"> Pesquisar 
-						 <i class="fas fa-search"></i> </button>
+				<form th:action="@{/produto/buscar}" style="display: flex; align-items: center; margin-left: 10px; margin-top: 20px; top: 13em; left: 222px;" >
+					<input type="search" name="termo" th:value="${termo}" class="banner_pesquisa"
+						placeholder="Buscar por nome, marca, categoria do produto...">
+					<button type="submit" class="botao_pesquisar" style="margin-left: 10px; padding: 10px 15px; border-radius: 20px; background-color: #7C1F1F; color: white; border: none; cursor: pointer;">
+					<i class="fas fa-search"></i> Pesquisar
 				</form>
             </div>
             <div class="filtro">

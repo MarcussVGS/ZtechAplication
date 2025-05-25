@@ -14,6 +14,7 @@
 	border-radius: 20px;
 	width: 300px;
 	height: 40px;
+	font-size: 18px;
 	font-weight: 500;
 	line-height: 21px;
 	display: inline-block;
@@ -38,7 +39,14 @@
     top: 7em;
     left: 600px;
     padding: 5px;
-    
+}
+.formulario{
+	display: flex; 
+	align-items: center; 
+	margin-left: 10px; 
+	margin-top: 20px; 
+	top: 13em; 
+	left: 222px;
 }
 .adicionar{
     padding-left: 1em;
