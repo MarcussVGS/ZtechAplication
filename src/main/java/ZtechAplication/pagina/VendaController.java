@@ -210,9 +210,9 @@ public class VendaController {
         
         // Remove a mensagem de "não implementada" se a busca for feita
         if (termo != null && !termo.isEmpty() && paginaVendasEntidades.isEmpty()) {
-            model.addAttribute("mensagemBusca", "Nenhuma venda encontrada para o termo: '" + termo + "'.");
+            model.addAttribute("mensagemBusca", "Nenhuma venda encontrada para o termo: ' " + termo + " '.");
         } else if (termo != null && !termo.isEmpty() && !paginaVendasEntidades.isEmpty()) {
-             model.addAttribute("mensagemBusca", "Exibindo resultados para: '" + termo + "'.");
+             model.addAttribute("mensagemBusca", "Exibindo resultados para: ' " + termo + " '.");
         }
 
 

@@ -1,7 +1,7 @@
 .tabela{
 	padding: 20px;
 	background-color: white;
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 20px auto;
 	box-shadow: 0 0 10px rgba(0,0,0,0.1);
     overflow-x: auto;
@@ -16,7 +16,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   background-color: #fff;
-  font-size: 14px;
+  font-size: 17px;
 }
 
 .tabela th,
@@ -33,3 +33,7 @@ table {
 .tabela td:last-child {
   text-align: center;
 }
+
+
+
+
