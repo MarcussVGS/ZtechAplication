@@ -17,7 +17,7 @@ public class Servico {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idServico")  // Mapeia para a coluna existente
-	private int idServico;
+	private Integer idServico;
 	@Column(length = 50, nullable = false)
 	private String nome;
 	@Column(columnDefinition = "TEXT")
@@ -25,10 +25,10 @@ public class Servico {
 	@Column(nullable = false, precision = 10, scale = 2)
 	private BigDecimal valor;
 	
-	public int getIdServico() {
+	public Integer getIdServico() {
 		return idServico;
 	}
-	public void setIdServico(int idServico) {
+	public void setIdServico(Integer idServico) {
 		this.idServico = idServico;
 	}
 	public String getNome() {

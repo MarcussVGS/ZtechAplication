@@ -58,7 +58,8 @@ public class VendaController {
     }
 
     @PostMapping(value = "/cadastrar")
-    public String cadastrarVenda(@Validated @ModelAttribute("venda") VendaDTO vendaDTO, BindingResult result, RedirectAttributes attributes) {
+    public String cadastrarVenda(@Validated @ModelAttribute("venda") VendaDTO vendaDTO, 
+    					   BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             attributes.addFlashAttribute("mensagem", "Verifique os campos obrigatórios.");
             attributes.addFlashAttribute("produtos", produtoRepository.findAllWithRelationships());

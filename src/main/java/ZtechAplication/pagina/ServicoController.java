@@ -55,7 +55,7 @@ public class ServicoController {
 	}
 	
 	@PutMapping(value = "/editarServico/{id}")
-	public ModelAndView editarServico(@PathVariable Long id) {
+	public ModelAndView editarServico(@PathVariable Integer id) {
 		ModelAndView mv = new ModelAndView("/servico/editarServico");
 		mv.addObject("servico", classeRepo.findById(id).orElseThrow( () -> 
 					 new IllegalArgumentException("Servico invalida" + id) ));
@@ -63,7 +63,7 @@ public class ServicoController {
 	}
 	
 	@DeleteMapping(value = "/deletarServico/{id}")
-	public String remover(@PathVariable Long id, RedirectAttributes attributes) {
+	public String remover(@PathVariable Integer id, RedirectAttributes attributes) {
         classeRepo.deleteById(id);
         attributes.addFlashAttribute("mensagem", "Servico removida com sucesso!");
         return "redirect:/servico/cadastrarServico";

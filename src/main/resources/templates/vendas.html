@@ -60,7 +60,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>ID Venda</th>
+                            <th>ID</th>
                             <th>Data</th>
                             <th>Hora</th>
                             <th>Cliente</th>
@@ -72,6 +72,7 @@
                         </tr>
                     </thead>
                     <tbody>
+						<!-- Dados dinâmicos via Java serão inseridos aqui -->
                         <tr th:if="${paginaVendas != null}" th:each="vendaDTO : ${paginaVendas.content}">
                              <td th:text="${vendaDTO.idVenda}"></td>
                              <td th:text="${#temporals.format(vendaDTO.dataInicio, 'dd/MM/yyyy')}"></td>

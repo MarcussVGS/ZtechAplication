@@ -37,32 +37,69 @@
         <!-- CONTEÚDO DA PÁGINA -->
         <div class="conteudo">
             <div class="banner">
-               	  <a th:href="@{/cadastro_OS/cadastrarForm}"><input class="botao_adicionar" type="button" value="Adicionar O.S">
+               	  <a th:href="@{/ordens/cadastrarForm}"><input class="botao_adicionar" type="button" value="Adicionar O.S">
 					</a>
-				  <form th:action="@{/os/buscar}" style="display: flex; align-items: center; margin-left: 10px; margin-top: 20px; top: 13em; left: 222px;" >
+				  <form th:action="@{/ordens/buscar}" style="display: flex; align-items: center; margin-left: 10px; margin-top: 20px; top: 13em; left: 222px;" >
 				  	<input type="search" name="termo" th:value="${termo}" class="banner_pesquisa"
 				  	    placeholder="Buscar por nome, CPF, E-mail, Telefone...">
 				  	<button type="submit" class="botao_pesquisar" style="margin-left: 10px; padding: 10px 15px; border-radius: 20px; background-color: #7C1F1F; color: white; border: none; cursor: pointer;">
 				  	    <i class="fas fa-search"></i> Pesquisar
 				  </form>
             </div>
-            <div class="filtro">
-                <br>
-            </div>
-            <div class="tabela">
+
+			<div th:if="${mensagem}" class="alert alert-success" style="margin-top: 40px; padding: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: .25rem;">
+			    <p th:text="${mensagem}"></p>
+			</div>
+			 <div th:if="${mensagemBusca}" class="alert alert-info" style="margin-top: 40px; padding: 10px; background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; border-radius: .25rem;">
+			    <p th:text="${mensagemBusca}"></p>
+			</div>
+			
+            <div class="tabelaOS" style="margin-top: 20px;">
                 <table>
                     <thead>
                         <tr>
-                            <th>Nome</th>
-                            <th>E-mail</th>
-                            <th>Telefone</th>
-                            <th>CEP</th>
-                            <th>Ações</th>
+							<th>ID</th>
+                            <th>Nome Cliente</th>
+                            <th>Data Inicio</th>
+                            <th>Data Fim</th>
+                            <th>Valor</th>
+                            <th>Servico</th>
+							<th>Produto</th>
+							<th colspan="1" class="acoes">Status</th>
+							<th colspan="2" class="acoes">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-
                         <!-- Dados dinâmicos via Java serão inseridos aqui -->
+						<tr th:if="${paginaOrdens != null}" th:each="ordensDTO : ${paginaOrdens.content}">
+						     <td th:text="${ordensDTO.idOS}"></td>
+							<td th:text="${ordensDTO.nomeCliente} ?: 'N/A'"></td>
+						     <td th:text="${#temporals.format(ordensDTO.dataInicio, 'dd/MM/yyyy')}"></td>
+							 <td th:text="${#temporals.format(ordensDTO.dataFim, 'dd/MM/yyyy')}"></td>
+							 <td th:text="${ordensDTO.nomeServico} ?: 'N/A'"></td>
+						     <td th:text="${ordensDTO.nomeProduto} ?: 'N/A'"></td>
+						     <td th:text="${#numbers.formatCurrency(ordensDTO.valor)}"></td>
+							 <td class="acoes">
+							     <a th:href="@{/ordens/atualizarStatus/{idOS}(idOS=${ordensDTO.idOS})}"
+							        class="botao-acao editar" title="Editar">
+							         <i class="fa fa-edit fa-lg" style="color: #0b07b0;"></i>
+							     </a>
+							 </td>
+						     <td class="acoes">
+						         <a th:href="@{/ordens/editarForm/{idOS}(idOS=${ordensDTO.idOS})}"
+						            class="botao-acao editar" title="Editar">
+						             <i class="fa fa-edit fa-lg" style="color: #0b07b0;"></i>
+						         </a>
+						     </td>
+						     <td class="acoes">
+						         <a th:href="@{/ordens/deletar/{idOS}(idOS=${ordensDTO.idOS})}"
+						            class="botao-acao deletar" title="Deletar"
+						            onclick="return confirm('Tem certeza que deseja deletar esta venda? O estoque do produto será restaurado.');">
+						             <i class="fa fa-trash-alt fa-lg" style="color: #b00707;"></i>
+						         </a>
+						     </td>
+						</tr>
+						
                     </tbody>
                 </table>
             </div>

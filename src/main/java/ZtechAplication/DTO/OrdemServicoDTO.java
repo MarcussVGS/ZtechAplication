@@ -12,6 +12,15 @@ public class OrdemServicoDTO {
 	private LocalTime horaFim;
 	private BigDecimal valor;
 	private BigDecimal lucro;
+	private String statusOS;
+	private Integer quantidade;
+
+    private Integer idProduto; // Adicionado
+    private Integer idServico; // Adicionado
+    private Integer idCliente; // Adicionado
+    private String nomeProduto; // Opcional: para fins de exibição
+    private String nomeServico; // Opcional: para fins de exibição
+    private String nomeCliente; // Opcional: para fins de exibição
 	
 	//getters and setters
 	public Integer getIdOS() {
@@ -56,6 +65,56 @@ public class OrdemServicoDTO {
 	public void setLucro(BigDecimal lucro) {
 		this.lucro = lucro;
 	}
+	public String getStatusOS() {
+		return statusOS;
+	}
+	public void setStatusOS(String statusOS) {
+		this.statusOS = statusOS;
+	}
+	public Integer getIdProduto() {
+		return idProduto;
+	}
+	public void setIdProduto(Integer idProduto) {
+		this.idProduto = idProduto;
+	}
+	public Integer getIdServico() {
+		return idServico;
+	}
+	public void setIdServico(Integer idServico) {
+		this.idServico = idServico;
+	}
+	public Integer getIdCliente() {
+		return idCliente;
+	}
+	public void setIdCliente(Integer idCliente) {
+		this.idCliente = idCliente;
+	}
+	public String getNomeProduto() {
+		return nomeProduto;
+	}
+	public void setNomeProduto(String nomeProduto) {
+		this.nomeProduto = nomeProduto;
+	}
+	public String getNomeServico() {
+		return nomeServico;
+	}
+	public void setNomeServico(String nomeServico) {
+		this.nomeServico = nomeServico;
+	}
+	public String getNomeCliente() {
+		return nomeCliente;
+	}
+	public void setNomeCliente(String nomeCliente) {
+		this.nomeCliente = nomeCliente;
+	}
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
+	
+	
 	
 	
 

@@ -37,12 +37,18 @@ public class OrdemServico {
 
     @Column(name = "hora_Fim")
     private LocalTime horaFim;
+    
+	@Column(nullable = false)
+    private Integer quantidade;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal valor;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal lucro;
+    
+    @Column(name = "status_OS")
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "fk_Servico", nullable = false)
@@ -96,8 +102,16 @@ public class OrdemServico {
     public void setHoraFim(LocalTime horaFim) {
         this.horaFim = horaFim;
     }
+    
+    public Integer getQuantidade() {
+		return quantidade;
+	}
 
-    public BigDecimal getValor() {
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public BigDecimal getValor() {
         return valor;
     }
 
@@ -112,8 +126,17 @@ public class OrdemServico {
     public void setLucro(BigDecimal lucro) {
         this.lucro = lucro;
     }
+    
 
-    public Servico getServico() {
+    public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Servico getServico() {
         return servico;
     }
 
