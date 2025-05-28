@@ -3,12 +3,11 @@ package ZtechAplication.pagina;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-// import java.util.List; // Removido se não usado diretamente
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification; // Importar Specification
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PathVariable; // Importação já deve existir
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,20 +45,18 @@ public class VendaController {
 
     @GetMapping(value = "/cadastrarForm")
     public ModelAndView form() {
-        ModelAndView mv = new ModelAndView("cadastro_vendas");
-//        comentado
-//        VendaDTO vendaDTO = new VendaDTO();
-//        vendaDTO.setDataInicio(LocalDate.now());
-//        vendaDTO.setHoraInicio(LocalTime.now());
-//        mv.addObject("venda", vendaDTO);
-//        mv.addObject("produtos", produtoRepository.findAllWithRelationships());
-//        mv.addObject("clientes", clienteRepository.findAllWithRelationships());
+        ModelAndView mv = new ModelAndView("cadastroVenda");
+        VendaDTO vendaDTO = new VendaDTO();
+        vendaDTO.setDataInicio(LocalDate.now());
+        vendaDTO.setHoraInicio(LocalTime.now());
+        mv.addObject("venda", vendaDTO);
+        mv.addObject("produtos", produtoRepository.findAllWithRelationships());
+        mv.addObject("clientes", clienteRepository.findAllWithRelationships());
         return mv;
     }
 
     @PostMapping(value = "/cadastrar")
-    public String cadastrarVenda(@Validated @ModelAttribute("venda") VendaDTO vendaDTO, 
-    					   BindingResult result, RedirectAttributes attributes) {
+    public String cadastrarVenda(@Validated @ModelAttribute("venda") VendaDTO vendaDTO, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             attributes.addFlashAttribute("mensagem", "Verifique os campos obrigatórios.");
             attributes.addFlashAttribute("produtos", produtoRepository.findAllWithRelationships());
@@ -110,8 +107,9 @@ public class VendaController {
         return "vendas";
     }
 
+    // Corrigido aqui
     @GetMapping(value = "/editarForm/{idVenda}")
-    public ModelAndView editarForm(@PathVariable Integer idVenda) {
+    public ModelAndView editarForm(@PathVariable("idVenda") Integer idVenda) {
         Venda venda = vendaRepository.findById(idVenda)
                 .orElseThrow(() -> new IllegalArgumentException("Venda inválida: " + idVenda));
         
@@ -122,8 +120,9 @@ public class VendaController {
         return mv;
     }
 
+    // Corrigido aqui
     @PostMapping(value = "/editar/{idVenda}")
-    public String editarVenda(@PathVariable Integer idVenda, @Validated @ModelAttribute("venda") VendaDTO vendaDTO, BindingResult result, RedirectAttributes attributes) {
+    public String editarVenda(@PathVariable("idVenda") Integer idVenda, @Validated @ModelAttribute("venda") VendaDTO vendaDTO, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             attributes.addFlashAttribute("mensagem", "Verifique os campos obrigatórios.");
             attributes.addFlashAttribute("produtos", produtoRepository.findAllWithRelationships());
@@ -183,8 +182,9 @@ public class VendaController {
         return "redirect:/vendas/listar";
     }
 
+    // Corrigido aqui
     @GetMapping(value = "/deletar/{idVenda}")
-    public String deletarVenda(@PathVariable Integer idVenda, RedirectAttributes attributes) {
+    public String deletarVenda(@PathVariable("idVenda") Integer idVenda, RedirectAttributes attributes) {
         Venda venda = vendaRepository.findById(idVenda)
                 .orElseThrow(() -> new IllegalArgumentException("Venda inválida: " + idVenda));
 
@@ -197,26 +197,20 @@ public class VendaController {
         return "redirect:/vendas/listar";
     }
     
-    // MÉTODO BUSCAR ATUALIZADO
     @GetMapping("/buscar")
     public String buscar(@RequestParam(value = "termo", required = false) String termo,
                          @PageableDefault(size = 10) Pageable pageable,
                          Model model) {
         Page<Venda> paginaVendasEntidades;
         
-        // Cria a Specification para a busca
         Specification<Venda> spec = SpecificationController.comTermoVenda(termo);
-        
-        // Realiza a busca usando a Specification
         paginaVendasEntidades = vendaRepository.findAll(spec, pageable);
         
-        // Remove a mensagem de "não implementada" se a busca for feita
         if (termo != null && !termo.isEmpty() && paginaVendasEntidades.isEmpty()) {
-            model.addAttribute("mensagemBusca", "Nenhuma venda encontrada para o termo: ' " + termo + " '.");
+            model.addAttribute("mensagemBusca", "Nenhuma venda encontrada para o termo: '" + termo + "'.");
         } else if (termo != null && !termo.isEmpty() && !paginaVendasEntidades.isEmpty()) {
-             model.addAttribute("mensagemBusca", "Exibindo resultados para: ' " + termo + " '.");
+             model.addAttribute("mensagemBusca", "Exibindo resultados para: '" + termo + "'.");
         }
-
 
         Page<VendaDTO> paginaVendaDTOs = paginaVendasEntidades.map(this::converterParaDTO);
         model.addAttribute("paginaVendas", paginaVendaDTOs);
@@ -226,7 +220,7 @@ public class VendaController {
 
     private VendaDTO converterParaDTO(Venda venda) {
         VendaDTO dto = new VendaDTO();
-        dto.setIdVenda(venda.getIdVenda());
+        dto.setIdVenda(venda.getIdVenda()); // Essencial para os links de editar/deletar funcionarem
         dto.setDataInicio(venda.getDataInicio());
         dto.setHoraInicio(venda.getHoraInicio());
         dto.setValor(venda.getValor());
