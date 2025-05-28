@@ -248,7 +248,7 @@ public class VendaController {
         }
         return dto;
     }
-
+//lala
     @GetMapping(value = "/teste")
     public String teste() {
         return "correto";

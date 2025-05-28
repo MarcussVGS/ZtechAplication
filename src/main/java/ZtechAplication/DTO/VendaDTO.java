@@ -11,7 +11,7 @@ public class VendaDTO {
     private BigDecimal valor;
     private BigDecimal lucro;
     private Integer quantidade;
-    private Integer idProduto; // Adicionado
+    private Integer idProduto; // Adicionados
     private Integer idCliente; // Adicionado
     private String nomeProduto; // Opcional: para fins de exibição
     private String nomeCliente; // Opcional: para fins de exibição

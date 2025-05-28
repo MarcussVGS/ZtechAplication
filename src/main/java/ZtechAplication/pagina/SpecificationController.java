@@ -93,7 +93,7 @@ public class SpecificationController {
             List<Predicate> predicates = new ArrayList<>();
             String likeTerm = "%" + termo.toLowerCase() + "%";
 
-            // Busca por nome do cliente associado à venda
+            // Busca por nomes do cliente associado à venda
             predicates.add(cb.like(cb.lower(root.get("cliente").get("nomeCliente")), likeTerm));
             // Busca por nome do produto associado à venda
             predicates.add(cb.like(cb.lower(root.get("produto").get("nome")), likeTerm));
