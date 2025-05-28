@@ -25,13 +25,13 @@ public class ServicoController {
 	@Autowired
 	private ServicoRepository classeRepo;
 	
-	//indicar o metodo get no HTML
-	@GetMapping(value = "/formServico")
-	public ModelAndView form() {
-		ModelAndView mv = new ModelAndView("cadastroProduto/servico");
-		mv.addObject("servico", new Servico() ); //inicializa o obj para o formulario
-		return mv;
-	}
+	
+	@GetMapping(value = "/cadastrarForm")
+    public ModelAndView form2() {
+        ModelAndView mv = new ModelAndView("cadastro_servico");
+        return mv;
+    }
+	
 	
 	//indicar o metodo post no HTML
 	@PostMapping(value = "/cadastrarServico")
@@ -73,10 +73,5 @@ public class ServicoController {
 	public String teste (){
 		return "correto";
 	}
-	@GetMapping(value = "/cadastrarForm")
-    public ModelAndView form2() {
-        ModelAndView mv = new ModelAndView("cadastro_servico");
-        return mv;
-    }
 	
 }

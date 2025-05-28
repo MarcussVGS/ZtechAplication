@@ -41,6 +41,8 @@
             <div class="banner">
                	  <a th:href="@{/ordens/cadastrarForm}"><input class="botao_adicionar" type="button" value="Adicionar O.S">
 					</a>
+               	  <a th:href="@{/servico/cadastrarForm}"><input class="botao_adicionar_S" type="button" value="Adicionar Serviço">
+					</a>
 				  <form th:action="@{/ordens/buscar}" style="display: flex; align-items: center; margin-left: 10px; margin-top: 20px; top: 13em; left: 222px;" >
 				  	<input type="search" name="termo" th:value="${termo}" class="banner_pesquisa"
 				  	    placeholder="Buscar por nome, CPF, E-mail, Telefone...">
@@ -78,9 +80,9 @@
 							<td th:text="${ordensDTO.nomeCliente} ?: 'N/A'"></td>
 						     <td th:text="${#temporals.format(ordensDTO.dataInicio, 'dd/MM/yyyy')}"></td>
 							 <td th:text="${#temporals.format(ordensDTO.dataFim, 'dd/MM/yyyy')}"></td>
-							 <td th:text="${ordensDTO.nomeServico} ?: 'N/A'"></td>
+							 <td th:text="${#numbers.formatCurrency(ordensDTO.valor)}"></td>
+						     <td th:text="${ordensDTO.nomeServico} ?: 'N/A'"></td>
 						     <td th:text="${ordensDTO.nomeProduto} ?: 'N/A'"></td>
-						     <td th:text="${#numbers.formatCurrency(ordensDTO.valor)}"></td>
 							 <td class="acoes">
 							     <a th:href="@{/ordens/atualizarStatus/{idOS}(idOS=${ordensDTO.idOS})}"
 							        class="botao-acao editar" title="Editar">
