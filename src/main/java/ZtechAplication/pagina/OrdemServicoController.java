@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -35,7 +36,7 @@ import ZtechAplication.repository.ProdutoRepository;
 import ZtechAplication.repository.ServicoRepository;
 
 
-@RestController
+@Controller
 @RequestMapping(value = "/ordens")
 public class OrdemServicoController {
 
@@ -111,14 +112,14 @@ public class OrdemServicoController {
 		Page<OrdemServico> paginaDeOSsEntidades = classeRepo.findAll(null, pageable);
         Page<OrdemServicoDTO> paginaDeOSDTOs = paginaDeOSsEntidades.map(this::converterParaDTO);
         
-        model.addAttribute("paginaOSs", paginaDeOSDTOs);
+        model.addAttribute("paginaOrdens", paginaDeOSDTOs);
         if (!model.containsAttribute("termo")) { 
             model.addAttribute("termo", null);
         }
         return "ordens";
 	}
 	
-	@PutMapping(value = "/editarForm/{idOS}")
+	@GetMapping(value = "/editarForm/{idOS}")
 	public ModelAndView editarForm(@PathVariable Integer idOS) {
 		OrdemServico os = classeRepo.findById(idOS)
                 .orElseThrow(() -> new IllegalArgumentException("Venda inválida: " + idOS));
