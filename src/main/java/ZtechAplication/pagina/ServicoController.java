@@ -19,7 +19,7 @@ import ZtechAplication.repository.ServicoRepository;
 
 
 @RestController
-@RequestMapping(value = {"/servico", "/Servico"} ) //para que qualquer um deles seja valido
+@RequestMapping(value = "/servico") //para que qualquer um deles seja valido
 public class ServicoController {
 
 	@Autowired
@@ -73,5 +73,10 @@ public class ServicoController {
 	public String teste (){
 		return "correto";
 	}
+	@GetMapping(value = "/cadastrarForm")
+    public ModelAndView form2() {
+        ModelAndView mv = new ModelAndView("cadastro_servico");
+        return mv;
+    }
 	
 }

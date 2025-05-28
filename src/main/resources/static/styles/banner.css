@@ -26,6 +26,7 @@
 	cursor: pointer;
 	border: 1px solid #ccc;
 	white-space: nowrap;
+	margin-left: 9.5px;
 }
 .botao_atualizar{
     background-color: white;
