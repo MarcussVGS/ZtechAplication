@@ -1,45 +1,127 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Início</title>
-    <link rel="stylesheet" th:href="@{/styles/reset.css}"> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>Início - Dashboard ZTech</title>
+    <link rel="stylesheet" th:href="@{/styles/reset.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/styles/style.css}" >
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+    <style>
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .dashboard-card {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: .25rem;
+            padding: 20px;
+            min-width: 250px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        .dashboard-card h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .dashboard-card p {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #7C1F1F; /* Cor principal da barra lateral */
+            margin-bottom: 5px;
+        }
+        .dashboard-card .details {
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .os-stats-table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+        }
+        .os-stats-table th, .os-stats-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        .os-stats-table th {
+            background-color: #e9ecef;
+        }
+    </style>
 </head>
 <body>
     <header class="cabecalho">
-        <a th:href="@{/inicio}"> <img class="logo_cabecalho" th:src="@{/img/logo-removebg.svg}" alt="Logo ZTech"/></a> <div class="titulo_pagina">Início</div> </header>
+        <a th:href="@{/inicio}"> 
+            <img class="logo_cabecalho" th:src="@{/img/logo-removebg.svg}" alt="Logo ZTech"/>
+        </a> 
+        <div class="titulo_pagina">Dashboard ZTech</div>
+    </header>
     <div class="area-principal">
         <div class="barra">
             <ul>
                 <li class="opcao_lista"><a class="link_lista" th:href="@{/cliente/listar}" >CLIENTES</a></li>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{/produto/listar}">ESTOQUE</a></li> <li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/produto/listar}">ESTOQUE</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
                 <li class="opcao_lista"><a class="link_lista" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
-                </ul>
-	</div>
-            <div class="conteudo"> <div class="tabela">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>E-mail</th>
-                                <th>Telefone</th>
-                                <th>CEP</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td colspan="5" style="text-align: center;">Bem-vindo ao Sistema ZTech! Navegue pelas opções ao lado.</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <li class="opcao_lista"><a class="link_lista_atual" th:href="@{/inicio}">INÍCIO</a></li>
+            </ul>
+	    </div>
+        
+        <div class="conteudo">
+            <h2>Visão Geral do Sistema</h2>
+
+            <div class="dashboard-container">
+                <div class="dashboard-card">
+                    <h3>Total de Clientes</h3>
+                    <p th:text="${totalClientes}">0</p>
+                    <a th:href="@{/cliente/listar}" class="details">Ver todos os clientes...</a>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Total de Produtos em Catálogo</h3>
+                    <p th:text="${totalProdutos}">0</p>
+                     <a th:href="@{/produto/listar}" class="details">Ver estoque...</a>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Total de Ordens de Serviço</h3>
+                    <p th:text="${totalOS}">0</p>
+                    <a th:href="@{/ordens/listar}" class="details">Ver todas as O.S....</a>
                 </div>
             </div>
-        </div>
 
+            <div class="dashboard-card" style="width: 100%; margin-top: 20px;">
+                <h3>Status das Ordens de Serviço por Tipo</h3>
+                <div th:if="${osStatusPorTipo == null or osStatusPorTipo.isEmpty()}">
+                    <p class="details">Nenhuma Ordem de Serviço registrada.</p>
+                </div>
+                <table class="os-stats-table" th:unless="${osStatusPorTipo == null or osStatusPorTipo.isEmpty()}">
+                    <thead>
+                        <tr>
+                            <th>Tipo de Serviço</th>
+                            <th>Em Andamento</th>
+                            <th>Concluídas</th>
+                            <th>Total por Tipo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="entry : ${osStatusPorTipo}">
+                            <td th:text="${entry.key}">Nome do Serviço</td>
+                            <td th:text="${entry.value['Em Andamento']} ?: 0">0</td>
+                            <td th:text="${entry.value['Concluída']} ?: 0">0</td>
+                            <td th:text="${(entry.value['Em Andamento'] ?: 0) + (entry.value['Concluída'] ?: 0)}">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            </div>
+    </div>
 </body>
 </html>
