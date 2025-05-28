@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serviço</title>
+<link rel="stylesheet" th:href="@{/styles/reset.css}">
+<!-- MANTER O PADRÃO DE ANOTAÇÃO THYMELEAF TH: @{} -->
+<link rel="stylesheet" th:href="@{/styles/style.css}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+	rel="stylesheet">
+
+</head>
+
+<body>
+	<header class="cabecalho">
+		<a th:href="@{inicio}"> <img class="logo_cabecalho"
+			src="/img/logo-removebg.svg" />
+		</a>
+		<div
+			style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
+			Cadastro de Serviço</div>
+	</header>
+
+	<div class="area-principal">
+		<div class="barra">
+			<ul>
+				<li class="opcao_lista"><a class="link_lista"
+					th:href="@{/clientes/listar}">CLIENTES</a></li>
+				<li class="opcao_lista"><a class="link_lista_atual"
+					th:href="@{/estoque/listar}">ESTOQUE</a></li>
+				<li class="opcao_lista"><a class="link_lista"
+					th:href="@{/vendas/listar}">VENDAS</a></li>
+				<li class="opcao_lista"><a class="link_lista"
+					th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
+				<li class="opcao_lista"><a class="link_lista"
+					th:href="@{/inicio}">INÍCIO</a></li>
+			</ul>
+		</div>
+		<div class="formulario-cliente">
+			<form class="formulario">
+				<!-- Coluna 1: Dados do Produto -->
+				<div class="coluna">
+					<h3 class="titulo_formulario">Dados da Venda</h3>
+					<div class="tabela">
+						<label>Produto Vendido:</label>
+						<table border='1'>
+							<thead>
+								<tr>
+									<th>Produto</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<label>Valor do Produto:</label> <input class="campo_digitacao"
+						type="text" name="preco" required> <label>Lucro da Venda:</label> 
+						<input class="campo_digitacao" type="text" name="preco"
+						required>
+
+				</div>
+			</form>
+		</div>
+		</div>
