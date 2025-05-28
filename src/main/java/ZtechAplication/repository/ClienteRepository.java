@@ -3,36 +3,31 @@ package ZtechAplication.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository; // Alterado aqui
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
+// import org.springframework.data.jpa.repository.Modifying; // Removido se não usado
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
+// import org.springframework.data.repository.CrudRepository; // Removido
+// import org.springframework.data.repository.query.Param; // Removido se não usado
 
 import ZtechAplication.model.Cliente;
 
 public interface ClienteRepository extends 
-				CrudRepository<Cliente, Integer>, JpaSpecificationExecutor<Cliente>{
-	//  CUIDADO COM O OBJETO E O TIPO AQUI /\      /\ ESSE SPECIFICATION TORNA POSSIVEL O METODO BUSCA
-//	ESSA QUERY ESPECIAL JUNTA TODOS OS DADOS, DEVE SER ALTERADA CONFORME A CLASSE
+				JpaRepository<Cliente, Integer>, JpaSpecificationExecutor<Cliente>{ // Alterado CrudRepository para JpaRepository
+
 	@Query("SELECT c FROM Cliente c "
 			+ "LEFT JOIN FETCH c.email "
 			+ "LEFT JOIN FETCH c.telefone "
 			+ "LEFT JOIN FETCH c.endereco")
-    List<Cliente> findAllWithRelationships();
+    List<Cliente> findAllWithRelationships(); // Bom para listagens não paginadas ou quando todos os dados são necessários.
 	
-//	ESTE É O METODO QUE PRECISA CRIAR..
-//	POIS O METODO PADRÃO BUSCA POR LONG E QUEREMOS BUSCAR POR INTEGER
+    // O método findById(Integer id) já é fornecido pelo JpaRepository.
+    // Pode ser removido se não houver customização.
+	@Override // Boa prática se estiver sobrescrevendo
 	Optional<Cliente> findById(Integer id);
 	
-	
 	Optional<Cliente> findByCpf(String cpf);
-	Optional<Cliente> deleteByCpf(String cpf);
-
-	
-	
-	
-	
-	
-
+	// O método deleteByCpf precisaria de @Modifying e @Transactional se fosse uma query de deleção customizada.
+    // Se for para usar o delete padrão, você buscaria pelo CPF e depois chamaria delete(cliente).
+	// Long deleteByCpf(String cpf); // Assinatura de deleteBy... geralmente retorna long (número de deletados) ou void.
 }

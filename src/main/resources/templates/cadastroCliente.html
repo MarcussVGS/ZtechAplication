@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes</title>
-    <link rel="stylesheet" th:href="@{/styles/reset.css}"> <!-- MANTER O PADRÃO DE ANOTAÇÃO THYMELEAF TH: @{} -->
+    <title>Cadastro de Clientes</title>
+    <link rel="stylesheet" th:href="@{/styles/reset.css}"> 
 	<link rel="stylesheet" th:href="@{/styles/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,11 +15,10 @@
 
 <body>
     <header class="cabecalho">
-        <a th:href="@{inicio}">         <!-- \/ AQUI ESTAMOS USANDO ENDEREÇO ABSOLUTO, COLOCAR BARRAS / NO INICIO -->
-            <img class="logo_cabecalho" src="/img/logo-removebg.svg" /> <!-- SE ATENTAR, A IMAGEM FOI RENOMEADA -->
+        <a th:href="@{/inicio}">         
+            <img class="logo_cabecalho" th:src="@{/img/logo-removebg.svg}" alt="Logo ZTech"/> 
         </a>
-        <div
-            style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
+        <div class="titulo_pagina">
             Cadastro de Clientes
         </div>
     </header>
@@ -27,33 +26,30 @@
     <div class="area-principal">
         <div class="barra">
             <ul> 
-				<li class="opcao_lista"><a class="link_lista" th:href="@{/cliente/listar}">CLIENTES</a></li>
-				<li class="opcao_lista"><a class="link_lista" th:href="@{/estoque/listar}">ESTOQUE</a></li>
+				<li class="opcao_lista"><a class="link_lista_atual" th:href="@{/cliente/listar}">CLIENTES</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/produto/listar}">ESTOQUE</a></li>
 				<li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
 				<li class="opcao_lista"><a class="link_lista" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
                 <li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
             </ul>
         </div>
         <div class="formulario-cliente">
-			<!-- É ESTA LINHA A BAIXO QUE VAI ENVIAR AS INFORMAÇÕES PARA O METODO CADASTRAR -->
-	   <!-- REPARE NO OBJECT, TEM O MESMO NOME DO OBJATO QUE CRIAMOS NA CLASSE E \/AQUI INDICAMOS SER UM METODO POST (ENVIO) -->
-            <form th:action="@{/cliente/cadastrar}"th:object="${cliente}"method="post"class="formulario">
-                <!-- Coluna 1: Dados Pessoais -->
+             <div th:if="${mensagem}" 
+                 th:classappend="${(param.error == null and #strings.containsIgnoreCase(mensagem, 'sucesso')) ? 'alert-success' : 'alert-danger'}"
+                 class="alert"
+                 style="margin-bottom: 20px; padding: 10px; border: 1px solid transparent; border-radius: .25rem;">
+                <p th:text="${mensagem}"></p>
+            </div>
+            <form th:action="@{/cliente/cadastrar}" th:object="${clienteDTO}" method="post" class="formulario">
                 <div class="coluna">
-					<!-- OS CAMPOS DEVEM TER OS MESMOS NOMES VINDO DA DTO, EXATAMENTE OS MESMOS-->
                     <h3 class="titulo_formulario">Dados Pessoais</h3>
-					<label for="idCliente"></label>
-					<input type="hidden" id="idCliente" th:field="*{idCliente}">	
-					
-					<!--1º LINHA: INDICA SOBRE QUAL VARIAVEL É AQUELE TEXTO -->
-					<!--2º LINHA: TYPE=TIPO DO CAMPO, ID=LINK DE REFERENCIA, TH:FIELD=INDICAÇÃO DO CAMPO NA DTO -->
-					<!--3º LINHA: TH:IF=CHAMA SCRIP NO FIM DO CODIGO TH:ERRORS=VEM DA CLASSE CONTROLLER -->
-                    <label for="nomeCliente">Nome Completo:</label>
+					<label for="nomeCliente">Nome Completo:</label>
                     <input class="campo_digitacao" type="text" id="nomeCliente" th:field="*{nomeCliente}" required>
 					<span th:if="${#fields.hasErrors('nomeCliente')}" th:errors="*{nomeCliente}" class="error"></span>
 
                     <label for="endEmail">E-mail:</label>
                     <input class="campo_digitacao" type="text" id="endEmail" th:field="*{endEmail}" required>
+                    <span th:if="${#fields.hasErrors('endEmail')}" th:errors="*{endEmail}" class="error"></span>
 
                     <label for="telefone">Telefone:</label>
                     <input class="campo_digitacao" type="text" id="telefone" th:field="*{telefone}" required>
@@ -63,8 +59,7 @@
                     <input class="campo_digitacao" type="text" id="cpf" th:field="*{cpf}" required>
 					<span th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="error"></span>
                 </div>
-                    <hr class="separador"></hr>
-                <!-- Coluna 2: Dados de Endereço -->
+                <hr class="separador">
                 <div class="coluna">
                     <h3 class="titulo_formulario">Dados de Endereço</h3>
 
@@ -79,7 +74,7 @@
                         </div>
                         <div class="numero">
                             <label for="numeroCasa">Nº:</label>
-                            <input class="campo_digitacao" type="number" id="numeroCasa" th:field="*{numeroCasa}" required>
+                            <input class="campo_digitacao" type="number" id="numeroCasa" th:field="*{numeroCasa}" required min="0">
 							<span th:if="${#fields.hasErrors('numeroCasa')}" th:errors="*{numeroCasa}" class="error"></span>
                         </div>
                     </div>
@@ -92,43 +87,14 @@
                 </div>
             
 				
-            <div class="botoes">
-				<!-- CONFIGURAÇAO DOS BOTÕES E PADROES DE ENVIO -->
-                <a class="link_cancelar" th:href="@{/cliente/listar}">
-					<button type="button" class="cancelar"  >❌ Cancelar</button></a>
-				<a class="link_cancelar" th:href="@{/editar/{idCliente}}">
-					<button type="submit"  class="cadastrar" onclick="confirmarAtualização(event)">✔️ Cadastrar</button></a>
-            </div>
-		</form>
+                <div class="botoes" style="width: 100%; margin-top: 30px;">
+                    <a class="link_cancelar" th:href="@{/cliente/listar}">
+                        <button type="button" class="cancelar">❌ Cancelar</button>
+                    </a>
+                    <button type="submit" class="cadastrar">✔️ Cadastrar</button>
+                </div>
+		    </form>
         </div>
-	 
     </div>
-	
-	<!-- ESSE SCRIPT jAVASCRIPT VERIFICA SE O CAMPO ESTA POPULADO-->
-	<script th:if="${mensagem != null}">
-	    Swal.fire({
-	        toast: true,
-	        position: 'top-end',
-	        icon: 'success',
-	        title: '[[${mensagem}]]',
-	        showConfirmButton: false,
-	        timer: 3000,
-	        timerProgressBar: true
-	    });
-	</script>
-	<!-- JA ESSE SCRIPT VALIDA SE O ID JA EXISTE -->
-	<!-- MEIO INUTIL POIS TEMOS UM METODO DE EDITAR COM VALIDAÇÃO PROPRIA -->
-	<script>
-	    function confirmarAtualizacao(event) {
-	        const id = document.getElementById("idCliente").value;
-	        if (parseInt(id) > 0) {
-	            const confirmar = confirm("Deseja realmente atualizar os dados desta vaga?");
-	            if (!confirmar) {
-	                event.preventDefault(); // cancela o envio do formulário
-	            }
-	        }
-	    }
-	</script>
-	
 </body>
 </html>

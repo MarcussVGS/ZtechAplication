@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterar Produto</title>
+    <link rel="stylesheet" th:href="@{/styles/reset.css}">
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header class="cabecalho">
+        <a th:href="@{/inicio}">
+            <img class="logo_cabecalho" th:src="@{/img/logo-removebg.svg}" alt="Logo ZTech" />
+        </a>
+        <div class="titulo_pagina">
+            Alterar Produto
+        </div>
+    </header>
+
+    <div class="area-principal">
+        <div class="barra">
+            <ul>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/cliente/listar}">CLIENTES</a></li>
+                <li class="opcao_lista"><a class="link_lista_atual" th:href="@{/produto/listar}">ESTOQUE</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
+            </ul>
+        </div>
+        <div class="formulario-cliente"> <div th:if="${mensagem}" class="alert alert-info" style="margin-bottom: 20px; padding: 10px; background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; border-radius: .25rem;">
+                <p th:text="${mensagem}"></p>
+            </div>
+
+            <form th:action="@{/produto/editar/{idProduto}(idProduto=${produtoDTO.idProduto})}" th:object="${produtoDTO}" method="post" class="formulario">
+                <input type="hidden" th:field="*{idProduto}" /> <input type="hidden" th:field="*{idCategoria}" /> <input type="hidden" th:field="*{idMarca}" /> <div class="coluna">
+                    <h3 class="titulo_formulario">Dados do Produto</h3>
+
+                    <label for="nome">Nome do Produto:</label>
+                    <input class="campo_digitacao" type="text" id="nome" th:field="*{nome}" required>
+                    <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="error"></span>
+
+                    <label for="descricao">Descrição:</label>
+                    <textarea class="campo_digitacao" id="descricao" th:field="*{descricao}" rows="3"></textarea>
+                    <span th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}" class="error"></span>
+                    
+                    <label for="categoriaNome">Nome da Categoria:</label>
+                    <input class="campo_digitacao" type="text" id="categoriaNome" th:field="*{categoria}" placeholder="Ex: Telas, Baterias" required>
+                    <span th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}" class="error"></span>
+
+                    <label for="marcaNome">Nome da Marca:</label>
+                    <input class="campo_digitacao" type="text" id="marcaNome" th:field="*{marca}" placeholder="Ex: Samsung, Apple" required>
+                    <span th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}" class="error"></span>
+                </div>
+                <hr class="separador">
+                <div class="coluna">
+                    <h3 class="titulo_formulario">Preço e Estoque</h3>
+
+                    <label for="custo">Custo (R$):</label>
+                    <input class="campo_digitacao" type="number" step="0.01" id="custo" th:field="*{custo}" required>
+                    <span th:if="${#fields.hasErrors('custo')}" th:errors="*{custo}" class="error"></span>
+
+                    <label for="valor">Valor de Venda (R$):</label>
+                    <input class="campo_digitacao" type="number" step="0.01" id="valor" th:field="*{valor}" required>
+                    <span th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}" class="error"></span>
+                    
+                    <label for="quantidade">Quantidade em Estoque:</label>
+                    <input class="campo_digitacao" type="number" id="quantidade" th:field="*{quantidade}" min="0" required>
+                    <span th:if="${#fields.hasErrors('quantidade')}" th:errors="*{quantidade}" class="error"></span>
+                </div>
+            
+                <div class="botoes" style="width: 100%; margin-top: 30px;">
+                    <a class="link_cancelar" th:href="@{/produto/listar}">
+                        <button type="button" class="cancelar">❌ Cancelar</button>
+                    </a>
+                    <button type="submit" class="cadastrar">✔️ Atualizar Produto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

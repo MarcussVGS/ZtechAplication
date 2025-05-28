@@ -1,56 +1,58 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes</title>
+    <title>Alterar Cliente</title>
     <link rel="stylesheet" th:href="@{/styles/reset.css}">
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/styles/style.css}">
 </head>
 
 <body>
     <header class="cabecalho">
-        <a th:href="@{inicio}">
-            <img class="logo_cabecalho" src="/img/logo-removebg.svg" />
+        <a th:href="@{/inicio}">
+            <img class="logo_cabecalho" th:src="@{/img/logo-removebg.svg}" alt="Logo ZTech"/>
         </a>
-        <div
-            style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
-            Atualizar de Clientes
+        <div class="titulo_pagina">
+            Atualizar Dados do Cliente
         </div>
     </header>
 
     <div class="area-principal">
         <div class="barra">
             <ul>
-				<li class="opcao_lista"><a class="link_lista" th:href="@{/cliente/listar}">CLIENTES</a></li>
-				<li class="opcao_lista"><a class="link_lista" th:href="@{/estoque/listar}">ESTOQUE</a></li>
-				<li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listas}">VENDAS</a></li>
+				<li class="opcao_lista"><a class="link_lista_atual" th:href="@{/cliente/listar}">CLIENTES</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/produto/listar}">ESTOQUE</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
 				<li class="opcao_lista"><a class="link_lista" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
                 <li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
             </ul>
         </div>
         <div class="formulario-cliente">
-            <form th:action="@{/cliente/editar/{idCliente} (idCliente=${cliente.idCliente})}"th:object="${cliente}"method="post"class="formulario">
-                <!-- Coluna 1: Dados Pessoais -->
+            <div th:if="${mensagem}" 
+                 th:classappend="${(param.error == null and #strings.containsIgnoreCase(mensagem, 'sucesso')) ? 'alert-success' : 'alert-danger'}"
+                 class="alert"
+                 style="margin-bottom: 20px; padding: 10px; border: 1px solid transparent; border-radius: .25rem;">
+                <p th:text="${mensagem}"></p>
+            </div>
+            <form th:action="@{/cliente/editar/{idCliente}(idCliente=${clienteDTO.idCliente})}" th:object="${clienteDTO}" method="post" class="formulario">
+                <input type="hidden" th:field="*{idCliente}" />
+
                 <div class="coluna">
                     <h3 class="titulo_formulario">Dados Pessoais</h3>
-					<label for="idCliente"></label>
-					<input type="hidden" id="idCliente" th:field="*{idCliente}">	
-
+					
                     <label for="nomeCliente">Nome Completo:</label>
                     <input class="campo_digitacao" type="text" id="nomeCliente" th:field="*{nomeCliente}" required>
 					<span th:if="${#fields.hasErrors('nomeCliente')}" th:errors="*{nomeCliente}" class="error"></span>
 
-					<label for="idEmail"></label>
-					<input type="hidden" id="idEmail" th:field="*{idCliente}">	
                     <label for="endEmail">E-mail:</label>
                     <input class="campo_digitacao" type="text" id="endEmail" th:field="*{endEmail}" required>
-					<span th:if="${#fields.hasErrors('endEmail')}" th:errors="*{endEmail}" class="error"></span>
+                    <span th:if="${#fields.hasErrors('endEmail')}" th:errors="*{endEmail}" class="error"></span>
 
                     <label for="telefone">Telefone:</label>
                     <input class="campo_digitacao" type="text" id="telefone" th:field="*{telefone}" required>
@@ -60,8 +62,7 @@
                     <input class="campo_digitacao" type="text" id="cpf" th:field="*{cpf}" required>
 					<span th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="error"></span>
                 </div>
-                    <hr class="separador"></hr>
-                <!-- Coluna 2: Dados de Endereço -->
+                <hr class="separador">
                 <div class="coluna">
                     <h3 class="titulo_formulario">Dados de Endereço</h3>
 
@@ -76,7 +77,7 @@
                         </div>
                         <div class="numero">
                             <label for="numeroCasa">Nº:</label>
-                            <input class="campo_digitacao" type="number" id="numeroCasa" th:field="*{numeroCasa}" required>
+                            <input class="campo_digitacao" type="number" id="numeroCasa" th:field="*{numeroCasa}" required min="0">
 							<span th:if="${#fields.hasErrors('numeroCasa')}" th:errors="*{numeroCasa}" class="error"></span>
                         </div>
                     </div>
@@ -89,40 +90,14 @@
                 </div>
             
 				
-            <div class="botoes">
-                <a class="link_cancelar" th:href="@{/cliente/listar}">
-					<button type="button" class="cancelar"  >❌ Cancelar</button></a>
-				<a class="link_cancelar" th:href="@{'/cliente/editar/'+${cliente.idCliente}}">
-					<button type="submit"  class="cadastrar" >✔️ Cadastrar</button></a>
-            </div>
-			
+                <div class="botoes" style="width: 100%; margin-top: 30px;">
+                    <a class="link_cancelar" th:href="@{/cliente/listar}">
+                        <button type="button" class="cancelar">❌ Cancelar</button>
+                    </a>
+                    <button type="submit" class="cadastrar">✔️ Atualizar Cliente</button>
+                </div>
+		    </form>
         </div>
-		</form>
     </div>
-	
-	
-	<script th:if="${mensagem != null}">
-	    Swal.fire({
-	        toast: true,
-	        position: 'top-end',
-	        icon: 'success',
-	        title: '[[${mensagem}]]',
-	        showConfirmButton: false,
-	        timer: 3000,
-	        timerProgressBar: true
-	    });
-	</script>
-	<script>
-	    function confirmarAtualizacao(event) {
-	        const id = document.getElementById("idCliente").value;
-	        if (parseInt(id) > 0) {
-	            const confirmar = confirm("Deseja realmente atualizar os dados desta vaga?");
-	            if (!confirmar) {
-	                event.preventDefault(); // cancela o envio do formulário
-	            }
-	        }
-	    }
-	</script>
-	
 </body>
 </html>

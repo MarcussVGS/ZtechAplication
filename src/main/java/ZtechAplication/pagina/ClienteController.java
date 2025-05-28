@@ -1,26 +1,28 @@
 package ZtechAplication.pagina;
 
+import java.util.Optional;
 
-import java.util.List;
+// import java.util.List; // Removido se a listagem principal for paginada
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
+// import org.springframework.web.bind.annotation.DeleteMapping; // Usar @GetMapping para simplicidade no HTML
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+// import org.springframework.web.bind.annotation.PutMapping; // Usar @PostMapping para edição
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+// import org.springframework.web.bind.annotation.RequestMethod; // Usar anotações específicas
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+// import org.springframework.web.bind.annotation.RestController; // Alterado para @Controller
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -33,42 +35,46 @@ import ZtechAplication.repository.ClienteRepository;
 
 
 @Controller
-@RequestMapping(value = "/cliente" ) //prefixo do URL
+@RequestMapping(value = "/cliente" ) 
 public class ClienteController {
 
 	@Autowired
-	private ClienteRepository classeRepo;
+	private ClienteRepository clienteRepository; // Renomeado para convenção
 	
-	//indicar o metodo get no HTML
-	@RequestMapping(value = "/cadastrarForm")                 //Abre a tela de Cadastro Cliente
-	public ModelAndView form() { //É uma função que retorna uma Model e uma View( neste caso apenas uma view)
-		ModelAndView mv = new ModelAndView("cadastroCliente");//Nome direto do Templante, do HTMl
-		mv.addObject("cliente", new ClienteDTO() ); //inicializa o obj para o formulario
+	// Exibe o formulário de cadastro de novo cliente
+	@GetMapping(value = "/cadastrarForm") // Alterado de @RequestMapping para @GetMapping
+	public ModelAndView cadastrarForm() { 
+		ModelAndView mv = new ModelAndView("cadastroCliente"); // Template cadastroCliente.html
+		mv.addObject("clienteDTO", new ClienteDTO() ); // Usa clienteDTO para o formulário
 		return mv;
 	}
 	
-	//indica o metodo pos prefixo EX: /cliente/cadastrar
+	// Processa o cadastro do novo cliente
 	@PostMapping(value = "/cadastrar")
-	public String formCadastrar(@Validated ClienteDTO clienteDTO, //anotação que valida os dados vindo da DTO
+	public String cadastrarCliente(@Validated @ModelAttribute("clienteDTO") ClienteDTO clienteDTO, // Usa clienteDTO
 										   BindingResult result, 
-										   RedirectAttributes attributes) {
-		// mesma anotação de erro do HTML, caso os campos estejam vazio
+										   RedirectAttributes attributes, Model model) {
 		if (result.hasErrors()) {
-			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
-			return "redirect:/cadastroCliente"; //redireciona para a propria tela direto
+			attributes.addFlashAttribute("mensagem", "Verifique os campos obrigatórios.");
+            attributes.addFlashAttribute("clienteDTO", clienteDTO); // Devolve o DTO com os erros
+			return "redirect:/cliente/cadastrarForm"; 
 		}
 		
-//		Populamos o cliente com os dados da DTO
+		// Verifica se CPF já existe
+        if (clienteRepository.findByCpf(clienteDTO.getCpf()).isPresent()) {
+            attributes.addFlashAttribute("mensagem", "Erro ao cadastrar: CPF já existente.");
+            attributes.addFlashAttribute("clienteDTO", clienteDTO);
+            return "redirect:/cliente/cadastrarForm";
+        }
+		
 		Cliente cliente = new Cliente();
 		cliente.setNomeCliente(clienteDTO.getNomeCliente());
 		cliente.setCpf(clienteDTO.getCpf());
 		
-		
-//		Populamos as outras tabelas dependentes com os dados vindo da DTO
 		Email email = new Email();
 		email.setEmail(clienteDTO.getEndEmail());
-		email.setCliente(cliente);
-		cliente.setEmail(email);
+		email.setCliente(cliente); 
+		cliente.setEmail(email); 
 		
 		Telefone tele = new Telefone();
 		tele.setTelefone(clienteDTO.getTelefone());
@@ -84,132 +90,157 @@ public class ClienteController {
 		end.setCliente(cliente);
 		cliente.setEndereco(end);
 		
-//      Chamamos o metodo do repositorio para salvar o cliente, o CASCATE salva nas outras taelas relacionadas
-		classeRepo.save(cliente); // salva todas as informaç~eos por conta do CASCATE
+		clienteRepository.save(cliente); 
 		attributes.addFlashAttribute("mensagem", "Cliente cadastrado(a) com sucesso!");
-		return "redirect:/cliente/cadastrarForm"; //redireciona para a tela de cadastro com URL completa
+		return "redirect:/cliente/listar"; // Redireciona para a lista após cadastro
 	}
 	
-	//indica o metodo pos prefixo EX: /cliente/listar
-	@RequestMapping(value = "/listar")     //É uma função que retorna uma Model e uma View...
-	public ModelAndView listarCliente() { //  neste caso os dois, pois ela popula a tabela
-		ModelAndView mv = new ModelAndView("clientes"); // chama o template
-		List<Cliente> clientes = (List<Cliente>) classeRepo.findAllWithRelationships(); 
-	//  /\ metodo de busca da repository que retorna uma lista de clinetes (precisa ser atualizado para cada tabela)
-		mv.addObject("clientes", clientes);         //adiciona um OBJETO chamado "clientes" a view, que vai ser a referencia usada dentro do html
-		return mv;//retorna a model/OBJETO e a view // clientes é a lista passada atraves do objeto "clientes"
+	// Lista todos os clientes com paginação
+	@GetMapping(value = "/listar")    
+	public String listarClientes(Model model, @PageableDefault(size=10) Pageable pageable) { 
+		Page<Cliente> paginaClientes = clienteRepository.findAll(pageable); // Busca paginada simples
+        // Para carregar relacionamentos com paginação, o ideal é usar @EntityGraph ou fazer o fetch na Specification
+        // Aqui, vamos converter para DTO, o que pode acionar lazy loading se não tratado.
+        // O método converterParaDTO já lida com nulidade de email, telefone, endereco.
+        Page<ClienteDTO> paginaClienteDTOs = paginaClientes.map(this::converterParaDTO);
+
+		model.addAttribute("paginaClientes", paginaClienteDTOs); 
+        if (!model.containsAttribute("termo")) { // Garante que 'termo' exista para os links de paginação
+            model.addAttribute("termo", null);
+        }
+		return "clientes"; // Template clientes.html
 	}
 
-	//indica o metodo pos prefixo EX: /cliente/buscar
-	@RequestMapping("/buscar")// \/ Variavel trasida pela URL para fazer a pesquisa
-	public String buscar (@RequestParam(value ="termo", required=false) String termo,
-						  @PageableDefault (size=12 ) Pageable pageale, //numero de respostas por pagina
-						  Model model 	) { // Instacia uma model
-		model.addAttribute("clientes", pesquisar(termo, pageale)); //OBJETO referencia Clientes, metodo expecifico pesquisar
-		model.addAttribute("termo", termo);//esse eu n sei         //o pesquisar esta no fim do codigo
-		return "clientes"; // retorna o OBjeto
+	// Busca clientes com base em um termo e com paginação
+	@GetMapping("/buscar") // Alterado de @RequestMapping
+	public String buscarClientes (@RequestParam(value ="termo", required=false) String termo,
+						  @PageableDefault (size=10 ) Pageable pageable, 
+						  Model model) { 
+        Specification<Cliente> spec = SpecificationController.comTermoCli(termo); // Usa a Specification
+		Page<Cliente> paginaClientes = clienteRepository.findAll(spec, pageable); // Busca com Specification
+        Page<ClienteDTO> paginaClienteDTOs = paginaClientes.map(this::converterParaDTO);
+
+		model.addAttribute("paginaClientes", paginaClienteDTOs);
+		model.addAttribute("termo", termo);
+        if (termo != null && !termo.isEmpty() && paginaClientes.isEmpty()) {
+            model.addAttribute("mensagemBusca", "Nenhum cliente encontrado para o termo: '" + termo + "'.");
+        } else if (termo != null && !termo.isEmpty() && !paginaClientes.isEmpty()){
+             model.addAttribute("mensagemBusca", "Exibindo resultados para: '" + termo + "'.");
+        }
+		return "clientes"; 
 	}
 	
-	//indica o metodo pos prefixo EX: /cliente/esitarForm/3
-	@RequestMapping(value = "/editarForm/{idCliente}")
-	public ModelAndView editarCliente(@PathVariable Integer idCliente) {//carrega o ID na URL
-		ModelAndView mv = new ModelAndView("alterarCliente"); //chama a tela de alteração (TEM QUE CRIAR PARA AS OUTRAS TABELAS, A DE CLIENTE JA TEM)
-	    Cliente cliente = classeRepo.findById(idCliente) //Metodo procurar por id do repositori (tem q criar)
-	        .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + idCliente)); //caso o id não exista
+	// Exibe o formulário de edição de um cliente
+	@GetMapping(value = "/editarForm/{idCliente}") // Alterado de @RequestMapping para @GetMapping
+	public ModelAndView editarForm(@PathVariable("idCliente") Integer idCliente) { // @PathVariable explícito
+		ModelAndView mv = new ModelAndView("alterarCliente"); // Template alterarCliente.html
+	    Cliente cliente = clienteRepository.findById(idCliente)
+	        .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + idCliente));
 	    
-	    // Converte para DTO
-	    ClienteDTO clienteDTO = converterParaDTO(cliente); //passa todod os dados do cliente encontrado para a DTO (metodo no fim do codigo)
-	    System.out.println(clienteDTO.toString());// teste, ignora
-	    mv.addObject("cliente", clienteDTO); //adiciona um OBJETO chamado "cliente" a view, que vai ser a referencia usada dentro do html
-	    return mv;							 // clienteDTO são os dados passados atraves do objeto "cliente"
+	    ClienteDTO clienteDTO = converterParaDTO(cliente);
+	    mv.addObject("clienteDTO", clienteDTO); // Envia clienteDTO para o formulário
+	    return mv;							 
 	}
 	
-	//indica o metodo pos prefixo EX: /cliente/esitarForm/3
-	// ELA PRECISA SER POST
-	@PostMapping(value = "/editar/{idCliente}") // RECEBEMOS O OBJETO E INSTANCIAMOS O DTO QUE O RECEBE
-	public String formEditar(@ModelAttribute("cliente") @Validated ClienteDTO clienteDTO,
-							 @PathVariable Integer idCliente, //PUXAMOS O ID VIA URL
+	// Processa a edição de um cliente existente
+	@PostMapping(value = "/editar/{idCliente}") 
+	public String editarCliente(@ModelAttribute("clienteDTO") @Validated ClienteDTO clienteDTO, // Alterado "cliente" para "clienteDTO"
+							 @PathVariable("idCliente") Integer idCliente, // @PathVariable explícito
 							 BindingResult result, 
-							 RedirectAttributes attributes) {
-//      CRIA UM OBJETO RECEBENDO AS INFORMAÇÕES DO ID QUE QUEREMOS ALTERAR
-		Cliente cliente = classeRepo.findById(idCliente) //FAZ AS DEVIDAS VALIDAÇÕES
-			    .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + idCliente));
-		if (result.hasErrors()) { // VALIDAÇÃO DE POPULAÇÃO DOS CAMPOS
-			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
-			cliente.setIdCliente(idCliente);     
-			return "/editar/{idCliente}";
+							 RedirectAttributes attributes, Model model) {
+
+		if (result.hasErrors()) {
+			attributes.addFlashAttribute("mensagem", "Verifique os campos obrigatórios.");
+            attributes.addFlashAttribute("clienteDTO", clienteDTO); // Devolve o DTO com os erros
+			return "redirect:/cliente/editarForm/" + idCliente;
 		}
 		
-// A INTENÇÃO É ALTERAR UM ITEM Q JA EXISTE, ENTÃO N VAMOS INSTANCIAR NOVAMENTE...
-// VAMOS APENAS ATUALIZAR OS CAMPOS E MANDAR PARA O SPRING COM O ID...
-// ELE É INTELIGENTE E SABE QUE PELO ID JA EXISTIR NO BANCO É UM UPDATE E NÃO UM CREATE
-//		Populamos o cliente com os dados da DTO
-		cliente.setIdCliente(idCliente);
+		Cliente cliente = clienteRepository.findById(idCliente)
+			    .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + idCliente));
+
+        // Verifica se o CPF foi alterado e se o novo CPF já existe para OUTRO cliente
+        if (!cliente.getCpf().equals(clienteDTO.getCpf())) {
+            Optional<Cliente> clienteExistenteComCpf = clienteRepository.findByCpf(clienteDTO.getCpf());
+            if (clienteExistenteComCpf.isPresent() && !clienteExistenteComCpf.get().getIdCliente().equals(idCliente)) {
+                attributes.addFlashAttribute("mensagem", "Erro ao atualizar: Novo CPF já pertence a outro cliente.");
+                attributes.addFlashAttribute("clienteDTO", clienteDTO);
+                return "redirect:/cliente/editarForm/" + idCliente;
+            }
+        }
+		
 		cliente.setNomeCliente(clienteDTO.getNomeCliente());
 		cliente.setCpf(clienteDTO.getCpf());
 		
-//		Populamos as outras tabelas dependentes com os dados vindo da DTO
+        // Atualiza Email (garante que não seja nulo)
+        if (cliente.getEmail() == null) {
+            cliente.setEmail(new Email());
+            cliente.getEmail().setCliente(cliente);
+        }
 		cliente.getEmail().setEmail(clienteDTO.getEndEmail());
 		
+        // Atualiza Telefone (garante que não seja nulo)
+        if (cliente.getTelefone() == null) {
+            cliente.setTelefone(new Telefone());
+            cliente.getTelefone().setCliente(cliente);
+        }
 		cliente.getTelefone().setTelefone(clienteDTO.getTelefone());
 		
+        // Atualiza Endereço (garante que não seja nulo)
+        if (cliente.getEndereco() == null) {
+            cliente.setEndereco(new Endereco());
+            cliente.getEndereco().setCliente(cliente);
+        }
 		cliente.getEndereco().setRua(clienteDTO.getRua());
 		cliente.getEndereco().setCep(clienteDTO.getCep());
 		cliente.getEndereco().setBairro(clienteDTO.getBairro());
 		cliente.getEndereco().setCidade(clienteDTO.getCidade());
 		cliente.getEndereco().setNumeroCasa(clienteDTO.getNumeroCasa());
 		
-		classeRepo.save(cliente); //MESMO METODO DE SALVAR, MAS AGORA PASSAMOS O ID QUANDO POPULAMOS OS CAMPOS
+		clienteRepository.save(cliente); 
 		attributes.addFlashAttribute("mensagem", "Cliente atualizado(a) com sucesso!");
-		return "redirect:/cliente/listar"; //MANDA PARA  TELA DE LISTAR
+		return "redirect:/cliente/listar"; 
 	}
 		
-		
-	//indica o metodo pos prefixo EX: /cliente/deletar/3
-	@RequestMapping(value = "/deletar/{idCliente}")
-	public String remover(@PathVariable Integer idCliente, RedirectAttributes attributes) {
-		Cliente cliente = classeRepo.findById(idCliente) //CRIA UM OBJ CLIENTE PELO ID
+	// Deleta um cliente
+	@GetMapping(value = "/deletar/{idCliente}") // Alterado de @RequestMapping para @GetMapping
+	public String deletarCliente(@PathVariable("idCliente") Integer idCliente, RedirectAttributes attributes) { // @PathVariable explícito
+		Cliente cliente = clienteRepository.findById(idCliente) 
 	            .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + idCliente));
-	    classeRepo.delete(cliente); // PASSA O OBJETO PARA A FUNÇÃO DELETE 
-        attributes.addFlashAttribute("mensagem", "Cliente removida com sucesso!");
-        return "redirect:/cliente/listar"; // MANDA NOVAMENTE PARA QUE RECARREGUE A LISTA DE CLIENTES
+	    
+        // Antes de deletar o cliente, é importante considerar o que fazer com as Vendas e OrdensDeServico
+        // que possam referenciar este cliente.
+        // Se houver restrições de chave estrangeira, a exclusão pode falhar.
+        // Opções:
+        // 1. Impedir a exclusão se houver referências (verificar vendas/OS antes de deletar).
+        // 2. Permitir exclusão e as FKs em Venda/OS se tornarem nulas (requer que FK_CLIENTE seja anulável nessas tabelas).
+        // 3. Excluir em cascata (configuração no @OneToMany em Cliente - geralmente perigoso para dados transacionais).
+        try {
+            clienteRepository.delete(cliente); 
+            attributes.addFlashAttribute("mensagem", "Cliente removido(a) com sucesso!");
+        } catch (Exception e) {
+            // Exceção pode ocorrer devido a restrições de chave estrangeira
+            attributes.addFlashAttribute("mensagem", "Erro ao remover cliente: Pode estar associado a vendas ou ordens de serviço. Detalhe: " + e.getMessage());
+        }
+        return "redirect:/cliente/listar"; 
 	}
 	
-	
-
-//	METODOS AUXILIARES
-	
-//	ESTE METODO É RESPONSAVEL POR REALIZAR UMA BUSCA COM ATRIBUTOS ESPECIAIS CONFIGURADOS MANUALMENTE...
-//  METODO ESPECIAL QUE USA UMA CLASSE CHAMADA "SPECIFICATIONcONTROLLER"...
-//	DEVE SE CRIAR UM METODO NA ESPECIFICATION PARA CADA CONSULTA...
-//	ATENÇÃO::: DEVE FAZER UM EXTENDS NO REPOSITORY
-	public Page<Cliente> pesquisar(String termo, Pageable pegeable){
-		return classeRepo.findAll(
-				SpecificationController.comTermoCli(termo), 
-				pegeable);
-	}
-	
-//	METODO QUE PASSA TODOS OS DADOS DAS MODELS PARA A DTO
-//	O METODO JA RETORNA A DTO PREENCHIDA
+    // Método auxiliar para converter Cliente para ClienteDTO
 	private ClienteDTO converterParaDTO(Cliente cliente) {
-	    ClienteDTO dto = new ClienteDTO(); //PRIMEIRO A PRINCIPAL
+	    ClienteDTO dto = new ClienteDTO(); 
 	    dto.setIdCliente(cliente.getIdCliente());
 	    dto.setNomeCliente(cliente.getNomeCliente());
 	    dto.setCpf(cliente.getCpf());
 	    
-	    // Verifica e converte Email (se existir)// JA SE FAZ ESSA VERIFICAÇÃO EM TELA...
-	    if (cliente.getEmail() != null) {        //MAS N CUSTA NADA FAZER DNV
+	    if (cliente.getEmail() != null) {        
 	        dto.setEndEmail(cliente.getEmail().getEndEmail());
 	    } else {
-	        dto.setEndEmail(""); // Valor padrão
+	        dto.setEndEmail(""); 
 	    }
-	    // Verifica e converte Telefone (se existir)
 	    if (cliente.getTelefone() != null) {
 	        dto.setTelefone(cliente.getTelefone().getTelefone());
 	    } else {
-	        dto.setTelefone(""); // Valor padrão
+	        dto.setTelefone(""); 
 	    }
-	    // Verifica e converte Endereco (se existir)
 	    if (cliente.getEndereco() != null) {
 	        Endereco end = cliente.getEndereco();
 	        dto.setRua(end.getRua());
@@ -220,5 +251,4 @@ public class ClienteController {
 	    }
 	    return dto;
 	}
-	
 }

@@ -1,93 +1,87 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Estoque</title>
-<link rel="stylesheet" th:href="@{/styles/reset.css}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-	href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-	rel="stylesheet">
-<link rel="stylesheet" th:href="@{/styles/style.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Produto</title>
+    <link rel="stylesheet" th:href="@{/styles/reset.css}">
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
-	<header class="cabecalho">
-		<a th:href="@{inicio}"> <img class="logo_cabecalho"
-			src="/img/logo-removebg.svg" />
-		</a>
-		<div
-			style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
-			Cadastro de Produto</div>
-	</header>
+    <header class="cabecalho">
+        <a th:href="@{/inicio}">
+            <img class="logo_cabecalho" th:src="@{/img/logo-removebg.svg}" alt="Logo ZTech" />
+        </a>
+        <div class="titulo_pagina">
+            Cadastro de Produto
+        </div>
+    </header>
 
-	<div class="area-principal">
+    <div class="area-principal">
         <div class="barra">
             <ul>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{/clientes/listar}">CLIENTES</a></li>
-			<li class="opcao_lista"><a class="link_lista_atual" th:href="@{/estoque/listar}">ESTOQUE</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{/inicio/listar}">INÍCIO</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/cliente/listar}">CLIENTES</a></li>
+                <li class="opcao_lista"><a class="link_lista_atual" th:href="@{/produto/listar}">ESTOQUE</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
             </ul>
         </div>
-		<div class="formulario-cliente">
-			<form class="formulario">
-				<!-- Coluna 1: Dados do Produto -->
-				<div class="coluna">
-					<h3 class="titulo_formulario">Dados do Produto</h3>
+        <div class="formulario-cliente"> <div th:if="${mensagem}" class="alert alert-info" style="margin-bottom: 20px; padding: 10px; background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; border-radius: .25rem;">
+                <p th:text="${mensagem}"></p>
+            </div>
 
-					<label>Nome do Produto:</label> <input class="campo_digitacao"
-						type="text" name="nome" required> 
-					<label for="categoria">Categoria:</label>
-						<select id="categoria" name="categoria">
-							<option value="">Selecione uma categoria</option>
-							<option value="Tela">Tela</option>
-							<option value="Carregador">Carregador</option>
-							<option value="Capinha">Capinha</option>
-							<option value="Película">Película</option>
-							<option value="Fone de ouvido">Fones de Ouvido</option>							
-						</select>
+            <form th:action="@{/produto/cadastrar}" th:object="${produtoDTO}" method="post" class="formulario">
+                <div class="coluna">
+                    <h3 class="titulo_formulario">Dados do Produto</h3>
 
-				</div>
-				<hr class="separador"></hr>
-				<!-- Coluna 2: Informações de Precificação -->
-				<div class="coluna">
-					<h3 class="titulo_formulario">Dados de Preço</h3>
+                    <label for="nome">Nome do Produto:</label>
+                    <input class="campo_digitacao" type="text" id="nome" th:field="*{nome}" required>
+                    <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="error"></span>
 
-					<label>Preço:</label> <input class="campo_digitacao" type="text"
-						name="preco" required>
-					<label>Marca</label>
-						<select id="categoria" name="categoria">
-						<option value="">Selecione uma Marca</option>
-						<option value="Samsung">Samsung</option>
-						<option value="IPhone">IPhone</option>
-						<option value="Xiaomi">Xiaomi</option>
-						<option value="Motorola">Motorola</option>					
-					</select>
-					
-					<label>Tipo:</label>
-						<select id="categoria" name="categoria">
-						<option value="">Selecione um Tipo:</option>
-						<option value="Samsung">Samsung</option>
-						<option value="IPhone">IPhone</option>
-						<option value="Xiaomi">Xiaomi</option>
-						<option value="Motorola">Motorola</option>					
-					</select>
-						
-				</div>
-			</form>
+                    <label for="descricao">Descrição:</label>
+                    <textarea class="campo_digitacao" id="descricao" th:field="*{descricao}" rows="3"></textarea>
+                    <span th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}" class="error"></span>
+                    
+                    <label for="categoriaNome">Nome da Categoria:</label>
+                    <input class="campo_digitacao" type="text" id="categoriaNome" th:field="*{categoria}" placeholder="Ex: Telas, Baterias" required>
+                    <span th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}" class="error"></span>
 
-			<div class="botoes">
-				<a class="link_cancelar" th:href="@{estoque}"><button
-						class="cancelar">❌ Cancelar</button></a><a class="link_confirmar"
-					th:href="@{estoque}"><button class="cadastrar">✔️
-						Cadastrar</button></a>
-			</div>
-		</div>
-		
+                    <label for="marcaNome">Nome da Marca:</label>
+                    <input class="campo_digitacao" type="text" id="marcaNome" th:field="*{marca}" placeholder="Ex: Samsung, Apple" required>
+                    <span th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}" class="error"></span>
+                </div>
+                <hr class="separador">
+                <div class="coluna">
+                    <h3 class="titulo_formulario">Preço e Estoque</h3>
+
+                    <label for="custo">Custo (R$):</label>
+                    <input class="campo_digitacao" type="number" step="0.01" id="custo" th:field="*{custo}" required>
+                    <span th:if="${#fields.hasErrors('custo')}" th:errors="*{custo}" class="error"></span>
+
+                    <label for="valor">Valor de Venda (R$):</label>
+                    <input class="campo_digitacao" type="number" step="0.01" id="valor" th:field="*{valor}" required>
+                    <span th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}" class="error"></span>
+                    
+                    <label for="quantidade">Quantidade em Estoque:</label>
+                    <input class="campo_digitacao" type="number" id="quantidade" th:field="*{quantidade}" min="0" required>
+                    <span th:if="${#fields.hasErrors('quantidade')}" th:errors="*{quantidade}" class="error"></span>
+                </div>
+            
+                <div class="botoes" style="width: 100%; margin-top: 30px;">
+                    <a class="link_cancelar" th:href="@{/produto/listar}">
+                        <button type="button" class="cancelar">❌ Cancelar</button>
+                    </a>
+                    <button type="submit" class="cadastrar">✔️ Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

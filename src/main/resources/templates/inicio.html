@@ -4,46 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Início</title>
-    <link rel="stylesheet" th:href="@{styles/reset.css}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" th:href="@{/styles/reset.css}"> <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/styles/style.css}" >
 </head>
 <body>
     <header class="cabecalho">
-        <a th:href="@{inicio}"> <img class="logo_cabecalho" src="img/logo-removebg.svg"/></a> 
-            <div style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; 
-			text-align: center; justify-content: center; display: flex; flex-direction: column; 
-			color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; 
-			word-wrap: break-word">Início</div>
-        </header>
+        <a th:href="@{/inicio}"> <img class="logo_cabecalho" th:src="@{/img/logo-removebg.svg}" alt="Logo ZTech"/></a> <div class="titulo_pagina">Início</div> </header>
     <div class="area-principal">
         <div class="barra">
             <ul>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{cliente/listar}" >CLIENTES</a></li>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{estoque/listar}">ESTOQUE</a></li>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{ordens/listar}">ORDENS DE SERVIÇO</a></li>
-                <li class="opcao_lista"><a class="link_lista_atual" th:href="@{/inicio}">INÍCIO</a></li>
-            </ul>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/cliente/listar}" >CLIENTES</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/produto/listar}">ESTOQUE</a></li> <li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
+                </ul>
 	</div>
-            <div class="tabela">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>E-mail</th>
-                            <th>Telefone</th>
-                            <th>CEP</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <!-- Dados dinâmicos via Java serão inseridos aqui -->
-                    </tbody>
-                </table>
+            <div class="conteudo"> <div class="tabela">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>Telefone</th>
+                                <th>CEP</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" style="text-align: center;">Bem-vindo ao Sistema ZTech! Navegue pelas opções ao lado.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
