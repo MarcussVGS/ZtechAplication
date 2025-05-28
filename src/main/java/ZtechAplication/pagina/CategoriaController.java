@@ -1,5 +1,7 @@
 package ZtechAplication.pagina;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -17,11 +19,16 @@ import ZtechAplication.model.Categoria;
 import ZtechAplication.repository.CategoriaRepository;
 
 @RestController
-@RequestMapping(value = {"/categoria", "/Categoria"} ) //para que qualquer um deles seja valido
+@RequestMapping(value = "/categoria")
 public class CategoriaController {
 	
 	@Autowired
 	private CategoriaRepository classeRepo;
+	
+	@GetMapping(value = "dataList")
+	public List<Categoria> listarCategorias() {
+        return (List<Categoria>) classeRepo.findAll();
+    }
 	
 	//indicar o metodo get no HTML
 	@GetMapping(value = "/formCategoria")
@@ -53,7 +60,7 @@ public class CategoriaController {
 	}
 	
 	@PutMapping(value = "/editarCategoria/{id}")
-	public ModelAndView editarCategoria(@PathVariable Long id) {
+	public ModelAndView editarCategoria(@PathVariable Integer id) {
 		ModelAndView mv = new ModelAndView("/categoria/editarCategoria");
 		mv.addObject("categoria", classeRepo.findById(id).orElseThrow( () -> 
 					 new IllegalArgumentException("Categoria invalida" + id) ));
@@ -61,7 +68,7 @@ public class CategoriaController {
 	}
 	
 	@DeleteMapping(value = "/deletarCategoria/{id}")
-	public String remover(@PathVariable Long id, RedirectAttributes attributes) {
+	public String remover(@PathVariable Integer id, RedirectAttributes attributes) {
         classeRepo.deleteById(id);
         attributes.addFlashAttribute("mensagem", "Categoria removida com sucesso!");
         return "redirect:/categoria/cadastrarCategoria";
