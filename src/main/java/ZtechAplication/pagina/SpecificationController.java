@@ -29,12 +29,12 @@ public class SpecificationController {
             // e para permitir a busca em campos dessas entidades.
             // O JoinType.LEFT garante que clientes sem email/telefone/endereço ainda sejam retornados se outros campos corresponderem.
             // Adicionar query.distinct(true) pode ser útil se os joins causarem duplicatas.
-            // root.fetch("email", jakarta.persistence.criteria.JoinType.LEFT);
-            // root.fetch("telefone", jakarta.persistence.criteria.JoinType.LEFT);
-            // root.fetch("endereco", jakarta.persistence.criteria.JoinType.LEFT);
-            // Nota: O fetch aqui pode causar "multiplebagfetchexception" se Cliente tivesse múltiplas coleções @OneToMany.
-            // Para @OneToOne como Email, Telefone, Endereco, geralmente é seguro.
-            // Alternativamente, os joins podem ser implícitos se a busca for em campos aninhados.
+            // if (query.getResultType().equals(Cliente.class)) { // Evita fetch em subqueries de contagem
+            //     root.fetch("email", jakarta.persistence.criteria.JoinType.LEFT);
+            //     root.fetch("telefone", jakarta.persistence.criteria.JoinType.LEFT);
+            //     root.fetch("endereco", jakarta.persistence.criteria.JoinType.LEFT);
+            // }
+
 
 			return cb.or( // Combina os critérios de busca com OR
 					cb.like(cb.lower(root.get("nomeCliente")), likeTerm), // Busca por nome do cliente
@@ -58,9 +58,11 @@ public class SpecificationController {
 			String likeTerm = "%" + termo.toLowerCase() + "%";
 			// Garante que os joins sejam feitos para buscar em Categoria e Marca
             // e para evitar N+1 problemas ao carregar os dados relacionados.
-            // root.fetch("categoria", jakarta.persistence.criteria.JoinType.LEFT);
-            // root.fetch("marca", jakarta.persistence.criteria.JoinType.LEFT);
-            // Nota: Similar ao Cliente, o fetch é bom para @ManyToOne. Se houver muitas coleções, considerar alternativas.
+            // if (query.getResultType().equals(Produto.class)) { // Evita fetch em subqueries de contagem
+            //    root.fetch("categoria", jakarta.persistence.criteria.JoinType.LEFT);
+            //    root.fetch("marca", jakarta.persistence.criteria.JoinType.LEFT);
+            // }
+
 
 			return cb.or( // Combina os critérios de busca com OR
 					cb.like(cb.lower(root.get("nome")), likeTerm), // Busca por nome do produto
@@ -82,10 +84,11 @@ public class SpecificationController {
             // Adiciona JOIN FETCH para Cliente e Produto para otimizar a consulta
             // e permitir filtros em campos dessas entidades relacionadas.
             // O if previne que o fetch seja aplicado em subqueries de contagem (necessário para paginação).
-            if (query.getResultType().equals(Venda.class)) {
+            if (query.getResultType().equals(Venda.class)) { // Só aplica fetch na query principal de seleção
                  root.fetch("cliente", jakarta.persistence.criteria.JoinType.LEFT);
                  root.fetch("produto", jakarta.persistence.criteria.JoinType.LEFT);
             }
+
 
             List<Predicate> predicates = new ArrayList<>();
             String likeTerm = "%" + termo.toLowerCase() + "%";

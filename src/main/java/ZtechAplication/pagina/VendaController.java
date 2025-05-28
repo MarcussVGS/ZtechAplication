@@ -15,7 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable; // Importação já deve existir
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +45,7 @@ public class VendaController {
 
     @GetMapping(value = "/cadastrarForm")
     public ModelAndView form() {
-        ModelAndView mv = new ModelAndView("cadastroVenda");
+        ModelAndView mv = new ModelAndView("cadastro_vendas"); // Usando o nome do seu arquivo
         VendaDTO vendaDTO = new VendaDTO();
         vendaDTO.setDataInicio(LocalDate.now());
         vendaDTO.setHoraInicio(LocalTime.now());
@@ -59,9 +59,10 @@ public class VendaController {
     public String cadastrarVenda(@Validated @ModelAttribute("venda") VendaDTO vendaDTO, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             attributes.addFlashAttribute("mensagem", "Verifique os campos obrigatórios.");
+            attributes.addFlashAttribute("venda", vendaDTO); 
             attributes.addFlashAttribute("produtos", produtoRepository.findAllWithRelationships());
             attributes.addFlashAttribute("clientes", clienteRepository.findAllWithRelationships());
-            return "redirect:/vendas/cadastrarForm";
+            return "redirect:/vendas/cadastrarForm"; // URL Correta
         }
 
         Produto produto = produtoRepository.findById(vendaDTO.getIdProduto())
@@ -70,12 +71,20 @@ public class VendaController {
         Cliente cliente = clienteRepository.findById(vendaDTO.getIdCliente())
                 .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + vendaDTO.getIdCliente()));
 
+        if (vendaDTO.getQuantidade() == null || vendaDTO.getQuantidade() <= 0) {
+            attributes.addFlashAttribute("mensagem", "A quantidade deve ser maior que zero.");
+            attributes.addFlashAttribute("venda", vendaDTO);
+            attributes.addFlashAttribute("produtos", produtoRepository.findAllWithRelationships());
+            attributes.addFlashAttribute("clientes", clienteRepository.findAllWithRelationships());
+            return "redirect:/vendas/cadastrarForm"; // URL Correta
+        }
+        
         if (produto.getQuantidade() < vendaDTO.getQuantidade()) {
             attributes.addFlashAttribute("mensagem", "Quantidade em estoque insuficiente para o produto: " + produto.getNome());
             attributes.addFlashAttribute("venda", vendaDTO);
             attributes.addFlashAttribute("produtos", produtoRepository.findAllWithRelationships());
             attributes.addFlashAttribute("clientes", clienteRepository.findAllWithRelationships());
-            return "redirect:/vendas/cadastrarForm";
+            return "redirect:/vendas/cadastrarForm"; // URL Correta
         }
 
         Venda venda = new Venda();
@@ -92,7 +101,7 @@ public class VendaController {
 
         vendaRepository.save(venda);
         attributes.addFlashAttribute("mensagem", "Venda cadastrada com sucesso!");
-        return "redirect:/vendas/listar";
+        return "redirect:/vendas/listar"; // URL Correta
     }
 
     @GetMapping(value = "/listar")
@@ -107,7 +116,6 @@ public class VendaController {
         return "vendas";
     }
 
-    // Corrigido aqui
     @GetMapping(value = "/editarForm/{idVenda}")
     public ModelAndView editarForm(@PathVariable("idVenda") Integer idVenda) {
         Venda venda = vendaRepository.findById(idVenda)
@@ -120,69 +128,72 @@ public class VendaController {
         return mv;
     }
 
-    // Corrigido aqui
     @PostMapping(value = "/editar/{idVenda}")
     public String editarVenda(@PathVariable("idVenda") Integer idVenda, @Validated @ModelAttribute("venda") VendaDTO vendaDTO, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             attributes.addFlashAttribute("mensagem", "Verifique os campos obrigatórios.");
+            attributes.addFlashAttribute("venda", vendaDTO); 
             attributes.addFlashAttribute("produtos", produtoRepository.findAllWithRelationships());
             attributes.addFlashAttribute("clientes", clienteRepository.findAllWithRelationships());
             return "redirect:/vendas/editarForm/" + idVenda;
         }
 
-        Venda venda = vendaRepository.findById(idVenda)
+        Venda vendaExistente = vendaRepository.findById(idVenda)
                 .orElseThrow(() -> new IllegalArgumentException("Venda inválida: " + idVenda));
 
-        Produto produtoAntigo = venda.getProduto();
-        int quantidadeAntiga = venda.getQuantidade();
+        Produto produtoAntigo = vendaExistente.getProduto();
+        int quantidadeAntiga = vendaExistente.getQuantidade();
 
         Produto produtoNovo = produtoRepository.findById(vendaDTO.getIdProduto())
                 .orElseThrow(() -> new IllegalArgumentException("Produto novo inválido: " + vendaDTO.getIdProduto()));
         
         Cliente cliente = clienteRepository.findById(vendaDTO.getIdCliente())
                 .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + vendaDTO.getIdCliente()));
+        
+        if (vendaDTO.getQuantidade() == null || vendaDTO.getQuantidade() <= 0) {
+            attributes.addFlashAttribute("mensagem", "A quantidade deve ser maior que zero.");
+            attributes.addFlashAttribute("venda", vendaDTO);
+            attributes.addFlashAttribute("produtos", produtoRepository.findAllWithRelationships());
+            attributes.addFlashAttribute("clientes", clienteRepository.findAllWithRelationships());
+            return "redirect:/vendas/editarForm/" + idVenda;
+        }
 
         produtoAntigo.adicionarQuantidade(quantidadeAntiga);
         
-        if (produtoNovo.getIdProduto().equals(produtoAntigo.getIdProduto())) {
-             if ((produtoAntigo.getQuantidade()) < vendaDTO.getQuantidade()) {
-                attributes.addFlashAttribute("mensagem", "Quantidade em estoque insuficiente para o produto: " + produtoNovo.getNome());
-                attributes.addFlashAttribute("venda", vendaDTO);
-                produtoAntigo.removerQuantidade(quantidadeAntiga); 
-                attributes.addFlashAttribute("produtos", produtoRepository.findAllWithRelationships());
-                attributes.addFlashAttribute("clientes", clienteRepository.findAllWithRelationships());
-                return "redirect:/vendas/editarForm/" + idVenda;
-            }
-        } else { 
-            if (produtoNovo.getQuantidade() < vendaDTO.getQuantidade()) {
-                attributes.addFlashAttribute("mensagem", "Quantidade em estoque insuficiente para o produto: " + produtoNovo.getNome());
-                attributes.addFlashAttribute("venda", vendaDTO);
-                produtoAntigo.removerQuantidade(quantidadeAntiga); 
-                attributes.addFlashAttribute("produtos", produtoRepository.findAllWithRelationships());
-                attributes.addFlashAttribute("clientes", clienteRepository.findAllWithRelationships());
-                return "redirect:/vendas/editarForm/" + idVenda;
-            }
+        int estoqueDisponivelParaNovoProduto = produtoNovo.getQuantidade();
+        if(produtoNovo.getIdProduto().equals(produtoAntigo.getIdProduto())) {
+            estoqueDisponivelParaNovoProduto = produtoAntigo.getQuantidade();
+        }
+
+        if (estoqueDisponivelParaNovoProduto < vendaDTO.getQuantidade()) {
+            attributes.addFlashAttribute("mensagem", "Quantidade em estoque (" + estoqueDisponivelParaNovoProduto + ") insuficiente para o produto: " + produtoNovo.getNome());
+            attributes.addFlashAttribute("venda", vendaDTO);
+            produtoAntigo.removerQuantidade(quantidadeAntiga); 
+            attributes.addFlashAttribute("produtos", produtoRepository.findAllWithRelationships());
+            attributes.addFlashAttribute("clientes", clienteRepository.findAllWithRelationships());
+            return "redirect:/vendas/editarForm/" + idVenda;
         }
         
-        produtoRepository.save(produtoAntigo); 
+        if (!produtoNovo.getIdProduto().equals(produtoAntigo.getIdProduto())) {
+            produtoRepository.save(produtoAntigo); 
+        }
 
-        venda.setDataInicio(vendaDTO.getDataInicio());
-        venda.setHoraInicio(vendaDTO.getHoraInicio());
-        venda.setQuantidade(vendaDTO.getQuantidade());
-        venda.setProduto(produtoNovo);
-        venda.setCliente(cliente);
-        venda.setValor(produtoNovo.getValor().multiply(new BigDecimal(vendaDTO.getQuantidade())));
-        venda.setLucro((produtoNovo.getValor().subtract(produtoNovo.getCusto())).multiply(new BigDecimal(vendaDTO.getQuantidade())));
+        vendaExistente.setDataInicio(vendaDTO.getDataInicio());
+        vendaExistente.setHoraInicio(vendaDTO.getHoraInicio());
+        vendaExistente.setQuantidade(vendaDTO.getQuantidade());
+        vendaExistente.setProduto(produtoNovo);
+        vendaExistente.setCliente(cliente);
+        vendaExistente.setValor(produtoNovo.getValor().multiply(new BigDecimal(vendaDTO.getQuantidade())));
+        vendaExistente.setLucro((produtoNovo.getValor().subtract(produtoNovo.getCusto())).multiply(new BigDecimal(vendaDTO.getQuantidade())));
 
         produtoNovo.removerQuantidade(vendaDTO.getQuantidade());
         produtoRepository.save(produtoNovo);
         
-        vendaRepository.save(venda);
+        vendaRepository.save(vendaExistente);
         attributes.addFlashAttribute("mensagem", "Venda atualizada com sucesso!");
         return "redirect:/vendas/listar";
     }
 
-    // Corrigido aqui
     @GetMapping(value = "/deletar/{idVenda}")
     public String deletarVenda(@PathVariable("idVenda") Integer idVenda, RedirectAttributes attributes) {
         Venda venda = vendaRepository.findById(idVenda)
@@ -220,7 +231,7 @@ public class VendaController {
 
     private VendaDTO converterParaDTO(Venda venda) {
         VendaDTO dto = new VendaDTO();
-        dto.setIdVenda(venda.getIdVenda()); // Essencial para os links de editar/deletar funcionarem
+        dto.setIdVenda(venda.getIdVenda());
         dto.setDataInicio(venda.getDataInicio());
         dto.setHoraInicio(venda.getHoraInicio());
         dto.setValor(venda.getValor());
