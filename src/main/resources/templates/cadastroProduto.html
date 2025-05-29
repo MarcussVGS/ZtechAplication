@@ -73,15 +73,16 @@
                     <input class="campo_digitacao" type="number" id="quantidade" th:field="*{quantidade}" min="0" required>
                     <span th:if="${#fields.hasErrors('quantidade')}" th:errors="*{quantidade}" class="error"></span>
                 </div>
-            
-                <div class="botoes" style="width: 100%; margin-top: 30px;">
-                    <a class="link_cancelar" th:href="@{/produto/listar}">
-                        <button type="button" class="cancelar">❌ Cancelar</button>
-                    </a>
-                    <button type="submit" class="cadastrar">✔️ Cadastrar</button>
-                </div>
+				<div class="botoes">
+				          <a class="link_cancelar" th:href="@{/produto/listar}">
+				              <button type="button" class="cancelar">❌ Cancelar</button>
+				          </a>
+				          <button type="submit" class="cadastrar">✔️ Cadastrar</button>
+				      </div>
+      
             </form>
         </div>
+		
     </div>
 </body>
 </html>

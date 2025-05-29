@@ -54,7 +54,7 @@ public class OrdemServicoController {
 	//indicar o metodo get no HTML
 	@GetMapping(value = "/cadastrarForm")
 	public ModelAndView form() {
-        ModelAndView mv = new ModelAndView("cadastro_vendas");
+        ModelAndView mv = new ModelAndView("cadastro_OS");
         OrdemServicoDTO osDTO = new OrdemServicoDTO();
         osDTO.setDataInicio(LocalDate.now());
         osDTO.setHoraInicio(LocalTime.now());

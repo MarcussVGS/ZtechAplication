@@ -12,6 +12,10 @@
     margin-bottom: 80px;
     margin-left: 300px;
 }
+formulario_S{
+	display: flex;
+	
+}
 
 .coluna {
     display: flex;
