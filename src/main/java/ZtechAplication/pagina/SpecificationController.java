@@ -9,7 +9,8 @@ import ZtechAplication.model.Cliente;
 import ZtechAplication.model.OrdemServico;
 import ZtechAplication.model.Produto;
 import ZtechAplication.model.Venda; 
-import java.time.LocalDate; 
+import java.time.LocalDate;
+import java.time.Year;
 import java.time.format.DateTimeFormatter; 
 import java.time.format.DateTimeParseException; 
 
@@ -115,6 +116,10 @@ public class SpecificationController {
                     dataBusca = LocalDate.parse(termo, DateTimeFormatter.ISO_LOCAL_DATE);
                 } else if (termo.matches("\\d{2}/\\d{2}/\\d{4}")) { // Verifica formato DD/MM/AAAA
                     dataBusca = LocalDate.parse(termo, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                } else if (termo.matches("\\d{2}/\\d{2}")) { // Formato DD/MM
+                    // Adiciona o ano atual ao termo
+                    String termoCompleto = termo + "/" + Year.now().getValue(); //completa o ano da data especulada para o ano atual
+                    dataBusca = LocalDate.parse(termoCompleto, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                 } else {
                     // Se não corresponder a nenhum formato conhecido, lança exceção para ser capturada
                     throw new DateTimeParseException("Formato de data não suportado para busca", termo, 0);
@@ -173,7 +178,11 @@ public class SpecificationController {
                     dataBusca = LocalDate.parse(termo, DateTimeFormatter.ISO_LOCAL_DATE);
                 } else if (termo.matches("\\d{2}/\\d{2}/\\d{4}")) { // Verifica formato DD/MM/AAAA
                     dataBusca = LocalDate.parse(termo, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                } else {
+                } else if (termo.matches("\\d{2}/\\d{2}")) { // Formato DD/MM
+                    // Adiciona o ano atual ao termo
+                    String termoCompleto = termo + "/" + Year.now().getValue();
+                    dataBusca = LocalDate.parse(termoCompleto, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                }else {
                     // Se não corresponder a nenhum formato conhecido, lança exceção para ser capturada
                     throw new DateTimeParseException("Formato de data não suportado para busca", termo, 0);
                 }
