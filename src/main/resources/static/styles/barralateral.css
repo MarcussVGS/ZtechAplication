@@ -17,8 +17,10 @@
 .link_lista{
     text-decoration: none;
     color: aliceblue;
+	font-weight: 550; /* um pouco menos que o Negrito */
 }
 .link_lista_atual{
     text-decoration: none;
     color: black;
+	font-weight: 550; /* um pouco menos que o Negrito */
 }
