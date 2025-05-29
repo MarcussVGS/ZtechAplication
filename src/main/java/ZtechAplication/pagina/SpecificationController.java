@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List; 
 
 import ZtechAplication.model.Cliente;
+import ZtechAplication.model.OrdemServico;
 import ZtechAplication.model.Produto;
 import ZtechAplication.model.Venda; 
 import java.time.LocalDate; 
@@ -119,6 +120,65 @@ public class SpecificationController {
                     throw new DateTimeParseException("Formato de data não suportado para busca", termo, 0);
                 }
                 predicates.add(cb.equal(root.get("dataInicio"), dataBusca)); // Busca pela data exata
+            } catch (DateTimeParseException e) {
+                // Se não for uma data em um formato esperado, ignora esta condição de busca
+            }
+
+            // Combina todos os predicados com OR. A venda será retornada se corresponder a QUALQUER um dos critérios.
+            return cb.or(predicates.toArray(new Predicate[0]));
+        };
+    }
+    
+ // NOVO MÉTODO DE BUSCA ESPECIFICADA PARA VENDA
+    public static Specification<OrdemServico> comTermoOS(String termo) {
+        return (root, query, cb) -> {
+            if (termo == null || termo.trim().isEmpty()) {
+                // Retorna todas as vendas se o termo de busca for nulo ou vazio
+                return cb.isTrue(cb.literal(true)); 
+            }
+
+            // Adiciona JOIN FETCH para Cliente e Produto para otimizar a consulta
+            // e permitir filtros em campos dessas entidades relacionadas.
+            // O if previne que o fetch seja aplicado em subqueries de contagem (necessário para paginação).
+            if (query.getResultType().equals(Venda.class)) { // Só aplica fetch na query principal de seleção
+                 root.fetch("cliente", jakarta.persistence.criteria.JoinType.LEFT);
+                 root.fetch("servico", jakarta.persistence.criteria.JoinType.LEFT);
+                 root.fetch("produto", jakarta.persistence.criteria.JoinType.LEFT);
+            }
+
+
+            List<Predicate> predicates = new ArrayList<>();
+            String likeTerm = "%" + termo.toLowerCase() + "%";
+
+            // Busca por nomes do cliente associado à OS
+            predicates.add(cb.like(cb.lower(root.get("cliente").get("nomeCliente")), likeTerm));
+            // Busca por nome do servico associado à OS
+            predicates.add(cb.like(cb.lower(root.get("produto").get("nome")), likeTerm));
+            // Busca por nome do produto associado à OS
+            predicates.add(cb.like(cb.lower(root.get("servico").get("nome")), likeTerm));
+
+            // Tenta converter o termo para Integer para buscar por ID da Venda
+            try {
+                Integer idOS = Integer.parseInt(termo);
+                predicates.add(cb.equal(root.get("idOS"), idOS));
+            } catch (NumberFormatException e) {
+                // Se não for um número, ignora esta condição de busca
+            }
+
+            // Tenta converter o termo para LocalDate para buscar por dataInicio
+            // Suporta os formatos "yyyy-MM-dd" (ISO) e "dd/MM/yyyy"
+            try {
+                LocalDate dataBusca;
+                if (termo.matches("\\d{4}-\\d{2}-\\d{2}")) { // Verifica formato AAAA-MM-DD
+                    dataBusca = LocalDate.parse(termo, DateTimeFormatter.ISO_LOCAL_DATE);
+                } else if (termo.matches("\\d{2}/\\d{2}/\\d{4}")) { // Verifica formato DD/MM/AAAA
+                    dataBusca = LocalDate.parse(termo, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                } else {
+                    // Se não corresponder a nenhum formato conhecido, lança exceção para ser capturada
+                    throw new DateTimeParseException("Formato de data não suportado para busca", termo, 0);
+                }
+                predicates.add(cb.equal(root.get("dataInicio"), dataBusca)); // Busca pela data exata
+                predicates.add(cb.equal(root.get("dataFim"), dataBusca)); 
             } catch (DateTimeParseException e) {
                 // Se não for uma data em um formato esperado, ignora esta condição de busca
             }

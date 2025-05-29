@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -118,6 +120,27 @@ public class OrdemServicoController {
         }
         return "ordens";
 	}
+	
+	@GetMapping("/buscar")
+    public String buscar(@RequestParam(value = "termo", required = false) String termo,
+                         @PageableDefault(size = 10) Pageable pageable,
+                         Model model) {
+        Page<OrdemServico> paginaDeOSsEntidades;
+        
+        Specification<OrdemServico> spec = SpecificationController.comTermoOS(termo);
+        paginaDeOSsEntidades = classeRepo.findAll(spec, pageable);
+        
+        if (termo != null && !termo.isEmpty() && paginaDeOSsEntidades.isEmpty()) {
+            model.addAttribute("mensagemBusca", "Nenhuma OS encontrada para o termo: '" + termo + "'.");
+        } else if (termo != null && !termo.isEmpty() && !paginaDeOSsEntidades.isEmpty()) {
+             model.addAttribute("mensagemBusca", "Exibindo resultados para: '" + termo + "'.");
+        }
+
+        Page<OrdemServicoDTO> paginaDeOSDTOs = paginaDeOSsEntidades.map(this::converterParaDTO);
+        model.addAttribute("paginaOrdens", paginaDeOSDTOs);
+        model.addAttribute("termo", termo);
+        return "ordens";
+    }
 	
 	@GetMapping(value = "/editarForm/{idOS}")
 	public ModelAndView editarForm(@PathVariable Integer idOS) {
