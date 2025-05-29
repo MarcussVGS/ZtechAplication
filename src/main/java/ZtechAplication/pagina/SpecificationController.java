@@ -11,6 +11,7 @@ import ZtechAplication.model.Produto;
 import ZtechAplication.model.Venda; 
 import java.time.LocalDate;
 import java.time.Year;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter; 
 import java.time.format.DateTimeParseException; 
 
@@ -178,7 +179,7 @@ public class SpecificationController {
                     dataBusca = LocalDate.parse(termo, DateTimeFormatter.ISO_LOCAL_DATE);
                 } else if (termo.matches("\\d{2}/\\d{2}/\\d{4}")) { // Verifica formato DD/MM/AAAA
                     dataBusca = LocalDate.parse(termo, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                } else if (termo.matches("\\d{2}/\\d{2}")) { // Formato DD/MM
+                } else if (termo.matches("\\d{2}/\\d{2}")) { // Formato DD/MM para o ano atual
                     // Adiciona o ano atual ao termo
                     String termoCompleto = termo + "/" + Year.now().getValue();
                     dataBusca = LocalDate.parse(termoCompleto, DateTimeFormatter.ofPattern("dd/MM/yyyy"));

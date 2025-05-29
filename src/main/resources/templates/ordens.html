@@ -29,11 +29,11 @@
     <div class="area-principal">
         <div class="barra">
             <ul>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{/cliente/listar}">CLIENTES</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{/produto/listar}">ESTOQUE</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
-			<li class="opcao_lista"><a class="link_lista_atual" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
-			<li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/cliente/listar}">CLIENTES</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/produto/listar}">ESTOQUE</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
+				<li class="opcao_lista"><a class="link_lista_atual" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
             </ul>
         </div>
         <!-- CONTEÚDO DA PÁGINA -->
@@ -103,6 +103,9 @@
 						         </a>
 						     </td>
 						</tr>
+						 <tr th:if="${paginaOrdens == null or #lists.isEmpty(paginaVendas.content)}">
+						     <td colspan="10" style="text-align: center;">Nenhuma venda encontrada.</td>
+						 </tr>
 						
                     </tbody>
                 </table>
