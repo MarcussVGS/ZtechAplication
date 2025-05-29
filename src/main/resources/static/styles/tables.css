@@ -3,7 +3,8 @@
 	background-color: white;
     max-width: 1300px;
     margin: 20px auto;
-	box-shadow: 0 0 10px rgba(0,0,0,0.1);
+	margin-top: 50px;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
     overflow-x: auto;
 }
 
@@ -40,7 +41,8 @@ table {
 	background-color: white;
     max-width: 1450px;
     margin: 20px auto;
-	box-shadow: 0 0 10px rgba(0,0,0,0.1);
+	margin-top: 50px;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
     overflow-x: auto;
 }
 
