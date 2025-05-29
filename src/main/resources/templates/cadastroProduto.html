@@ -26,11 +26,11 @@
     <div class="area-principal">
         <div class="barra">
             <ul>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
                 <li class="opcao_lista"><a class="link_lista" th:href="@{/cliente/listar}">CLIENTES</a></li>
                 <li class="opcao_lista"><a class="link_lista_atual" th:href="@{/produto/listar}">ESTOQUE</a></li>
                 <li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
                 <li class="opcao_lista"><a class="link_lista" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
             </ul>
         </div>
         <div class="formulario-cliente"> <div th:if="${mensagem}" class="alert alert-info" style="margin-bottom: 20px; padding: 10px; background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; border-radius: .25rem;">

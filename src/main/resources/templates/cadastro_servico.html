@@ -21,24 +21,19 @@
 		<a th:href="@{inicio}"> <img class="logo_cabecalho"
 			src="/img/logo-removebg.svg" />
 		</a>
-		<div
-			style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
-			Cadastro de Serviço</div>
+		<div class="titulo_pagina" >
+			Cadastro de Serviço
+		</div>
 	</header>
 
 	<div class="area-principal">
 		<div class="barra">
 			<ul>
-				<li class="opcao_lista"><a class="link_lista"
-					th:href="@{/clientes/listar}">CLIENTES</a></li>
-				<li class="opcao_lista"><a class="link_lista_atual"
-					th:href="@{/estoque/listar}">ESTOQUE</a></li>
-				<li class="opcao_lista"><a class="link_lista"
-					th:href="@{/vendas/listar}">VENDAS</a></li>
-				<li class="opcao_lista"><a class="link_lista"
-					th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
-				<li class="opcao_lista"><a class="link_lista"
-					th:href="@{/inicio}">INÍCIO</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/clientes/listar}">CLIENTES</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/produto/listar}">ESTOQUE</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
 			</ul>
 		</div>
 		<div class="formulario">
@@ -46,21 +41,19 @@
 				<!-- Coluna 1: Dados do Produto -->
 				<div class="coluna">
 					<h3 class="titulo_formulario">Informações do Serviço</h3>
-					
 						<label>Serviço:</label> <input class="campo_digitacao"type="text" name="nome" required>
 						<label>Valor do Serviço:</label> 
 						<input class="campo_digitacao" type="text" name="valor"required>
 						<label>Descrição do Serviço:</label> 
 						<input class="campo_digitacao_grande" type="text" name="descrisaoServico"required>
-
 				</div>
+					<div class="botoes" >
+					    <a class="link_cancelar" th:href="@{/ordens/listar}">
+					    <button type="button" class="cancelar">❌ Cancelar</button></a>
+					    <button type="submit" class="cadastrar">✔️ Cadastrar</button>
+					</div>
 			</form>
-			<div class="botoes" >
-			    <a class="link_cancelar" th:href="@{/cliente/listar}">
-			        <button type="button" class="cancelar">❌ Cancelar</button></a>
-			    
-			    <button type="submit" class="cadastrar">✔️ Cadastrar</button>
-			</div>
 		</div>
-		</body>
-		</html>
+	</div>
+</body>
+</html>

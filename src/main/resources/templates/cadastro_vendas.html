@@ -26,15 +26,15 @@
     <div class="area-principal">
         <div class="barra">
             <ul>
+				<li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
                 <li class="opcao_lista"><a class="link_lista" th:href="@{/cliente/listar}">CLIENTES</a></li>
                 <li class="opcao_lista"><a class="link_lista" th:href="@{/produto/listar}">ESTOQUE</a></li>
-                <li class="opcao_lista"><a class="link_lista_atual" th:href="@{/vendas/listar}">VENDAS</a></li>
+                <li class="opcao_lista"><a class="link_lista" th:href="@{/vendas/listar}">VENDAS</a></li>
                 <li class="opcao_lista"><a class="link_lista" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
-                <li class="opcao_lista"><a class="link_lista" th:href="@{/inicio}">INÍCIO</a></li>
             </ul>
         </div>
 
-        <div class="formulario-cliente"> <div th:if="${mensagem}" 
+        <div class="formulario"> <div th:if="${mensagem}" 
                  th:classappend="${(param.error == null and #strings.containsIgnoreCase(mensagem, 'sucesso')) ? 'alert-success' : 'alert-danger'}"
                  class="alert"
                  style="margin-bottom: 20px; padding: 10px; border: 1px solid transparent; border-radius: .25rem;">
@@ -84,8 +84,8 @@
                 </div>
 
                 <div class="botoes">
-                    <a class="link_cancelar" th:href="@{/vendas/listar}"> <button type="button" class="cancelar">❌ Cancelar</button>
-                    </a>
+                    <a class="link_cancelar" th:href="@{/vendas/listar}"> 
+					<button type="button" class="cancelar">❌ Cancelar</button></a>
                     <button type="submit" class="cadastrar">✔️ Cadastrar Venda</button>
                 </div>
             </form>
