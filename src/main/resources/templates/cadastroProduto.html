@@ -49,12 +49,24 @@
                     <textarea class="campo_digitacao" id="descricao" th:field="*{descricao}" rows="3"></textarea>
                     <span th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}" class="error"></span>
                     
-                    <label for="categoriaNome">Nome da Categoria:</label>
-                    <input class="campo_digitacao" type="text" id="categoriaNome" th:field="*{categoria}" placeholder="Ex: Telas, Baterias" required>
+                    <label for="idCategoria">Nome da Categoria:</label>
+					<select id="idCategoria" th:field="*{idCategoria}" class="campo_digitacao" required>
+					    <option value="">Selecione uma Categoria</option>
+					    <option th:each="categoriaOpt : ${categorias}"
+					            th:value="${categoriaOpt.idCategoria}"
+					            th:text="${categoriaOpt.nome}">
+					    </option>
+					</select>
                     <span th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}" class="error"></span>
 
                     <label for="marcaNome">Nome da Marca:</label>
-                    <input class="campo_digitacao" type="text" id="marcaNome" th:field="*{marca}" placeholder="Ex: Samsung, Apple" required>
+					<select id="idMarca" th:field="*{idMarca}" class="campo_digitacao" required>
+					    <option value="">Selecione uma Marca</option>
+					    <option th:each="marcaOpt : ${marcas}"
+					            th:value="${marcaOpt.idMarca}"
+					            th:text="${marcaOpt.nome}">
+					    </option>
+					</select>
                     <span th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}" class="error"></span>
                 </div>
                 <hr class="separador">

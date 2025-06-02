@@ -53,8 +53,8 @@ public class ProdutoController {
 		ModelAndView mv = new ModelAndView("cadastroProduto"); // Template para cadastrar produto
 		mv.addObject("produtoDTO", new ProdutoDTO() ); // Usar produtoDTO para o formulário
 		// Se precisar carregar categorias e marcas existentes para selects no formulário:
-        // mv.addObject("categoriasExistentes", categoriaRepository.findAll());
-        // mv.addObject("marcasExistentes", marcaRepository.findAll());
+        mv.addObject("categorias", categoriaRepository.findAll());
+        mv.addObject("marcas", marcaRepository.findAll());
 		return mv;
 	}
 	
