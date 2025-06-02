@@ -4,7 +4,7 @@
     display: block;
     justify-content: left;
     font-family: var(--fonte-principal);
-    width: 1728px;
+    width: 120%;
     height: 150px;
     flex-shrink: 0;
 

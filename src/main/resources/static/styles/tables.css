@@ -6,12 +6,13 @@
 	margin-top: 50px;
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
     overflow-x: auto;
-    font-family: var(--fonte-principal);
 }
 
 table {
 	width: 100%;
 	border-collapse: collapse;
+	font-family: var(--fonte-principal);
+	font-weight: 450;
 }
 
 .tabela table {
@@ -38,6 +39,8 @@ table {
 
 /* Tabela de OS maior pois tem mais informações   */
 .tabelaOS{
+	font-family: var(--fonte-principal);
+	font-weight: 450;
 	padding: 20px;
 	background-color: white;
     max-width: 1450px;
@@ -78,4 +81,42 @@ tableOS {
 }
 fa fa-edit{
 	color: #0b07b0;
+}
+span[class*="status-"] {
+    display: inline-block;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 15px;
+    font-weight: bold;
+    text-align: center;
+    min-width: 110px; /* Ajuste conforme necessário, talvez precise de um pouco mais para "Cliente Ausente" */
+    box-sizing: border-box;
+}
+
+/* Status existentes e mantidos */
+.status-em-andamento {
+    background-color: #FFC107; /* Amarelo/Laranja */
+    color: #333; /* Texto escuro para contraste com amarelo */
+}
+
+.status-concluido {
+    background-color: #4CAF50; /* Verde */
+}
+
+.status-cancelado {
+    background-color: #F44336; /* Vermelho */
+}
+
+/* Novos status */
+.status-registrada {
+    background-color: #2196F3; /* Azul, por exemplo */
+    /* Ou um cinza claro se preferir algo mais neutro para "inicial" */
+    /* background-color: #B0BEC5; */
+    /* color: #333; */
+}
+
+.status-cliente-ausente {
+    background-color: #FF9800; /* Laranja mais escuro ou um tom diferente de atenção */
+    /* Ou um roxo, por exemplo */
+    /* background-color: #9C27B0; */
 }
