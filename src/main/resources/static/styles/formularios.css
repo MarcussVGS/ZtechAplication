@@ -11,6 +11,7 @@
     gap: 100px;
     margin-bottom: 80px;
     margin-left: 300px;
+    font-family: var(--fonte-principal);
 }
 formulario_S{
 	display: flex;
