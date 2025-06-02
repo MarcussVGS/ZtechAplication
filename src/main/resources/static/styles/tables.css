@@ -6,6 +6,7 @@
 	margin-top: 50px;
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
     overflow-x: auto;
+    font-family: var(--fonte-principal);
 }
 
 table {
@@ -71,4 +72,10 @@ tableOS {
 
 .tabelaOS td:last-child {
   text-align: center;
+}
+.fa-trash-alt{
+	color: #b00707;
+}
+fa fa-edit{
+	color: #0b07b0;
 }
