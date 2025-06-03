@@ -18,11 +18,8 @@
 <body>
     <header class="cabecalho">
         <a th:href="@{/inicio}">
-            <img class="logo_cabecalho" src="/img/logo-removebg.svg" />
-        </a>
-        <div
-            style="width: 1592px; height: 96px; left: 167px; top: 7px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Roboto; font-weight: 500; line-height: 71.86px; word-wrap: break-word">
-            Ordens de Serviço
+            <img class="logo_cabecalho" th:src="@{/img/logo-removebg.svg}" alt="Logo ZTech"/> </a>
+        <div class="titulo_pagina"> Ordens de Serviço
         </div>
     </header>
 
@@ -36,22 +33,20 @@
 				<li class="opcao_lista"><a class="link_lista_atual" th:href="@{/ordens/listar}">ORDENS DE SERVIÇO</a></li>
             </ul>
         </div>
-        <!-- CONTEÚDO DA PÁGINA -->
         <div class="conteudo">
             <div class="banner">
                	  <a th:href="@{/ordens/cadastrarForm}"><input class="botao_adicionar" type="button" value="Adicionar O.S">
 					</a>
                	  <a th:href="@{/servico/cadastrarForm}"><input class="botao_adicionar_S" type="button" value="Adicionar Serviço">
 					</a>
-				  <form th:action="@{/ordens/buscar}" style="display: flex; align-items: center; margin-left: 10px; margin-top: 20px; top: 13em; left: 222px;" >
+                  <form th:action="@{/ordens/buscar}" method="get" style="display: flex; align-items: center; margin-left: 10px; margin-top: 20px; top: 13em; left: 222px;" >
 				  	<input type="search" name="termo" th:value="${termo}" class="banner_pesquisa"
-				  	    placeholder="Buscar por nome, CPF, E-mail, Telefone...">
-				  	<button type="submit" class="botao_pesquisar" style="margin-left: 10px; padding: 10px 15px; border-radius: 20px; background-color: #7C1F1F; color: white; border: none; cursor: pointer;">
+				  	    placeholder="Buscar por cliente, serviço, produto, ID ou data (AAAA-MM-DD)..."> <button type="submit" class="botao_pesquisar" style="margin-left: 10px; padding: 10px 15px; border-radius: 20px; background-color: #7C1F1F; color: white; border: none; cursor: pointer;">
 				  	    <i class="fas fa-search"></i> Pesquisar</button>
 				  </form>
             </div>
 
-			<div th:if="${mensagem}" class="alert alert-success" style="margin-top: 40px; padding: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: .25rem;">
+            <div th:if="${mensagem}" class="alert alert-success" style="margin-top: 40px; padding: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: .25rem;">
 			    <p th:text="${mensagem}"></p>
 			</div>
 			 <div th:if="${mensagemBusca}" class="alert alert-info" style="margin-top: 40px; padding: 10px; background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; border-radius: .25rem;">
@@ -69,17 +64,15 @@
                             <th>Valor</th>
                             <th>Servico</th>
 							<th>Produto</th>
-							<th colspan="1" class="acoes">Status</th>
-							<th colspan="2" class="acoes">Ações</th>
+							<th class="acoes">Status</th> <th colspan="2" class="acoes">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Dados dinâmicos via Java serão inseridos aqui -->
-		<tr th:if="${paginaOrdens != null}" th:each="ordensDTO : ${paginaOrdens.content}">
+						<tr th:if="${paginaOrdens != null}" th:each="ordensDTO : ${paginaOrdens.content}">
                              <td th:text="${ordensDTO.idOS}"></td>
                              <td th:text="${ordensDTO.nomeCliente} ?: 'N/A'"></td>
-                             <td th:text="${ordensDTO.dataInicio}"></td>
-                             <td th:text="${ordensDTO.dataFim}"></td>
+                             <td th:text="${ordensDTO.dataInicio != null and not #strings.isEmpty(ordensDTO.dataInicio) ? #temporals.format(T(java.time.LocalDate).parse(ordensDTO.dataInicio, T(java.time.format.DateTimeFormatter).ISO_LOCAL_DATE), 'dd/MM/yyyy') : 'N/A'}"></td>
+                             <td th:text="${ordensDTO.dataFim != null and not #strings.isEmpty(ordensDTO.dataFim) ? #temporals.format(T(java.time.LocalDate).parse(ordensDTO.dataFim, T(java.time.format.DateTimeFormatter).ISO_LOCAL_DATE), 'dd/MM/yyyy') : 'N/A'}"></td>
                              <td th:text="${#numbers.formatCurrency(ordensDTO.valor)}"></td>
                              <td th:text="${ordensDTO.nomeServico} ?: 'N/A'"></td>
                              <td th:text="${ordensDTO.nomeProduto} ?: 'N/A'"></td>
@@ -104,17 +97,32 @@
                              <td class="acoes">
                                  <a th:href="@{/ordens/deletar/{idOS}(idOS=${ordensDTO.idOS})}"
                                     class="botao-acao deletar" title="Deletar"
-                                    onclick="return confirm('Tem certeza que deseja deletar esta venda? O estoque do produto será restaurado.');">
+                                    onclick="return confirm('Tem certeza que deseja deletar esta Ordem de Serviço? O estoque do produto será restaurado (se aplicável).');">
                                      <i class="fa fa-trash-alt fa-lg" ></i>
                                  </a>
                              </td>
                         </tr>
                          <tr th:if="${paginaOrdens == null or #lists.isEmpty(paginaOrdens.content)}">
-                             <td colspan="11" style="text-align: center;">Nenhuma ordem de serviço encontrada.</td>
-                         </tr>
+                             <td colspan="10" style="text-align: center;">Nenhuma ordem de serviço encontrada.</td> </tr>
 						
                     </tbody>
                 </table>
+                <div th:if="${paginaOrdens != null && paginaOrdens.totalPages > 1}" class="paginacao" style="margin-top: 20px; text-align: center;">
+                    <span th:if="${paginaOrdens.hasPrevious()}">
+                        <a th:href="@{/ordens/listar(termo=${termo}, page=${paginaOrdens.number - 1}, size=${paginaOrdens.size})}">Anterior</a>
+                    </span>
+
+                    <th:block th:each="i: ${#numbers.sequence(0, paginaOrdens.totalPages - 1)}">
+                        <span th:if="${paginaOrdens.number == i}" class="pagina-atual" style="font-weight: bold; margin: 0 5px;">[[${i + 1}]]</span>
+                        <span th:if="${paginaOrdens.number != i}" style="margin: 0 5px;">
+                            <a th:href="@{/ordens/listar(termo=${termo}, page=${i}, size=${paginaOrdens.size})}">[[${i + 1}]]</a>
+                        </span>
+                    </th:block>
+
+                    <span th:if="${paginaOrdens.hasNext()}">
+                        <a th:href="@{/ordens/listar(termo=${termo}, page=${paginaOrdens.number + 1}, size=${paginaOrdens.size})}">Próxima</a>
+                    </span>
+                </div>
             </div>
         </div>
     </div>

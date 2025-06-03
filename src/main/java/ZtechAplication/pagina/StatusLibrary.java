@@ -40,7 +40,11 @@ public class StatusLibrary {
         return ORDEM_DESCRICOES.get(proximoIndex);
     }
     
-    
+    // MÉTODO QUE ESTÁ SENDO CHAMADO NO CONTROLLER:
+    // Método para obter todas as descrições de status na ordem definida
+    public static List<String> getAllStatusDescriptions() {
+        return new ArrayList<>(ORDEM_DESCRICOES); // Retorna uma cópia da lista de descrições ordenadas
+    }
 
     // Métodos anteriores mantidos
     public static String getStatusDescricao(int codigo) {
