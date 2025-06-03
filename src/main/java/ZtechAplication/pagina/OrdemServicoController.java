@@ -73,14 +73,7 @@ public class OrdemServicoController {
 	public String cadastrarOS(@Validated @ModelAttribute("ordemServico") OrdemServicoDTO osDTO, 
 				  BindingResult result, RedirectAttributes attributes) {
 		
-		if (result.hasErrors()) {
-            attributes.addFlashAttribute("mensagem", "Verifique os campos obrigatórios.");
-            attributes.addFlashAttribute("produtos", produtoRepository.findAllWithRelationships());
-            attributes.addFlashAttribute("servicos", servicoRepository.findAll());
-            attributes.addFlashAttribute("clientes", clienteRepository.findAllWithRelationships());
-            return "redirect:/ordens/cadastrarForm";
-		}
-		
+		// EU ACHO Q ESSA VALIDAÇÕES TBM SÃO DESNECESSARIAS, PARTINFO DA IDEIA QUE BUSCAMOS OS DADOS NO BANCO DE DADOS
 		Produto produto = produtoRepository.findById(osDTO.getIdProduto())
                 .orElseThrow(() -> new IllegalArgumentException("Produto inválido: " + osDTO.getIdProduto()));
 		
@@ -90,16 +83,21 @@ public class OrdemServicoController {
         Cliente cliente = clienteRepository.findById(osDTO.getIdCliente())
                 .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + osDTO.getIdCliente()));
 		
+        
         if (produto.getQuantidade() < osDTO.getQuantidade()) {
-            attributes.addFlashAttribute("mensagem", "Quantidade em estoque insuficiente para o produto: " + produto.getNome());
+            attributes.addFlashAttribute("mensagem", 
+            		"Quantidade em estoque insuficiente para o produto: \n" + produto.getNome());
+            return "redirect:/ordens/cadastrarForm"; // URL Correta
         }
 		
         OrdemServico os = new OrdemServico();
         
+        osDTO.setDataInicio(converterISOparaFormato(osDTO.getDataInicio(), "dd/MM/yyyy"));
+        osDTO.setDataFim(converterISOparaFormato(osDTO.getDataFim(), "dd/MM/yyyy"));
         
         os.setDataInicio(stringToLocalDate(osDTO.getDataInicio(), "dd/MM/yyyy"));
         os.setHoraInicio(stringToLocalTime(osDTO.getHoraInicio(), "HH:mm") );
-        os.setDataFim(stringToLocalDate(osDTO.getDataFim(), "dd/MM/yyyy"));
+        os.setDataFim(stringToLocalDate("02/02/0002", "dd/MM/yyyy"));
         os.setHoraFim(stringToLocalTime("00:00", "HH:mm") );
         os.setQuantidade(osDTO.getQuantidade());
         os.setStatus("Registrada");
@@ -152,12 +150,68 @@ public class OrdemServicoController {
 		OrdemServico os = classeRepo.findById(idOS)
                 .orElseThrow(() -> new IllegalArgumentException("Venda inválida: " + idOS));
         
+		// Converta o LocalDate para String no formato ISO
+	    String dataInicioISO = os.getDataInicio().format(DateTimeFormatter.ISO_DATE);
+	    String dataFimISO = os.getDataInicio().format(DateTimeFormatter.ISO_DATE);
+		
         ModelAndView mv = new ModelAndView("alterarOS");
         mv.addObject("ordemServico", converterParaDTO(os));
+        mv.addObject("dataFormatada", dataInicioISO);
+        mv.addObject("dataFormatada", dataFimISO);
         mv.addObject("produtos", produtoRepository.findAllWithRelationships());
         mv.addObject("servicos", servicoRepository.findAll());
         mv.addObject("clientes", clienteRepository.findAllWithRelationships());
         return mv;
+	}
+	
+	// indicar o metodo post no HTML
+	@PostMapping(value = "/editar/{idOS}")
+	public String editarOS(@Validated @ModelAttribute("ordemServico") OrdemServicoDTO osDTO, BindingResult result,
+			RedirectAttributes attributes) {
+
+//		if (result.hasErrors()) {
+//			attributes.addFlashAttribute("mensagem", "Verifique os campos obrigatórios.");
+//			attributes.addFlashAttribute("produtos", produtoRepository.findAllWithRelationships());
+//			attributes.addFlashAttribute("servicos", servicoRepository.findAll());
+//			attributes.addFlashAttribute("clientes", clienteRepository.findAllWithRelationships());
+//			return "redirect:/ordens/cadastrarForm";
+//		}
+
+		Produto produto = produtoRepository.findById(osDTO.getIdProduto())
+				.orElseThrow(() -> new IllegalArgumentException("Produto inválido: " + osDTO.getIdProduto()));
+
+		Servico servico = servicoRepository.findById(osDTO.getIdServico())
+				.orElseThrow(() -> new IllegalArgumentException("Servico inválido: " + osDTO.getIdServico()));
+
+		Cliente cliente = clienteRepository.findById(osDTO.getIdCliente())
+				.orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + osDTO.getIdCliente()));
+
+		if (produto.getQuantidade() < osDTO.getQuantidade()) {
+			attributes.addFlashAttribute("mensagem",
+					"Quantidade em estoque insuficiente para o produto: \n" + produto.getNome());
+			return "redirect:/ordens/cadastrarForm"; // URL Correta
+		}
+
+		OrdemServico os = new OrdemServico();
+
+		osDTO.setDataInicio(converterISOparaFormato(osDTO.getDataInicio(), "dd/MM/yyyy"));
+		osDTO.setDataFim(converterISOparaFormato(osDTO.getDataFim(), "dd/MM/yyyy"));
+
+		os.setDataInicio(stringToLocalDate(osDTO.getDataInicio(), "dd/MM/yyyy"));
+		os.setHoraInicio(stringToLocalTime(osDTO.getHoraInicio(), "HH:mm"));
+		os.setDataFim(stringToLocalDate("02/02/0002", "dd/MM/yyyy"));
+		os.setHoraFim(stringToLocalTime("00:00", "HH:mm"));
+		os.setQuantidade(osDTO.getQuantidade());
+		os.setStatus("Registrada");
+		os.setProduto(produto);
+		os.setServico(servico);
+		os.setCliente(cliente);
+		os.setValor(servico.getValor().add(produto.getValor()));
+		os.setLucro(servico.getValor().add(produto.getValor().subtract(produto.getCusto())));
+
+		classeRepo.save(os);
+		attributes.addFlashAttribute("mensagem", "Ordem de Serviço cadastrada com sucesso!");
+		return "redirect:/ordens/listar";
 	}
 	
 	@DeleteMapping(value = "/deletar/{idOS}")
@@ -200,6 +254,12 @@ public class OrdemServicoController {
         }
         return dto;
     }
+	
+	// Método utilitário (coloque em uma classe helper)
+	public static String converterISOparaFormato(String dataISO, String formato) {
+	    LocalDate data = LocalDate.parse(dataISO);
+	    return data.format(DateTimeFormatter.ofPattern(formato));
+	}
 
 //	CONVERSÃO DE DATE PRA STRING E VISE VERSA
 	public static LocalDate stringToLocalDate(String dataString, String formato) {

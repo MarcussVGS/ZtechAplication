@@ -86,21 +86,21 @@
 					
 					<span th:if="${#fields.hasErrors('idCliente')}" th:errors="*{idCliente}" class="error"></span>
 					<label for="dataInicio">Data de abertura:</label>
-					<input class="campo_digitacao" type="date" id="dataInicio" th:field="*{dataInicio}" 
-						   placeholder="dd/MM/yyyy" required>
+					<input class="campo_digitacao" type="date" id="dataInicio" name="dataInicio" 
+						   th:value="${dataFormatada}" required>
 					<span th:if="${#fields.hasErrors('dataInicio')}" th:errors="*{dataInicio}" class="error"></span>
 
-					<label for="horaInicio">Hora da Venda:</label>
+					<label for="horaInicio">Hora da abertura:</label>
 					<input class="campo_digitacao" type="time" id="horaInicio" th:field="*{horaInicio}" 
 						   placeholder="HH:mm" required>
 					<span th:if="${#fields.hasErrors('horaInicio')}" th:errors="*{horaInicio}" class="error"></span>
 
-					<label for="dataFim">Data de abertura:</label>
-					<input class="campo_digitacao" type="date" id="dataFim" th:field="*{dataFim}" 
-						   placeholder="dd/MM/yyyy" >
+					<label for="dataFim">Data do Fechamento:</label>
+					<input class="campo_digitacao" type="date" id="dataFim" name="dataFim"
+						   th:value="${dataFormatada}"  >
 					<span th:if="${#fields.hasErrors('dataFim')}" th:errors="*{dataFim}" class="error"></span>
 
-					<label for="horaFim">Hora da Venda:</label>
+					<label for="horaFim">Hora do Fechamento:</label>
 					<input class="campo_digitacao" type="time" id="horaFim" th:field="*{horaFim}" 
 						   placeholder="HH:mm" >
 					<span th:if="${#fields.hasErrors('horaFim')}" th:errors="*{horaFim}" class="error"></span>
