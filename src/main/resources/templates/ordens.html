@@ -77,9 +77,9 @@
                         <!-- Dados dinâmicos via Java serão inseridos aqui -->
 		<tr th:if="${paginaOrdens != null}" th:each="ordensDTO : ${paginaOrdens.content}">
                              <td th:text="${ordensDTO.idOS}"></td>
-                            <td th:text="${ordensDTO.nomeCliente} ?: 'N/A'"></td>
-                             <td th:text="${#temporals.format(ordensDTO.dataInicio, 'dd/MM/yyyy')}"></td>
-                             <td th:text="${#temporals.format(ordensDTO.dataFim, 'dd/MM/yyyy')}"></td>
+                             <td th:text="${ordensDTO.nomeCliente} ?: 'N/A'"></td>
+                             <td th:text="${ordensDTO.dataInicio}"></td>
+                             <td th:text="${ordensDTO.dataFim}"></td>
                              <td th:text="${#numbers.formatCurrency(ordensDTO.valor)}"></td>
                              <td th:text="${ordensDTO.nomeServico} ?: 'N/A'"></td>
                              <td th:text="${ordensDTO.nomeProduto} ?: 'N/A'"></td>
@@ -89,7 +89,8 @@
                                        th:text="${ordensDTO.statusOS}"
                                        th:classappend="${#strings.toLowerCase(ordensDTO.statusOS) == 'registrada' ? 'status-registrada' :
                                                       (#strings.toLowerCase(ordensDTO.statusOS) == 'em andamento' ? 'status-em-andamento' :
-                                                      (#strings.toLowerCase(ordensDTO.statusOS) == 'concluido' ? 'status-concluido' :  (#strings.toLowerCase(ordensDTO.statusOS) == 'cliente ausente' ? 'status-cliente-ausente' :
+                                                      (#strings.toLowerCase(ordensDTO.statusOS) == 'concluido' ? 'status-concluido' :  
+													  (#strings.toLowerCase(ordensDTO.statusOS) == 'cliente ausente' ? 'status-cliente-ausente' :
                                                       (#strings.toLowerCase(ordensDTO.statusOS) == 'cancelado' ? 'status-cancelado' : ''))))}">
                                  </span>
                                  <span th:if="${ordensDTO.statusOS == null}" th:text="'N/A'"></span>

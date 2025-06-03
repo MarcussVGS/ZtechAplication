@@ -1,15 +1,13 @@
 package ZtechAplication.DTO;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class OrdemServicoDTO {
 	private Integer IdOS;
-	private LocalDate dataInicio;
-	private LocalTime horaInicio;
-	private LocalDate dataFim;
-	private LocalTime horaFim;
+	private String dataInicio;
+	private String horaInicio;
+	private String dataFim;
+	private String horaFim;
 	private BigDecimal valor;
 	private BigDecimal lucro;
 	private String statusOS;
@@ -29,28 +27,28 @@ public class OrdemServicoDTO {
 	public void setIdOS(Integer idOS) {
 		IdOS = idOS;
 	}
-	public LocalDate getDataInicio() {
+	public String getDataInicio() {
 		return dataInicio;
 	}
-	public void setDataInicio(LocalDate dataInicio) {
+	public void setDataInicio(String dataInicio) {
 		this.dataInicio = dataInicio;
 	}
-	public LocalTime getHoraInicio() {
+	public String getHoraInicio() {
 		return horaInicio;
 	}
-	public void setHoraInicio(LocalTime horaInicio) {
+	public void setHoraInicio(String horaInicio) {
 		this.horaInicio = horaInicio;
 	}
-	public LocalDate getDataFim() {
+	public String getDataFim() {
 		return dataFim;
 	}
-	public void setDataFim(LocalDate dataFim) {
+	public void setDataFim(String dataFim) {
 		this.dataFim = dataFim;
 	}
-	public LocalTime getHoraFim() {
+	public String getHoraFim() {
 		return horaFim;
 	}
-	public void setHoraFim(LocalTime horaFim) {
+	public void setHoraFim(String horaFim) {
 		this.horaFim = horaFim;
 	}
 	public BigDecimal getValor() {

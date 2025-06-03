@@ -3,6 +3,7 @@ package ZtechAplication.pagina;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,8 +59,8 @@ public class OrdemServicoController {
 	public ModelAndView form() {
         ModelAndView mv = new ModelAndView("cadastro_OS");
         OrdemServicoDTO osDTO = new OrdemServicoDTO();
-        osDTO.setDataInicio(LocalDate.now());
-        osDTO.setHoraInicio(LocalTime.now());
+//        osDTO.setDataInicio(LocalDate.now());
+//        osDTO.setHoraInicio(LocalTime.now());
       mv.addObject("ordemServico", osDTO);
       mv.addObject("produtos", produtoRepository.findAllWithRelationships());
       mv.addObject("servicos", servicoRepository.findAll());
@@ -94,8 +95,12 @@ public class OrdemServicoController {
         }
 		
         OrdemServico os = new OrdemServico();
-        os.setDataInicio(osDTO.getDataInicio());
-        os.setHoraInicio(osDTO.getHoraInicio());
+        
+        
+        os.setDataInicio(stringToLocalDate(osDTO.getDataInicio(), "dd/MM/yyyy"));
+        os.setHoraInicio(stringToLocalTime(osDTO.getHoraInicio(), "HH:mm") );
+        os.setDataFim(stringToLocalDate(osDTO.getDataFim(), "dd/MM/yyyy"));
+        os.setHoraFim(stringToLocalTime("00:00", "HH:mm") );
         os.setQuantidade(osDTO.getQuantidade());
         os.setStatus("Registrada");
         os.setProduto(produto);
@@ -172,10 +177,10 @@ public class OrdemServicoController {
 	private OrdemServicoDTO converterParaDTO(OrdemServico os) {
 		OrdemServicoDTO dto = new OrdemServicoDTO();
         dto.setIdOS(os.getIdOS());
-        dto.setDataInicio(os.getDataInicio());
-        dto.setHoraInicio(os.getHoraInicio());
-        dto.setDataFim(os.getDataFim());
-        dto.setHoraFim(os.getHoraFim());
+        dto.setDataInicio(localDateToString(os.getDataInicio(), "dd/MM/yyyy"));
+        dto.setHoraInicio(localTimeToString(os.getHoraInicio(), "HH:mm"));
+        dto.setDataFim(localDateToString(os.getDataFim(), "dd/MM/yyyy"));
+        dto.setHoraFim(localTimeToString(os.getHoraFim(), "HH:mm"));
         dto.setValor(os.getValor());
         dto.setLucro(os.getLucro());
         dto.setStatusOS(os.getStatus());
@@ -195,6 +200,26 @@ public class OrdemServicoController {
         }
         return dto;
     }
+
+//	CONVERSÃO DE DATE PRA STRING E VISE VERSA
+	public static LocalDate stringToLocalDate(String dataString, String formato) {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato);
+	    return LocalDate.parse(dataString, formatter);
+	}
+	public static String localDateToString(LocalDate data, String formato) {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato);
+	    return data.format(formatter);
+	}
+	
+//	CONVERSÃO DE TIME PRA STRING E VISE VERSA
+	public static LocalTime stringToLocalTime(String timeString, String formato) {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato);
+	    return LocalTime.parse(timeString, formatter);
+	}
+	public static String localTimeToString(LocalTime timeLocal, String formato) {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato);
+	    return timeLocal.format(formatter);
+	}
 	
 //	FAZER UMA BIBLIOTECA
 	
