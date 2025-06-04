@@ -14,6 +14,8 @@ public class ProdutoDTO {
 	private String categoria;
 	private String marca;
 	
+	
+	
 	//getters and setters
 	public Integer getIdProduto() {
 		return idProduto;

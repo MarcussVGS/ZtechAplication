@@ -72,21 +72,10 @@ public class ProdutoController {
 			return "redirect:/produto/cadastrarForm";
 		}
 		
-		// Validação para ver se a categoria ou marca já existe
-	    // Busca ou cria a Categoria
-	    Categoria categoria = categoriaRepository.findByNome(produtoDTO.getCategoria())
-	                            .orElseGet(() -> {
-	                                Categoria novaCategoria = new Categoria();
-	                                novaCategoria.setNome(produtoDTO.getCategoria());
-	                                return categoriaRepository.save(novaCategoria);
-	                            });
-	    // Busca ou cria a Marca
-	    Marca marca = marcaRepository.findByNome(produtoDTO.getMarca())
-	                    .orElseGet(() -> {
-	                        Marca novaMarca = new Marca();
-	                        novaMarca.setNome(produtoDTO.getMarca());
-	                        return marcaRepository.save(novaMarca);
-	                    });
+		Categoria categoria = categoriaRepository.findById(produtoDTO.getIdCategoria())
+                .orElseThrow(() -> new IllegalArgumentException("Produto inválido: " + produtoDTO.getIdCategoria()));
+		Marca marca = marcaRepository.findById(produtoDTO.getIdMarca())
+                .orElseThrow(() -> new IllegalArgumentException("Produto inválido: " + produtoDTO.getIdMarca()));
 		
 		Produto produto = new Produto();
 		produto.setNome(produtoDTO.getNome());
@@ -111,6 +100,10 @@ public class ProdutoController {
 	public String listarProdutos(Model model, @PageableDefault(size = 10) Pageable pageable) { // Usa Model e retorna String
 		Page<Produto> paginaProdutos = produtoRepository.findAll(pageable); // Busca paginada
         Page<ProdutoDTO> paginaProdutoDTOs = paginaProdutos.map(this::converterParaDTO);
+
+		// Se precisar carregar categorias e marcas existentes para selects no formulário:
+        model.addAttribute("categorias", categoriaRepository.findAll());
+        model.addAttribute("marcas", marcaRepository.findAll());
 
 		model.addAttribute("paginaProdutos", paginaProdutoDTOs);
         if (!model.containsAttribute("termo")) {
