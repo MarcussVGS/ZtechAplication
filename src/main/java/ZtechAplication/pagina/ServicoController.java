@@ -6,18 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ZtechAplication.DTO.ProdutoDTO;
 import ZtechAplication.model.Servico;
 import ZtechAplication.repository.ServicoRepository;
 
@@ -40,7 +35,7 @@ public class ServicoController {
 	
 	// Processa o cadastro do novo produto
 	@PostMapping(value = "/cadastrar") // Alterado de @RequestMapping para @PostMapping
-	public String cadastrarProduto(@Validated @ModelAttribute("servico") Servico servico, BindingResult result,
+	public String cadastrarServico(@Validated @ModelAttribute("servico") Servico servico, BindingResult result,
 			RedirectAttributes attributes, Model model) {
 		
 		if (result.hasErrors()) {
