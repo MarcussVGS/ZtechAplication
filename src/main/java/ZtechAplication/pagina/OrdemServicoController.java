@@ -58,7 +58,7 @@ public class OrdemServicoController {
         ModelAndView mv = new ModelAndView("cadastro_OS"); // Define o nome do arquivo HTML do formulário
         OrdemServicoDTO osDTO = new OrdemServicoDTO(); // Cria um novo DTO para o formulário
         // Define datas e horas atuais como padrão para novos cadastros
-        osDTO.setDataInicio(localDateToString(LocalDate.now(), "yyyy-MM-dd")); // Formata a data atual para o input date
+        osDTO.setDataInicio(localDateToString(LocalDate.now(), "dd/MM/yyyy")); // Formata a data atual para o input date
         osDTO.setHoraInicio(localTimeToString(LocalTime.now(), "HH:mm")); // Formata a hora atual para o input time
 
       // Nome do objeto alinhado com th:object="${ordemServico}" do template de cadastro
@@ -110,12 +110,12 @@ public class OrdemServicoController {
         // Cria uma nova entidade OrdemServico e popula com os dados do DTO e das entidades buscadas
         OrdemServico os = new OrdemServico();
         
-        os.setDataInicio(stringToLocalDate(osDTO.getDataInicio(), "yyyy-MM-dd")); // Converte String para LocalDate
+        os.setDataInicio(stringToLocalDate(osDTO.getDataInicio(), "dd/MM/yyyy")); // Converte String para LocalDate
         os.setHoraInicio(stringToLocalTime(osDTO.getHoraInicio(), "HH:mm") ); // Converte String para LocalTime
         
         // Define data e hora de fim se informadas
         if (osDTO.getDataFim() != null && !osDTO.getDataFim().isEmpty()) {
-            os.setDataFim(stringToLocalDate(osDTO.getDataFim(), "yyyy-MM-dd"));
+            os.setDataFim(stringToLocalDate(osDTO.getDataFim(), "dd/MM/yyyy"));
         }
         if (osDTO.getHoraFim() != null && !osDTO.getHoraFim().isEmpty()) {
             os.setHoraFim(stringToLocalTime(osDTO.getHoraFim(), "HH:mm") );
@@ -271,11 +271,11 @@ public class OrdemServicoController {
         }
 
 		// Atualiza os dados da OS existente com os novos valores
-		osExistente.setDataInicio(stringToLocalDate(osDTO.getDataInicio(), "yyyy-MM-dd"));
+		osExistente.setDataInicio(stringToLocalDate(osDTO.getDataInicio(), "dd/MM/yyyy"));
 		osExistente.setHoraInicio(stringToLocalTime(osDTO.getHoraInicio(), "HH:mm"));
 		
         if (osDTO.getDataFim() != null && !osDTO.getDataFim().isEmpty()) {
-            osExistente.setDataFim(stringToLocalDate(osDTO.getDataFim(), "yyyy-MM-dd"));
+            osExistente.setDataFim(stringToLocalDate(osDTO.getDataFim(), "dd/MM/yyyy"));
         } else {
             osExistente.setDataFim(null); 
         }
@@ -334,9 +334,9 @@ public class OrdemServicoController {
 	private OrdemServicoDTO converterParaDTO(OrdemServico os) {
 		OrdemServicoDTO dto = new OrdemServicoDTO();
         dto.setIdOS(os.getIdOS());
-        dto.setDataInicio(os.getDataInicio() != null ? localDateToString(os.getDataInicio(), "yyyy-MM-dd") : "");
+        dto.setDataInicio(os.getDataInicio() != null ? localDateToString(os.getDataInicio(), "dd/MM/yyyy") : "");
         dto.setHoraInicio(os.getHoraInicio() != null ? localTimeToString(os.getHoraInicio(), "HH:mm") : "");
-        dto.setDataFim(os.getDataFim() != null ? localDateToString(os.getDataFim(), "yyyy-MM-dd") : "");
+        dto.setDataFim(os.getDataFim() != null ? localDateToString(os.getDataFim(), "dd/MM/yyyy") : "");
         dto.setHoraFim(os.getHoraFim() != null ? localTimeToString(os.getHoraFim(), "HH:mm") : "");
         dto.setValor(os.getValor());
         dto.setLucro(os.getLucro());
