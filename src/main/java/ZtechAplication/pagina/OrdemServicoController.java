@@ -195,6 +195,12 @@ public class OrdemServicoController {
         ModelAndView mv = new ModelAndView("alterarOS"); // Define o template HTML para edição
         // Nome do objeto alinhado com th:object="${ordemServico}" do template de alteração
         mv.addObject("ordemServico", converterParaDTO(os)); 
+        
+        String dataISOInicio = os.getDataInicio().format(DateTimeFormatter.ISO_DATE);
+        mv.addObject("dataFormatada", dataISOInicio);
+        String dataISOFim = os.getDataFim().format(DateTimeFormatter.ISO_DATE);
+        mv.addObject("dataFormatada", dataISOFim);
+        
         // Adiciona listas de produtos, serviços, clientes e status para os selects no formulário
         mv.addObject("produtos", produtoRepository.findAllWithRelationships());
         mv.addObject("servicos", servicoRepository.findAll());

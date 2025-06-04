@@ -16,7 +16,7 @@
 
 <body>
 	<header class="cabecalho">
-		<a th:href="@{inicio}"> <img class="logo_cabecalho"
+		<a th:href="@{/inicio}"> <img class="logo_cabecalho"
 			src="/img/logo-removebg.svg" />
 		</a>
 		<div
@@ -41,7 +41,7 @@
 		         style="margin-bottom: 20px; padding: 10px; border: 1px solid transparent; border-radius: .25rem;">
 		         <p th:text="${mensagem}"></p>
 		     </div>
-			<form th:action="@{/ordens/cadastrar}" th:object="${ordemServico}" method="post" class="formulario">
+			<form th:action="@{/ordens/editar/{idOS} (idOS=${ordemServico.idOS}) }" th:object="${ordemServico}" method="post" class="formulario">
 				<!-- Coluna 1: Dados do Produto -->
 				<div class="coluna">
 					<h3 class="titulo_formulario">Dados da O.S</h3>
@@ -69,6 +69,17 @@
 					<label for="quantidade">Quantidade:</label>
 					<input class="campo_digitacao" type="number" id="quantidade" th:field="*{quantidade}" min="1" required>
 					<span th:if="${#fields.hasErrors('quantidade')}" th:errors="*{quantidade}" class="error"></span>
+					
+					<label for="statusOS">Status da Ordem de Serviço:</label>
+					<select id="statusOS" name="statusOS" class="campo_digitacao" th:field="*{statusOS}">
+					    <option value="" disabled selected>Selecione um status</option>
+					    <option value="Registrada">Registrada</option>
+					    <option value="Em andamento">Em andamento</option>
+					    <option value="Concluido">Concluído</option>
+					    <option value="Cancelado">Cancelado</option>
+						<option value="Cliente Ausente">Cliente Ausente</option>
+					</select>
+					<span th:if="${#fields.hasErrors('statusOS')}" th:errors="*{statusOS}" class="error"></span>
 				</div>
 				<hr class="separador"></hr>
 				<!-- Coluna 2: Informações de Precificação -->
@@ -109,7 +120,7 @@
 				<div class="botoes">
 					<a class="link_cancelar" th:href="@{/ordens/listar}">
 						<button	type="button" class="cancelar">❌ Cancelar</button></a> 
-						<button type="submit" class="cadastrar">✔️ Cadastrar</button></a>
+						<button type="submit" class="cadastrar">✔️ Alterar</button></a>
 				</div>
 			</form>
 		</div>
