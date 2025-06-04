@@ -21,7 +21,7 @@ public class Categoria {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idCategoria")  // Mapeia para a coluna existente
-	private int idCategoria;
+	private Integer idCategoria;
 	private String nome;
     
 	 @OneToMany(mappedBy = "categoria")
