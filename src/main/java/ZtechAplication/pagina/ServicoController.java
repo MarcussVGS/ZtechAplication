@@ -2,10 +2,13 @@ package ZtechAplication.pagina;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,28 +17,31 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ZtechAplication.DTO.ProdutoDTO;
 import ZtechAplication.model.Servico;
 import ZtechAplication.repository.ServicoRepository;
 
 
-@RestController
+@Controller
 @RequestMapping(value = "/servico") //para que qualquer um deles seja valido
 public class ServicoController {
 
 	@Autowired
 	private ServicoRepository classeRepo;
-	
-	
+
+	// Exibe o formulário de cadastro de novo produto
 	@GetMapping(value = "/cadastrarForm")
-    public ModelAndView form2() {
-        ModelAndView mv = new ModelAndView("cadastro_servico");
-        return mv;
-    }
+	public ModelAndView cadastrarForm() { // Nome do método mais descritivo
+		ModelAndView mv = new ModelAndView("cadastro_servico"); // Template para cadastrar produto
+		mv.addObject("servico", new Servico()); // Usar produtoDTO para o formulário
+		return mv;
+	}
 	
 	
-	//indicar o metodo post no HTML
-	@PostMapping(value = "/cadastrarServico")
-	public String form(@Validated Servico servico, BindingResult result, RedirectAttributes attributes) {
+	// Processa o cadastro do novo produto
+	@PostMapping(value = "/cadastrar") // Alterado de @RequestMapping para @PostMapping
+	public String cadastrarProduto(@Validated @ModelAttribute("servico") Servico servico, BindingResult result,
+			RedirectAttributes attributes, Model model) {
 		
 		if (result.hasErrors()) {
 			attributes.addFlashAttribute("mensagem", "Verifique os campos...");
@@ -43,35 +49,12 @@ public class ServicoController {
 		}
 		
 		classeRepo.save(servico);
-		attributes.addFlashAttribute("mensagem", "Servico cadastrada com sucesso!");
-		return "redirect:/servico/cadastrarServico";
+		attributes.addFlashAttribute("mensagem", "Serviço cadastrado com sucesso!");
+		return "redirect:/ordens/listar"; // Redireciona para a lista após o cadastro
 	}
+			
 	
-	@GetMapping(value = "/listarServico")
-	public ModelAndView listarServico() {
-		ModelAndView mv = new ModelAndView("/servico/listarServicos");
-		mv.addObject("servico", classeRepo.findAll());
-		return mv;
-	}
 	
-	@PutMapping(value = "/editarServico/{id}")
-	public ModelAndView editarServico(@PathVariable Integer id) {
-		ModelAndView mv = new ModelAndView("/servico/editarServico");
-		mv.addObject("servico", classeRepo.findById(id).orElseThrow( () -> 
-					 new IllegalArgumentException("Servico invalida" + id) ));
-		return mv;
-	}
 	
-	@DeleteMapping(value = "/deletarServico/{id}")
-	public String remover(@PathVariable Integer id, RedirectAttributes attributes) {
-        classeRepo.deleteById(id);
-        attributes.addFlashAttribute("mensagem", "Servico removida com sucesso!");
-        return "redirect:/servico/cadastrarServico";
-	}
-	
-	@GetMapping(value = "/teste")
-	public String teste (){
-		return "correto";
-	}
 	
 }

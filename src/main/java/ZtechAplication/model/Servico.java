@@ -37,10 +37,10 @@ public class Servico {
 	public void setNome(String nome) {
 		this.nome= nome;
 	}
-	public String getDescrisaoServico() {
+	public String getDescricaoServico() {
 		return descricaoServico;
 	}
-	public void setDescrisaoServico(String descrisaoServico) {
+	public void setDescricaoServico(String descrisaoServico) {
 		this.descricaoServico = descrisaoServico;
 	}
 	public BigDecimal getValor() {

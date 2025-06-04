@@ -18,7 +18,7 @@
 
 <body>
 	<header class="cabecalho">
-		<a th:href="@{inicio}"> <img class="logo_cabecalho"
+		<a th:href="@{/inicio}"> <img class="logo_cabecalho"
 			src="/img/logo-removebg.svg" />
 		</a>
 		<div class="titulo_pagina" >
@@ -37,15 +37,19 @@
 			</ul>
 		</div>
 		<div class="formulario">
-			<form class="formulario">
+			<form th:action="@{/servico/cadastrar}" th:object="${servico}" method="post" class="formulario">
 				<!-- Coluna 1: Dados do Produto -->
 				<div class="coluna">
 					<h3 class="titulo_formulario">Informações do Serviço</h3>
-						<label>Serviço:</label> <input class="campo_digitacao"type="text" name="nome" required>
-						<label>Valor do Serviço:</label> 
-						<input class="campo_digitacao" type="text" name="valor"required>
-						<label>Descrição do Serviço:</label> 
-						<input class="campo_digitacao_grande" type="text" name="descrisaoServico"required>
+						<label for="nome">Serviço:</label>
+							<input class="campo_digitacao" type="text" id="nome" th:field="*{nome}" required>
+							<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="error"></span>
+						<label for="valor">Valor do Serviço:</label> 
+							<input class="campo_digitacao" type="number" id="valor" th:field="*{valor}" required>
+							<span th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}" class="error"></span>
+						<label for="descricaoServico">Descrição do Serviço:</label> 
+							<textarea class="campo_digitacao" id="descricaoServico" th:field="*{descricaoServico}" rows="10"></textarea>
+							<span th:if="${#fields.hasErrors('descricaoServico')}" th:errors="*{descricaoServico}" class="error"></span>
 				</div>
 					<div class="botoes" >
 					    <a class="link_cancelar" th:href="@{/ordens/listar}">

@@ -27,7 +27,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ZtechAplication.DTO.OrdemServicoDTO;
+import ZtechAplication.DTO.ProdutoDTO;
+import ZtechAplication.model.Categoria;
 import ZtechAplication.model.Cliente;
+import ZtechAplication.model.Marca;
 import ZtechAplication.model.OrdemServico;
 import ZtechAplication.model.Produto;
 import ZtechAplication.model.Servico;
@@ -142,6 +145,7 @@ public class OrdemServicoController {
         attributes.addFlashAttribute("mensagem", "Ordem de Serviço cadastrada com sucesso!"); // Mensagem de sucesso
         return "redirect:/ordens/listar"; // Redireciona para a lista de Ordens de Serviço
 	}
+	
 	
 	// Método para listar todas as Ordens de Serviço com paginação
 	@GetMapping(value = "/listar")
@@ -375,6 +379,7 @@ public class OrdemServicoController {
         attributes.addFlashAttribute("mensagem", "Status de Ordem de Serviço atualizada com sucesso - " + proxStatus);
         return "redirect:/ordens/listar"; 
 	}
+	
 	
 	// Método auxiliar para converter a entidade OrdemServico para OrdemServicoDTO
 	private OrdemServicoDTO converterParaDTO(OrdemServico os) {
