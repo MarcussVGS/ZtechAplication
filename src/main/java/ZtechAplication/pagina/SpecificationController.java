@@ -158,6 +158,8 @@ public class SpecificationController {
 
             // Busca por nomes do cliente associado à OS
             predicates.add(cb.like(cb.lower(root.get("cliente").get("nomeCliente")), likeTerm));
+            // Busca por nomes do cliente associado à OS
+            predicates.add(cb.like(cb.lower(root.get("cliente").get("cpf")), likeTerm));
             // Busca por nome do servico associado à OS
             predicates.add(cb.like(cb.lower(root.get("produto").get("nome")), likeTerm));
             // Busca por nome do produto associado à OS
