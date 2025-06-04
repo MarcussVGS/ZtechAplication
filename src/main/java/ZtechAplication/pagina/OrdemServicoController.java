@@ -1,9 +1,12 @@
 package ZtechAplication.pagina;
 
-
+import java.math.BigDecimal; 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList; 
+import java.util.List; 
+import java.util.Optional; 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,25 +17,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.GetMapping; 
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ZtechAplication.DTO.OrdemServicoDTO;
-import ZtechAplication.DTO.VendaDTO;
 import ZtechAplication.model.Cliente;
 import ZtechAplication.model.OrdemServico;
 import ZtechAplication.model.Produto;
 import ZtechAplication.model.Servico;
-import ZtechAplication.model.Venda;
 import ZtechAplication.repository.ClienteRepository;
 import ZtechAplication.repository.OrdemServicoRepository;
 import ZtechAplication.repository.ProdutoRepository;
@@ -44,197 +42,302 @@ import ZtechAplication.repository.ServicoRepository;
 public class OrdemServicoController {
 
 	@Autowired
-	private OrdemServicoRepository classeRepo;
+	private OrdemServicoRepository ordemServicoRepository; // Repositório para operações de CRUD em OrdemServico
     @Autowired
-    private ProdutoRepository produtoRepository;
+    private ProdutoRepository produtoRepository; // Repositório para operações de CRUD em Produto
 
     @Autowired
-    private ServicoRepository servicoRepository;
+    private ServicoRepository servicoRepository; // Repositório para operações de CRUD em Servico
 
     @Autowired
-    private ClienteRepository clienteRepository;
+    private ClienteRepository clienteRepository; // Repositório para operações de CRUD em Cliente
 	
-	//indicar o metodo get no HTML
+	// Método para exibir o formulário de cadastro de uma nova Ordem de Serviço
 	@GetMapping(value = "/cadastrarForm")
 	public ModelAndView form() {
-        ModelAndView mv = new ModelAndView("cadastro_OS");
-        OrdemServicoDTO osDTO = new OrdemServicoDTO();
-//        osDTO.setDataInicio(LocalDate.now());
-//        osDTO.setHoraInicio(LocalTime.now());
-      mv.addObject("ordemServico", osDTO);
+        ModelAndView mv = new ModelAndView("cadastro_OS"); // Define o nome do arquivo HTML do formulário
+        OrdemServicoDTO osDTO = new OrdemServicoDTO(); // Cria um novo DTO para o formulário
+        // Define datas e horas atuais como padrão para novos cadastros
+        osDTO.setDataInicio(localDateToString(LocalDate.now(), "yyyy-MM-dd")); // Formata a data atual para o input date
+        osDTO.setHoraInicio(localTimeToString(LocalTime.now(), "HH:mm")); // Formata a hora atual para o input time
+
+      // Nome do objeto alinhado com th:object="${ordemServico}" do template de cadastro
+      mv.addObject("ordemServico", osDTO); 
+      // Adiciona listas de produtos, serviços e clientes para preencher os selects no formulário
       mv.addObject("produtos", produtoRepository.findAllWithRelationships());
       mv.addObject("servicos", servicoRepository.findAll());
       mv.addObject("clientes", clienteRepository.findAllWithRelationships());
-      return mv;
+      return mv; // Retorna o ModelAndView com o formulário e os dados necessários
 	}
 	
-	//indicar o metodo post no HTML
+	// Método para processar o cadastro de uma nova Ordem de Serviço
 	@PostMapping(value = "/cadastrar")
+    // Nome do @ModelAttribute alinhado com o th:object="${ordemServico}" do template de cadastro
 	public String cadastrarOS(@Validated @ModelAttribute("ordemServico") OrdemServicoDTO osDTO, 
-				  BindingResult result, RedirectAttributes attributes) {
+				  BindingResult result, // Resultado da validação do DTO
+                  RedirectAttributes attributes, // Para adicionar mensagens flash após o redirecionamento
+                  Model model) { 
 		
-		// EU ACHO Q ESSA VALIDAÇÕES TBM SÃO DESNECESSARIAS, PARTINFO DA IDEIA QUE BUSCAMOS OS DADOS NO BANCO DE DADOS
+		// Verifica se há erros de validação no DTO
+		if (result.hasErrors()) {
+			attributes.addFlashAttribute("mensagem", "Verifique os campos obrigatórios."); // Mensagem de erro
+            attributes.addFlashAttribute("ordemServico", osDTO); 
+			return "redirect:/ordens/cadastrarForm"; // Redireciona de volta para o formulário de cadastro
+		}
+		
+		// Busca as entidades relacionadas (Produto, Servico, Cliente) pelos IDs fornecidos no DTO
 		Produto produto = produtoRepository.findById(osDTO.getIdProduto())
                 .orElseThrow(() -> new IllegalArgumentException("Produto inválido: " + osDTO.getIdProduto()));
-		
 		Servico servico = servicoRepository.findById(osDTO.getIdServico())
-                .orElseThrow(() -> new IllegalArgumentException("Servico inválido: " + osDTO.getIdServico()));
-
+                .orElseThrow(() -> new IllegalArgumentException("Serviço inválido: " + osDTO.getIdServico()));
         Cliente cliente = clienteRepository.findById(osDTO.getIdCliente())
                 .orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + osDTO.getIdCliente()));
 		
-        
+        // Validação da quantidade
+        if (osDTO.getQuantidade() == null || osDTO.getQuantidade() <= 0) {
+            attributes.addFlashAttribute("mensagem", "A quantidade deve ser maior que zero.");
+            attributes.addFlashAttribute("ordemServico", osDTO); // Devolve o DTO
+            return "redirect:/ordens/cadastrarForm"; // Redireciona para o formulário
+        }
+        // Validação de estoque do produto
         if (produto.getQuantidade() < osDTO.getQuantidade()) {
             attributes.addFlashAttribute("mensagem", 
-            		"Quantidade em estoque insuficiente para o produto: \n" + produto.getNome());
-            return "redirect:/ordens/cadastrarForm"; // URL Correta
+            		"Quantidade em estoque ("+ produto.getQuantidade() +") insuficiente para o produto: " + produto.getNome());
+            attributes.addFlashAttribute("ordemServico", osDTO); // Devolve o DTO
+            return "redirect:/ordens/cadastrarForm"; // Redireciona para o formulário
         }
 		
+        // Cria uma nova entidade OrdemServico e popula com os dados do DTO e das entidades buscadas
         OrdemServico os = new OrdemServico();
         
-        osDTO.setDataInicio(converterISOparaFormato(osDTO.getDataInicio(), "dd/MM/yyyy"));
-        osDTO.setDataFim(converterISOparaFormato(osDTO.getDataFim(), "dd/MM/yyyy"));
+        os.setDataInicio(stringToLocalDate(osDTO.getDataInicio(), "yyyy-MM-dd")); // Converte String para LocalDate
+        os.setHoraInicio(stringToLocalTime(osDTO.getHoraInicio(), "HH:mm") ); // Converte String para LocalTime
         
-        os.setDataInicio(stringToLocalDate(osDTO.getDataInicio(), "dd/MM/yyyy"));
-        os.setHoraInicio(stringToLocalTime(osDTO.getHoraInicio(), "HH:mm") );
-        os.setDataFim(stringToLocalDate("02/02/0002", "dd/MM/yyyy"));
-        os.setHoraFim(stringToLocalTime("00:00", "HH:mm") );
+        // Define data e hora de fim se informadas
+        if (osDTO.getDataFim() != null && !osDTO.getDataFim().isEmpty()) {
+            os.setDataFim(stringToLocalDate(osDTO.getDataFim(), "yyyy-MM-dd"));
+        }
+        if (osDTO.getHoraFim() != null && !osDTO.getHoraFim().isEmpty()) {
+            os.setHoraFim(stringToLocalTime(osDTO.getHoraFim(), "HH:mm") );
+        }
+
         os.setQuantidade(osDTO.getQuantidade());
-        os.setStatus("Registrada");
+        os.setStatus(StatusLibrary.getStatusDescricao(1)); // Define o status inicial como "Registrada"
         os.setProduto(produto);
         os.setServico(servico);
         os.setCliente(cliente);
-        os.setValor(servico.getValor().add(produto.getValor() ));
-        os.setLucro(servico.getValor().add(produto.getValor().subtract(produto.getCusto()) ));
         
-        classeRepo.save(os);
-        attributes.addFlashAttribute("mensagem", "Ordem de Serviço cadastrada com sucesso!");
-        return "redirect:/ordens/listar";
+        // Calcula o valor total e o lucro da Ordem de Serviço
+        BigDecimal valorProdutoTotal = produto.getValor().multiply(BigDecimal.valueOf(osDTO.getQuantidade()));
+        BigDecimal custoProdutoTotal = produto.getCusto().multiply(BigDecimal.valueOf(osDTO.getQuantidade()));
+        os.setValor(servico.getValor().add(valorProdutoTotal));
+        os.setLucro(servico.getValor().add(valorProdutoTotal.subtract(custoProdutoTotal)));
+        
+        // Atualiza a quantidade do produto no estoque
+        produto.removerQuantidade(osDTO.getQuantidade());
+        produtoRepository.save(produto);
+        
+        // Salva a nova Ordem de Serviço no banco de dados
+        ordemServicoRepository.save(os);
+        attributes.addFlashAttribute("mensagem", "Ordem de Serviço cadastrada com sucesso!"); // Mensagem de sucesso
+        return "redirect:/ordens/listar"; // Redireciona para a lista de Ordens de Serviço
 	}
 	
+	// Método para listar todas as Ordens de Serviço com paginação
 	@GetMapping(value = "/listar")
 	public String listarOS(@PageableDefault(size = 10) Pageable pageable, Model model) {
-		Page<OrdemServico> paginaDeOSsEntidades = classeRepo.findAll(null, pageable);
+        // Busca todas as OS de forma paginada
+		Page<OrdemServico> paginaDeOSsEntidades = ordemServicoRepository.findAll(pageable);
+        // Converte a página de entidades para uma página de DTOs
         Page<OrdemServicoDTO> paginaDeOSDTOs = paginaDeOSsEntidades.map(this::converterParaDTO);
         
-        model.addAttribute("paginaOrdens", paginaDeOSDTOs);
+        model.addAttribute("paginaOrdens", paginaDeOSDTOs); // Adiciona a página de DTOs ao modelo
+        // Garante que o atributo 'termo' exista no modelo, mesmo que nulo, para os links de paginação na busca
         if (!model.containsAttribute("termo")) { 
             model.addAttribute("termo", null);
         }
-        return "ordens";
+        return "ordens"; // Retorna o nome do arquivo HTML da lista de OS
 	}
 	
+	// Método para buscar Ordens de Serviço com base em um termo de pesquisa, com paginação
 	@GetMapping("/buscar")
-    public String buscar(@RequestParam(value = "termo", required = false) String termo,
+    public String buscarOS(@RequestParam(value = "termo", required = false) String termo, 
                          @PageableDefault(size = 10) Pageable pageable,
                          Model model) {
         Page<OrdemServico> paginaDeOSsEntidades;
         
+        // Cria uma Specification para a busca com base no termo
         Specification<OrdemServico> spec = SpecificationController.comTermoOS(termo);
-        paginaDeOSsEntidades = classeRepo.findAll(spec, pageable);
+        // Realiza a busca paginada usando a Specification
+        paginaDeOSsEntidades = ordemServicoRepository.findAll(spec, pageable);
         
+        // Adiciona mensagens informativas sobre o resultado da busca
         if (termo != null && !termo.isEmpty() && paginaDeOSsEntidades.isEmpty()) {
             model.addAttribute("mensagemBusca", "Nenhuma OS encontrada para o termo: '" + termo + "'.");
         } else if (termo != null && !termo.isEmpty() && !paginaDeOSsEntidades.isEmpty()) {
              model.addAttribute("mensagemBusca", "Exibindo resultados para: '" + termo + "'.");
         }
 
+        // Converte as entidades encontradas para DTOs
         Page<OrdemServicoDTO> paginaDeOSDTOs = paginaDeOSsEntidades.map(this::converterParaDTO);
-        model.addAttribute("paginaOrdens", paginaDeOSDTOs);
-        model.addAttribute("termo", termo);
-        return "ordens";
+        model.addAttribute("paginaOrdens", paginaDeOSDTOs); // Adiciona a página de DTOs ao modelo
+        model.addAttribute("termo", termo); // Adiciona o termo de busca ao modelo para repopular o campo de pesquisa
+        return "ordens"; // Retorna para a mesma página de listagem, agora com os resultados da busca
     }
 	
+	// Método para exibir o formulário de edição de uma Ordem de Serviço existente
 	@GetMapping(value = "/editarForm/{idOS}")
-	public ModelAndView editarForm(@PathVariable Integer idOS) {
-		OrdemServico os = classeRepo.findById(idOS)
-                .orElseThrow(() -> new IllegalArgumentException("Venda inválida: " + idOS));
+	public ModelAndView editarForm(@PathVariable("idOS") Integer idOS) { // PathVariable nomeado explicitamente
+		// Busca a OS no banco de dados pelo ID
+		OrdemServico os = ordemServicoRepository.findById(idOS)
+                .orElseThrow(() -> new IllegalArgumentException("Ordem de Serviço inválida: " + idOS));
         
-		// Converta o LocalDate para String no formato ISO
-	    String dataInicioISO = os.getDataInicio().format(DateTimeFormatter.ISO_DATE);
-	    String dataFimISO = os.getDataInicio().format(DateTimeFormatter.ISO_DATE);
-		
-        ModelAndView mv = new ModelAndView("alterarOS");
-        mv.addObject("ordemServico", converterParaDTO(os));
-        mv.addObject("dataFormatada", dataInicioISO);
-        mv.addObject("dataFormatada", dataFimISO);
+        ModelAndView mv = new ModelAndView("alterarOS"); // Define o template HTML para edição
+        // Nome do objeto alinhado com th:object="${ordemServico}" do template de alteração
+        mv.addObject("ordemServico", converterParaDTO(os)); 
+        // Adiciona listas de produtos, serviços, clientes e status para os selects no formulário
         mv.addObject("produtos", produtoRepository.findAllWithRelationships());
         mv.addObject("servicos", servicoRepository.findAll());
         mv.addObject("clientes", clienteRepository.findAllWithRelationships());
-        return mv;
+        mv.addObject("listaStatusOS", StatusLibrary.getAllStatusDescriptions()); // Lista de todos os status disponíveis
+        return mv; // Retorna o ModelAndView com o formulário e os dados
 	}
 	
-	// indicar o metodo post no HTML
+	// Método para processar a edição de uma Ordem de Serviço existente
 	@PostMapping(value = "/editar/{idOS}")
-	public String editarOS(@Validated @ModelAttribute("ordemServico") OrdemServicoDTO osDTO, BindingResult result,
-			RedirectAttributes attributes) {
+	public String editarOS(@PathVariable("idOS") Integer idOS, // PathVariable nomeado explicitamente
+                         // Nome do @ModelAttribute alinhado com o th:object="${ordemServico}" do template de alteração
+						 @Validated @ModelAttribute("ordemServico") OrdemServicoDTO osDTO, 
+						 BindingResult result, // Resultado da validação
+						 RedirectAttributes attributes, // Para mensagens flash
+                         Model model) { 
 
-//		if (result.hasErrors()) {
-//			attributes.addFlashAttribute("mensagem", "Verifique os campos obrigatórios.");
-//			attributes.addFlashAttribute("produtos", produtoRepository.findAllWithRelationships());
-//			attributes.addFlashAttribute("servicos", servicoRepository.findAll());
-//			attributes.addFlashAttribute("clientes", clienteRepository.findAllWithRelationships());
-//			return "redirect:/ordens/cadastrarForm";
-//		}
-
-		Produto produto = produtoRepository.findById(osDTO.getIdProduto())
-				.orElseThrow(() -> new IllegalArgumentException("Produto inválido: " + osDTO.getIdProduto()));
-
-		Servico servico = servicoRepository.findById(osDTO.getIdServico())
-				.orElseThrow(() -> new IllegalArgumentException("Servico inválido: " + osDTO.getIdServico()));
-
-		Cliente cliente = clienteRepository.findById(osDTO.getIdCliente())
-				.orElseThrow(() -> new IllegalArgumentException("Cliente inválido: " + osDTO.getIdCliente()));
-
-		if (produto.getQuantidade() < osDTO.getQuantidade()) {
-			attributes.addFlashAttribute("mensagem",
-					"Quantidade em estoque insuficiente para o produto: \n" + produto.getNome());
-			return "redirect:/ordens/cadastrarForm"; // URL Correta
+		// Verifica erros de validação no DTO
+		if (result.hasErrors()) {
+			attributes.addFlashAttribute("mensagem", "Verifique os campos obrigatórios.");
+            attributes.addFlashAttribute("ordemServico", osDTO); // Devolve o DTO com erros e dados preenchidos
+			return "redirect:/ordens/editarForm/" + idOS; // Redireciona de volta ao formulário de edição
 		}
 
-		OrdemServico os = new OrdemServico();
+		// Busca a Ordem de Serviço existente no banco
+		OrdemServico osExistente = ordemServicoRepository.findById(idOS)
+				.orElseThrow(() -> new IllegalArgumentException("Ordem de Serviço inválida: " + idOS));
 
-		osDTO.setDataInicio(converterISOparaFormato(osDTO.getDataInicio(), "dd/MM/yyyy"));
-		osDTO.setDataFim(converterISOparaFormato(osDTO.getDataFim(), "dd/MM/yyyy"));
+		// Guarda referências ao produto e quantidade antigos para ajuste de estoque
+		Produto produtoAntigo = osExistente.getProduto();
+		int quantidadeAntiga = osExistente.getQuantidade();
 
-		os.setDataInicio(stringToLocalDate(osDTO.getDataInicio(), "dd/MM/yyyy"));
-		os.setHoraInicio(stringToLocalTime(osDTO.getHoraInicio(), "HH:mm"));
-		os.setDataFim(stringToLocalDate("02/02/0002", "dd/MM/yyyy"));
-		os.setHoraFim(stringToLocalTime("00:00", "HH:mm"));
-		os.setQuantidade(osDTO.getQuantidade());
-		os.setStatus("Registrada");
-		os.setProduto(produto);
-		os.setServico(servico);
-		os.setCliente(cliente);
-		os.setValor(servico.getValor().add(produto.getValor()));
-		os.setLucro(servico.getValor().add(produto.getValor().subtract(produto.getCusto())));
+		// Busca as novas entidades relacionadas (Produto, Servico, Cliente)
+		Produto produtoNovo = produtoRepository.findById(osDTO.getIdProduto())
+				.orElseThrow(() -> new IllegalArgumentException("Produto novo inválido: " + osDTO.getIdProduto()));
+		Servico servicoNovo = servicoRepository.findById(osDTO.getIdServico())
+                .orElseThrow(() -> new IllegalArgumentException("Serviço novo inválido: " + osDTO.getIdServico()));
+		Cliente clienteNovo = clienteRepository.findById(osDTO.getIdCliente())
+				.orElseThrow(() -> new IllegalArgumentException("Cliente novo inválido: " + osDTO.getIdCliente()));
+        
+        // Validação da nova quantidade
+        if (osDTO.getQuantidade() == null || osDTO.getQuantidade() <= 0) {
+            attributes.addFlashAttribute("mensagem", "A quantidade deve ser maior que zero.");
+            attributes.addFlashAttribute("ordemServico", osDTO);
+            return "redirect:/ordens/editarForm/" + idOS;
+        }
 
-		classeRepo.save(os);
-		attributes.addFlashAttribute("mensagem", "Ordem de Serviço cadastrada com sucesso!");
-		return "redirect:/ordens/listar";
+		// Lógica de ajuste de estoque:
+		// 1. Restaura a quantidade do produto antigo no estoque.
+        if (produtoAntigo != null) { // Verifica se havia um produto antigo
+		    produtoAntigo.adicionarQuantidade(quantidadeAntiga);
+        }
+        
+        // 2. Calcula o estoque disponível para o novo produto (ou o mesmo produto, se não mudou).
+        int estoqueDisponivelParaNovoProduto;
+        if(produtoNovo.getIdProduto().equals(produtoAntigo != null ? produtoAntigo.getIdProduto() : null)) { // Lida com produtoAntigo nulo
+            estoqueDisponivelParaNovoProduto = produtoAntigo.getQuantidade();
+        } else {
+            estoqueDisponivelParaNovoProduto = produtoNovo.getQuantidade();
+        }
+
+        // Verifica se há estoque suficiente para o novo produto/quantidade
+		if (estoqueDisponivelParaNovoProduto < osDTO.getQuantidade()) {
+            attributes.addFlashAttribute("mensagem", "Quantidade em estoque (" + estoqueDisponivelParaNovoProduto + ") insuficiente para o produto: " + produtoNovo.getNome());
+            if (produtoAntigo != null) {
+			    produtoAntigo.removerQuantidade(quantidadeAntiga);
+            }
+            attributes.addFlashAttribute("ordemServico", osDTO);
+			return "redirect:/ordens/editarForm/" + idOS;
+		}
+        
+        if (produtoAntigo != null && !produtoNovo.getIdProduto().equals(produtoAntigo.getIdProduto())) {
+            produtoRepository.save(produtoAntigo);
+        }
+
+		// Atualiza os dados da OS existente com os novos valores
+		osExistente.setDataInicio(stringToLocalDate(osDTO.getDataInicio(), "yyyy-MM-dd"));
+		osExistente.setHoraInicio(stringToLocalTime(osDTO.getHoraInicio(), "HH:mm"));
+		
+        if (osDTO.getDataFim() != null && !osDTO.getDataFim().isEmpty()) {
+            osExistente.setDataFim(stringToLocalDate(osDTO.getDataFim(), "yyyy-MM-dd"));
+        } else {
+            osExistente.setDataFim(null); 
+        }
+        if (osDTO.getHoraFim() != null && !osDTO.getHoraFim().isEmpty()) {
+            osExistente.setHoraFim(stringToLocalTime(osDTO.getHoraFim(), "HH:mm"));
+        } else {
+            osExistente.setHoraFim(null); 
+        }
+        
+		osExistente.setQuantidade(osDTO.getQuantidade());
+        
+        if (osDTO.getStatusOS() != null && !osDTO.getStatusOS().isEmpty()) {
+            boolean statusValido = StatusLibrary.getAllStatusDescriptions().stream()
+                                    .anyMatch(status -> status.equalsIgnoreCase(osDTO.getStatusOS()));
+            if (statusValido) {
+                 osExistente.setStatus(osDTO.getStatusOS());
+            } 
+        }
+
+		osExistente.setProduto(produtoNovo);
+        osExistente.setServico(servicoNovo);
+		osExistente.setCliente(clienteNovo);
+		
+        BigDecimal valorProdutoTotal = produtoNovo.getValor().multiply(BigDecimal.valueOf(osDTO.getQuantidade()));
+        BigDecimal custoProdutoTotal = produtoNovo.getCusto().multiply(BigDecimal.valueOf(osDTO.getQuantidade()));
+        osExistente.setValor(servicoNovo.getValor().add(valorProdutoTotal));
+        osExistente.setLucro(servicoNovo.getValor().add(valorProdutoTotal.subtract(custoProdutoTotal)));
+
+		produtoNovo.removerQuantidade(osDTO.getQuantidade());
+		produtoRepository.save(produtoNovo);
+		
+		ordemServicoRepository.save(osExistente);
+		attributes.addFlashAttribute("mensagem", "Ordem de Serviço atualizada com sucesso!");
+		return "redirect:/ordens/listar"; 
 	}
 	
-	@DeleteMapping(value = "/deletar/{idOS}")
-	public String deletarOS(@PathVariable Integer idOS, RedirectAttributes attributes) {
-		OrdemServico os = classeRepo.findById(idOS)
-                .orElseThrow(() -> new IllegalArgumentException("Venda inválida: " + idOS));
+	// Método para deletar uma Ordem de Serviço
+	@GetMapping(value = "/deletar/{idOS}") 
+	public String deletarOS(@PathVariable("idOS") Integer idOS, RedirectAttributes attributes) { // PathVariable nomeado explicitamente
+		// Busca a OS no banco de dados
+		OrdemServico os = ordemServicoRepository.findById(idOS)
+                .orElseThrow(() -> new IllegalArgumentException("Ordem de Serviço inválida: " + idOS));
 
         Produto produto = os.getProduto();
-        produto.adicionarQuantidade(os.getQuantidade());
-        produtoRepository.save(produto);
+        if (produto != null) { 
+            produto.adicionarQuantidade(os.getQuantidade());
+            produtoRepository.save(produto);
+        }
 
-        classeRepo.delete(os);
-        attributes.addFlashAttribute("mensagem", "Venda removida com sucesso e estoque restaurado!");
-        return "redirect:/vendas/listar";
+        ordemServicoRepository.delete(os);
+        attributes.addFlashAttribute("mensagem", "Ordem de Serviço removida com sucesso e estoque restaurado (se aplicável)!");
+        return "redirect:/ordens/listar"; 
 	}
 	
+	// Método auxiliar para converter a entidade OrdemServico para OrdemServicoDTO
 	private OrdemServicoDTO converterParaDTO(OrdemServico os) {
 		OrdemServicoDTO dto = new OrdemServicoDTO();
         dto.setIdOS(os.getIdOS());
-        dto.setDataInicio(localDateToString(os.getDataInicio(), "dd/MM/yyyy"));
-        dto.setHoraInicio(localTimeToString(os.getHoraInicio(), "HH:mm"));
-        dto.setDataFim(localDateToString(os.getDataFim(), "dd/MM/yyyy"));
-        dto.setHoraFim(localTimeToString(os.getHoraFim(), "HH:mm"));
+        dto.setDataInicio(os.getDataInicio() != null ? localDateToString(os.getDataInicio(), "yyyy-MM-dd") : "");
+        dto.setHoraInicio(os.getHoraInicio() != null ? localTimeToString(os.getHoraInicio(), "HH:mm") : "");
+        dto.setDataFim(os.getDataFim() != null ? localDateToString(os.getDataFim(), "yyyy-MM-dd") : "");
+        dto.setHoraFim(os.getHoraFim() != null ? localTimeToString(os.getHoraFim(), "HH:mm") : "");
         dto.setValor(os.getValor());
         dto.setLucro(os.getLucro());
         dto.setStatusOS(os.getStatus());
@@ -252,40 +355,46 @@ public class OrdemServicoController {
             dto.setIdCliente(os.getCliente().getIdCliente());
             dto.setNomeCliente(os.getCliente().getNomeCliente());
         }
-        return dto;
+        return dto; 
     }
 	
-	// Método utilitário (coloque em uma classe helper)
-	public static String converterISOparaFormato(String dataISO, String formato) {
-	    LocalDate data = LocalDate.parse(dataISO);
-	    return data.format(DateTimeFormatter.ofPattern(formato));
+    // --- MÉTODOS UTILITÁRIOS PARA CONVERSÃO DE DATA E HORA ---
+
+	public static LocalDate stringToLocalDate(String dataString, String formato) {
+        if (dataString == null || dataString.trim().isEmpty()) {
+            return null; 
+        }
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato); 
+	    return LocalDate.parse(dataString, formatter); 
 	}
 
-//	CONVERSÃO DE DATE PRA STRING E VISE VERSA
-	public static LocalDate stringToLocalDate(String dataString, String formato) {
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato);
-	    return LocalDate.parse(dataString, formatter);
-	}
 	public static String localDateToString(LocalDate data, String formato) {
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato);
-	    return data.format(formatter);
+        if (data == null) {
+            return ""; 
+        }
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato); 
+	    return data.format(formatter); 
 	}
 	
-//	CONVERSÃO DE TIME PRA STRING E VISE VERSA
 	public static LocalTime stringToLocalTime(String timeString, String formato) {
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato);
-	    return LocalTime.parse(timeString, formatter);
+        if (timeString == null || timeString.trim().isEmpty()) {
+            return null; 
+        }
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato); 
+	    return LocalTime.parse(timeString, formatter); 
 	}
+
 	public static String localTimeToString(LocalTime timeLocal, String formato) {
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato);
-	    return timeLocal.format(formatter);
+        if (timeLocal == null) {
+            return ""; 
+        }
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato); 
+	    return timeLocal.format(formatter); 
 	}
 	
-//	FAZER UMA BIBLIOTECA
-	
-	@GetMapping(value = "/teste")
+	@GetMapping(value = "/teste") 
 	public String teste (){
-		return "correto";
+		return "correto"; 
 	}
 	
 }
