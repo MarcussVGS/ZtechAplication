@@ -85,13 +85,15 @@
                              <td th:text="${ordensDTO.nomeProduto} ?: 'N/A'"></td>
 
                              <td>
+							 <a th:href="@{/ordens/atualizarStatus/{idOS}(idOS=${ordensDTO.idOS})}" title="Clicar para Atualizar OS"
+							    onclick="return confirm('Tem certeza que deseja atualizar o status desta Ordem de Serviço?');">
                                  <span th:if="${ordensDTO.statusOS != null}"
                                        th:text="${ordensDTO.statusOS}"
                                        th:classappend="${#strings.toLowerCase(ordensDTO.statusOS) == 'registrada' ? 'status-registrada' :
                                                       (#strings.toLowerCase(ordensDTO.statusOS) == 'em andamento' ? 'status-em-andamento' :
-                                                      (#strings.toLowerCase(ordensDTO.statusOS) == 'concluido' ? 'status-concluido' :  
-													  (#strings.toLowerCase(ordensDTO.statusOS) == 'cliente ausente' ? 'status-cliente-ausente' :
-                                                      (#strings.toLowerCase(ordensDTO.statusOS) == 'cancelado' ? 'status-cancelado' : ''))))}">
+                                                      (#strings.toLowerCase(ordensDTO.statusOS) == 'concluido' ? 'status-concluido' : 
+                                                      (#strings.toLowerCase(ordensDTO.statusOS) == 'cancelado' ? 'status-cancelado' :
+													  (#strings.toLowerCase(ordensDTO.statusOS) == 'cliente ausente' ? 'status-cliente-ausente' : ''))))}">
                                  </span>
                                  <span th:if="${ordensDTO.statusOS == null}" th:text="'N/A'"></span>
                              </td>
@@ -104,7 +106,7 @@
                              <td class="acoes">
                                  <a th:href="@{/ordens/deletar/{idOS}(idOS=${ordensDTO.idOS})}"
                                     class="botao-acao deletar" title="Deletar"
-                                    onclick="return confirm('Tem certeza que deseja deletar esta venda? O estoque do produto será restaurado.');">
+                                    onclick="return confirm('Tem certeza que deseja deletar esta Ordem de Servico? O estoque do produto será restaurado.');">
                                      <i class="fa fa-trash-alt fa-lg" ></i>
                                  </a>
                              </td>

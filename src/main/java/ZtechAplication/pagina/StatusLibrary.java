@@ -16,8 +16,8 @@ public class StatusLibrary {
         adicionarStatus(1, "Registrada");
         adicionarStatus(2, "Em Andamento");
         adicionarStatus(3, "Concluido");
-        adicionarStatus(4, "Cliente Ausente");
-        adicionarStatus(5, "Cancelado");
+        adicionarStatus(4, "Cancelado");
+        adicionarStatus(5, "Cliente Ausente");
     }
 
     private static void adicionarStatus(int codigo, String descricao) {

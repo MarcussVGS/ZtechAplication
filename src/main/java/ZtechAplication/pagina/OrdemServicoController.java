@@ -332,7 +332,47 @@ public class OrdemServicoController {
         }
 
         ordemServicoRepository.delete(os);
-        attributes.addFlashAttribute("mensagem", "Ordem de Serviço removida com sucesso e estoque restaurado (se aplicável)!");
+        attributes.addFlashAttribute("mensagem", "Ordem de Serviço removida com sucesso e estoque restaurado (se necessário)!");
+        return "redirect:/ordens/listar"; 
+	}
+	
+	@GetMapping(value = "/atualizarStatus/{idOS}") 
+	public String atualizarStatusOS(@PathVariable("idOS") Integer idOS, RedirectAttributes attributes) { // PathVariable nomeado explicitamente
+		// Busca a OS no banco de dados
+		OrdemServico osExistente = ordemServicoRepository.findById(idOS)
+				.orElseThrow(() -> new IllegalArgumentException("Ordem de Serviço inválida: " + idOS));
+
+//		usando a classe de StatusLibrary pegamos a proxima posição do opssivel status
+		String proxStatus = StatusLibrary.getProximaDescricao(osExistente.getStatus());
+		
+		if (proxStatus == "Concluido") {
+//			atualiza as datas e hoarios para o momento que salvou
+			osExistente.setDataFim(LocalDate.now());
+			osExistente.setHoraFim(LocalTime.now());
+			osExistente.setStatus(proxStatus);
+			ordemServicoRepository.save(osExistente);
+	        attributes.addFlashAttribute("mensagem", "Status de Ordem de Serviço atualizada com sucesso - " + proxStatus);
+	        return "redirect:/ordens/listar"; 
+		}
+		if (proxStatus == "Cancelado") {
+//			atualiza as datas e hoarios para o momento que salvou
+			osExistente.setDataFim(LocalDate.now());
+			osExistente.setHoraFim(LocalTime.now());
+			osExistente.setStatus(proxStatus);
+//			por ser um cancelamento, atualizamos o estoque também
+			Produto produto = osExistente.getProduto(); 
+	        if (produto != null) { 
+            produto.adicionarQuantidade(osExistente.getQuantidade());
+            produtoRepository.save(produto);
+	        }
+			ordemServicoRepository.save(osExistente);
+	        attributes.addFlashAttribute("mensagem", "Status de Ordem de Serviço atualizada com sucesso - " + proxStatus);
+	        return "redirect:/ordens/listar"; 
+		}
+		
+		osExistente.setStatus(proxStatus);		
+        ordemServicoRepository.save(osExistente);
+        attributes.addFlashAttribute("mensagem", "Status de Ordem de Serviço atualizada com sucesso - " + proxStatus);
         return "redirect:/ordens/listar"; 
 	}
 	
