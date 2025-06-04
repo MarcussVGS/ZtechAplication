@@ -199,4 +199,45 @@ public class SpecificationController {
             return cb.or(predicates.toArray(new Predicate[0]));
         };
     }
+    
+    
+    public static Specification<Produto> comFiltroSequencial(String termoSecundario) {
+        return (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            
+            String termoPrincipal = "celulares";
+            // Aplica o primeiro filtro (termo principal)
+            if (termoPrincipal != null && !termoPrincipal.trim().isEmpty()) {
+                String likeTermPrincipal = "%" + termoPrincipal.toLowerCase() + "%";
+                Predicate principalPredicate = cb.or(
+                    cb.like(cb.lower(root.get("nome")), likeTermPrincipal),
+                    cb.like(cb.lower(root.get("descricao")), likeTermPrincipal),
+                    cb.like(cb.lower(root.get("categoria").get("nome")), likeTermPrincipal),
+                    cb.like(cb.lower(root.get("marca").get("nome")), likeTermPrincipal)
+                );
+                predicates.add(principalPredicate);
+            }
+            
+            // Aplica o segundo filtro APENAS nos resultados do primeiro
+            if (termoSecundario != null && !termoSecundario.trim().isEmpty()) {
+                String likeTermSecundario = "%" + termoSecundario.toLowerCase() + "%";
+                Predicate secundarioPredicate = cb.or(
+                    cb.like(cb.lower(root.get("nome")), likeTermSecundario),
+                    cb.like(cb.lower(root.get("descricao")), likeTermSecundario),
+                    cb.like(cb.lower(root.get("categoria").get("nome")), likeTermSecundario),
+                    cb.like(cb.lower(root.get("marca").get("nome")), likeTermSecundario)
+                );
+                predicates.add(secundarioPredicate);
+            }
+            
+            if (predicates.isEmpty()) {
+                return cb.isTrue(cb.literal(true));
+            }
+            
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+    }
+    
+    
+    
 }
