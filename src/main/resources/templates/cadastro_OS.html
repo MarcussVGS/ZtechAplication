@@ -87,15 +87,15 @@
 					<input class="campo_digitacao" type="date" id="dataInicio" th:field="*{dataInicio}" required>
 					<span th:if="${#fields.hasErrors('dataInicio')}" th:errors="*{dataInicio}" class="error"></span>
 
-					<label for="horaInicio">Hora da Venda:</label>
+					<label for="horaInicio">Hora de Abertura:</label>
 					<input class="campo_digitacao" type="time" id="horaInicio" th:field="*{horaInicio}" required>
 					<span th:if="${#fields.hasErrors('horaInicio')}" th:errors="*{horaInicio}" class="error"></span>
 
-					<label for="dataFim">Data de abertura:</label>
+					<label for="dataFim">Data de Fechamento:</label>
 					<input class="campo_digitacao" type="date" id="dataFim" th:field="*{dataFim}" required>
 					<span th:if="${#fields.hasErrors('dataFim')}" th:errors="*{dataFim}" class="error"></span>
 
-					<label for="horaFim">Hora da Venda:</label>
+					<label for="horaFim">Hora de fechamento:</label>
 					<input class="campo_digitacao" type="time" id="horaFim" th:field="*{horaFim}" required>
 					<span th:if="${#fields.hasErrors('horaFim')}" th:errors="*{horaFim}" class="error"></span>
 
