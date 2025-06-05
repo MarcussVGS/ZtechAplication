@@ -58,7 +58,33 @@
 					    </option>
 					</select>
                     <span th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}" class="error"></span>
-					<button class="butcad">Preciso cadastrar uma nova Categoria</button>
+                    
+					<button id="openButtonCat" class="butcad">Preciso cadastrar uma nova Categoria</button>
+                    <dialog id="modalDialogCat">
+                    <h2>Cadastre a nova Categoria:</h2>
+                    <input type="text" class="inputpop">
+                    <button class="cadastrarpop">Cadastrar</button>
+                    <button class="fecharpop" id="closeButtonCat">Fechar</button>
+                    </dialog>
+                    <script>
+                    	const dialogCat = document.querySelector("#modalDialogCat");
+                    	const openButtonCat = document.querySelector("#openButtonCat");
+                    	const closeButtonCat = document.querySelector("#closeButtonCat");
+                    	
+                    	openButtonCat.addEventListener("click", (e) =>{
+                    		dialog.showModal();
+                    	});
+                    	closeButtonCat.addEventListener("click", (e) =>{
+                    		dialog.close();
+                    	});
+                    	openButtonCat.addEventListener("click", (e) =>{
+                    		e.preventDefault();
+                    	})
+                    	closeButtonCat.addEventListener("click", (e) =>{
+                    		e.preventDefault();
+                    	})
+                    </script>
+                    
                     <label for="marcaNome">Nome da Marca:</label>
 					<select id="idMarca" th:field="*{idMarca}" class="campo_digitacao" required>
 					    <option value="">Selecione uma Marca</option>
@@ -68,7 +94,33 @@
 					    </option>
 					</select>
                     <span th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}" class="error"></span>
-                    <button class="butcad">Preciso cadastrar uma nova Marca</button>
+                    <button id="openButtonMarca" class="butcad">Preciso cadastrar uma nova Marca</button>
+                    
+                    <dialog id="modalDialogMarca">
+                    <h2>Cadastre a nova Marca:</h2>
+                    <input type="text" class="inputpop">
+                    <button class="cadastrarpop">Cadastrar</button>
+                    <button class="fecharpop" id="closeButtonMarca">Fechar</button>
+                    </dialog>
+                    <script>
+                    	const dialogMarca = document.querySelector("#modalDialogMarca");
+                    	const openButtonMarca = document.querySelector("#openButtonMarca");
+                    	const closeButtonMarca = document.querySelector("#closeButtonMarca");
+                    	
+                    	openButtonMarca.addEventListener("click", (e) =>{
+                    		dialog.showModal();
+                    	});
+                    	closeButtonMarca.addEventListener("click", (e) =>{
+                    		dialog.close();
+                    	});
+                    	openButtonMarca.addEventListener("click", (e) =>{
+                    		e.preventDefault();
+                    	})
+                    	closeButtonMarca.addEventListener("click", (e) =>{
+                    		e.preventDefault();
+                    	})
+                    </script>
+                    
                 </div>
                 <hr class="separador">
                 <div class="coluna">
