@@ -110,7 +110,7 @@
                 </table>
                 <div th:if="${paginaProdutos != null && paginaProdutos.totalPages > 1}" class="paginacao" style="margin-top: 20px; text-align: center;">
                     <span th:if="${paginaProdutos.hasPrevious()}">
-                        <a th:href="@{/produto/listar(termo=${termo}, page=${paginaProdutos.number - 1}, size=${paginaProdutos.size})}">Anterior</a>
+                        <a th:href="@{/produto/listar(termo1=${termo1}, termo2=${termo2}, page=${paginaProdutos.number - 1}, size=${paginaProdutos.size})}">Anterior</a>
                     </span>
                     <th:block th:each="i: ${#numbers.sequence(0, paginaProdutos.totalPages - 1)}">
                         <span th:if="${paginaProdutos.number == i}" class="pagina-atual" style="font-weight: bold; margin: 0 5px;">[[${i + 1}]]</span>
@@ -119,7 +119,7 @@
                         </span>
                     </th:block>
                     <span th:if="${paginaProdutos.hasNext()}">
-                        <a th:href="@{/produto/listar(termo=${termo}, page=${paginaProdutos.number + 1}, size=${paginaProdutos.size})}">Próxima</a>
+                        <a th:href="@{/produto/listar(termo1=${termo1}, termo2=${termo2}, page=${paginaProdutos.number + 1}, size=${paginaProdutos.size})}">Próxima</a>
                     </span>
                 </div>
             </div>
