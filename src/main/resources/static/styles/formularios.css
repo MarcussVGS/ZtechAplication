@@ -151,3 +151,66 @@ campo_imagem{
 	padding:0, 0, 0, 0;
 	color: #AF1F1F;
 }
+#modalDialogCat{
+	height: 225px;
+	width: 420px;
+	border: solid;
+	border-color: #9F1F1F;
+	border-radius: 10px;
+	font-family: var(--fonte-principal);
+	
+}
+#modalDialogMarca{
+	height: 225px;
+	width: 420px;
+	border: solid;
+	border-color: #9F1F1F;
+	border-radius: 10px;
+	font-family: var(--fonte-principal);
+	
+}
+h2{
+	font-size:26.5px;
+	font-weight: 900px;
+	margin-bottom: 40px;
+	text-align: center;
+}
+#nomeCatModal{
+	width: 320px;
+	height: 40px;
+	margin-left: 40px;
+	margin-bottom: 10px;
+	
+}
+#nomeModal{
+	width: 320px;
+	height: 40px;
+	margin-left: 40px;
+	margin-bottom: 10px;
+	
+}
+.botoespop{
+	display:flex;
+	position:relative;
+	height: 30px;
+	margin-top: 30px;
+	gap: 60px;
+	margin-left: 45px;
+}
+.cadastrarpop{
+	display:flex;
+	position:relative;
+	height: 50px;
+	width: 135px;
+	font-size: 15px;
+	padding: 15px;
+	
+}
+.fecharpop{
+	display:flex;
+	position:relative;
+	height: 50px;
+	width: 135px;
+	font-size: 15px;
+	padding: 15px;
+}
