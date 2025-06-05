@@ -122,14 +122,17 @@ span[class*="status-"] {
 }
 .filtro{
 	display: none;
-    width: 40px;
-    height: 40px;
+    width: 49px;
+    height: 49px;
     background-image: url(../img/filtro.svg);
     background-repeat: no-repeat;
     background-position: center;
+	background-size: 25px 25px;
+	background-color: #ffffff; /* fundo branco */
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* sombra leve */
     display: inline-block;
     -webkit-appearance: none;
     -moz-appearance: none;
-    font-size: 14px;
+    font-size: 16px;
     
 }
