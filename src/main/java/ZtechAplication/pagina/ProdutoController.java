@@ -121,6 +121,9 @@ public class ProdutoController {
 		Page<Produto> paginaProdutos = produtoRepository.findAll(spec, pageable);
         Page<ProdutoDTO> paginaProdutoDTOs = paginaProdutos.map(this::converterParaDTO);
 
+		// Se precisar carregar categorias e marcas existentes para selects no formulário:
+        model.addAttribute("categorias", categoriaRepository.findAll());
+        model.addAttribute("marcas", marcaRepository.findAll());
 		model.addAttribute("paginaProdutos", paginaProdutoDTOs);
 		model.addAttribute("termo", termo);
         if (termo != null && !termo.isEmpty() && paginaProdutos.isEmpty()) {
