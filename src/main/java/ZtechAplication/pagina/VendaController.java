@@ -3,6 +3,7 @@ package ZtechAplication.pagina;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,8 +48,8 @@ public class VendaController {
     public ModelAndView form() {
         ModelAndView mv = new ModelAndView("cadastro_vendas"); // Usando o nome do seu arquivo
         VendaDTO vendaDTO = new VendaDTO();
-        vendaDTO.setDataInicio(LocalDate.now());
-        vendaDTO.setHoraInicio(LocalTime.now());
+        vendaDTO.setDataInicio(localDateToString(LocalDate.now(), "yyyy-MM-dd"));
+        vendaDTO.setHoraInicio(localTimeToString(LocalTime.now(), "HH:mm"));
         mv.addObject("venda", vendaDTO);
         mv.addObject("produtos", produtoRepository.findAllWithRelationships());
         mv.addObject("clientes", clienteRepository.findAllWithRelationships());
@@ -88,8 +89,8 @@ public class VendaController {
         }
 
         Venda venda = new Venda();
-        venda.setDataInicio(vendaDTO.getDataInicio());
-        venda.setHoraInicio(vendaDTO.getHoraInicio());
+        venda.setDataInicio(stringToLocalDate(vendaDTO.getDataInicio(), "yyyy-MM-dd"));
+        venda.setHoraInicio(stringToLocalTime(vendaDTO.getHoraInicio(), "HH:mm"));
         venda.setQuantidade(vendaDTO.getQuantidade());
         venda.setProduto(produto);
         venda.setCliente(cliente);
@@ -123,6 +124,10 @@ public class VendaController {
         
         ModelAndView mv = new ModelAndView("alterarVenda");
         mv.addObject("venda", converterParaDTO(venda));
+        
+        String dataISOInicio = venda.getDataInicio().format(DateTimeFormatter.ISO_DATE);
+        mv.addObject("dataFormatada", dataISOInicio);
+        
         mv.addObject("produtos", produtoRepository.findAllWithRelationships());
         mv.addObject("clientes", clienteRepository.findAllWithRelationships());
         return mv;
@@ -178,8 +183,8 @@ public class VendaController {
             produtoRepository.save(produtoAntigo); 
         }
 
-        vendaExistente.setDataInicio(vendaDTO.getDataInicio());
-        vendaExistente.setHoraInicio(vendaDTO.getHoraInicio());
+        vendaExistente.setDataInicio(stringToLocalDate(vendaDTO.getDataInicio(), "yyyy-MM-dd"));
+        vendaExistente.setHoraInicio(stringToLocalTime(vendaDTO.getHoraInicio(), "HH:mm"));
         vendaExistente.setQuantidade(vendaDTO.getQuantidade());
         vendaExistente.setProduto(produtoNovo);
         vendaExistente.setCliente(cliente);
@@ -232,8 +237,8 @@ public class VendaController {
     private VendaDTO converterParaDTO(Venda venda) {
         VendaDTO dto = new VendaDTO();
         dto.setIdVenda(venda.getIdVenda());
-        dto.setDataInicio(venda.getDataInicio());
-        dto.setHoraInicio(venda.getHoraInicio());
+        dto.setDataInicio(localDateToString(venda.getDataInicio(), "dd/MM/yyyy"));
+        dto.setHoraInicio(localTimeToString(venda.getHoraInicio(), "HH:mm"));
         dto.setValor(venda.getValor());
         dto.setLucro(venda.getLucro());
         dto.setQuantidade(venda.getQuantidade());
@@ -248,7 +253,41 @@ public class VendaController {
         }
         return dto;
     }
-//lala
+    
+ // --- MÉTODOS UTILITÁRIOS PARA CONVERSÃO DE DATA E HORA ---
+
+ 	public static LocalDate stringToLocalDate(String dataString, String formato) {
+         if (dataString == null || dataString.trim().isEmpty()) {
+             return null; 
+         }
+ 	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato); 
+ 	    return LocalDate.parse(dataString, formatter); 
+ 	}
+
+ 	public static String localDateToString(LocalDate data, String formato) {
+         if (data == null) {
+             return ""; 
+         }
+ 	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato); 
+ 	    return data.format(formatter); 
+ 	}
+ 	
+ 	public static LocalTime stringToLocalTime(String timeString, String formato) {
+         if (timeString == null || timeString.trim().isEmpty()) {
+             return null; 
+         }
+ 	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato); 
+ 	    return LocalTime.parse(timeString, formatter); 
+ 	}
+
+ 	public static String localTimeToString(LocalTime timeLocal, String formato) {
+         if (timeLocal == null) {
+             return ""; 
+         }
+ 	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato); 
+ 	    return timeLocal.format(formatter); 
+ 	}
+    
     @GetMapping(value = "/teste")
     public String teste() {
         return "correto";

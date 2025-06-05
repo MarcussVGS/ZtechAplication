@@ -74,7 +74,7 @@
                     <tbody>
                         <tr th:if="${paginaVendas != null}" th:each="vendaDTO : ${paginaVendas.content}">
                              <td th:text="${vendaDTO.idVenda}"></td>
-                             <td th:text="${#temporals.format(vendaDTO.dataInicio, 'dd/MM/yyyy')}"></td>
+                             <td th:text="${vendaDTO.dataInicio}"></td>
                              <td th:text="${vendaDTO.horaInicio}"></td>
                              <td th:text="${vendaDTO.nomeCliente} ?: 'N/A'"></td>
                              <td th:text="${vendaDTO.nomeProduto} ?: 'N/A'"></td>

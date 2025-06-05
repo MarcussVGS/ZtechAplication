@@ -47,7 +47,8 @@
                     <h3 class="titulo_formulario">Detalhes da Venda</h3>
 
                     <label for="dataInicio">Data da Venda:</label>
-                    <input class="campo_digitacao" type="date" id="dataInicio" th:field="*{dataInicio}" required>
+                    <input class="campo_digitacao" type="date" id="dataInicio" name="dataInicio" 
+					 th:value="${dataFormatada}" required>
                     <span th:if="${#fields.hasErrors('dataInicio')}" th:errors="*{dataInicio}" class="error"></span>
 
                     <label for="horaInicio">Hora da Venda:</label>
@@ -98,7 +99,7 @@
                     <a class="link_cancelar" th:href="@{/vendas/listar}">
                         <button type="button" class="cancelar">❌ Cancelar</button>
                     </a>
-                    <button type="submit" class="cadastrar">✔️ Atualizar Venda</button>
+                    <button type="submit" class="cadastrar">✔️ Atualizar </button>
                 </div>
             </form>
         </div>

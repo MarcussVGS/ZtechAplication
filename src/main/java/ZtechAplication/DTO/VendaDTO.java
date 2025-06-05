@@ -1,13 +1,11 @@
 package ZtechAplication.DTO;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class VendaDTO {
     private Integer idVenda;
-    private LocalDate dataInicio;
-    private LocalTime horaInicio;
+    private String dataInicio;
+    private String horaInicio;
     private BigDecimal valor;
     private BigDecimal lucro;
     private Integer quantidade;
@@ -26,19 +24,19 @@ public class VendaDTO {
         this.idVenda = idVenda;
     }
 
-    public LocalDate getDataInicio() {
+    public String getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDate dataInicio) {
+    public void setDataInicio(String dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public LocalTime getHoraInicio() {
+    public String getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(LocalTime horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
