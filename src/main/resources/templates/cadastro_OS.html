@@ -48,7 +48,11 @@
 					    </option>
 					</select>
 					<span th:if="${#fields.hasErrors('idServico')}" th:errors="*{idServico}" class="error"></span>
-					<button id="openButtonCat" class="butcad">Preciso cadastrar um Serviço</button>
+					
+					<a th:href="@{/servico/cadastrarForm}">
+						<button  type="button" class="butcad">
+							Preciso cadastrar um Serviço</button>
+					</a>
 					
 					<label for="idProduto">Produto usado no Serviço:</label>
 					<select id="idProduto" th:field="*{idProduto}" class="campo_digitacao" required>
