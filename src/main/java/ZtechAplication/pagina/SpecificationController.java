@@ -157,6 +157,8 @@ public class SpecificationController {
             String likeTerm = "%" + termo.toLowerCase() + "%";
 
             // Busca por nomes do cliente associado à OS
+            predicates.add(cb.like(cb.lower(root.get("status")), likeTerm));
+            // Busca por nomes do cliente associado à OS
             predicates.add(cb.like(cb.lower(root.get("cliente").get("nomeCliente")), likeTerm));
             // Busca por nomes do cliente associado à OS
             predicates.add(cb.like(cb.lower(root.get("cliente").get("cpf")), likeTerm));
