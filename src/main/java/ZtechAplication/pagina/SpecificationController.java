@@ -201,11 +201,13 @@ public class SpecificationController {
     }
     
     
-    public static Specification<Produto> comFiltroSequencial(String termoSecundario) {
+    public static Specification<Produto> comFiltroSequencial(String termoPrincipal, String termoSecundario) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
-            
-            String termoPrincipal = "celulares";
+
+            System.out.println("Nome recebido: " + termoPrincipal);
+            System.out.println("Nome recebido: " + termoSecundario);
+//            termoPrincipal = "celulares";
             // Aplica o primeiro filtro (termo principal)
             if (termoPrincipal != null && !termoPrincipal.trim().isEmpty()) {
                 String likeTermPrincipal = "%" + termoPrincipal.toLowerCase() + "%";

@@ -115,7 +115,7 @@ public class ProdutoController {
 	
 	// Busca produtos com base em um termo e com paginação
 	@GetMapping("/buscar") // Alterado de @RequestMapping
-	public String buscarProdutos(@RequestParam(value ="termo", required=false) String termo,
+	public String buscarProdutos(@RequestParam(value ="termo2", required=false) String termo,
 						  @PageableDefault (size=10 ) Pageable pageable, 
 						  Model model) {
         Specification<Produto> spec = SpecificationController.comTermoProd(termo);
@@ -134,6 +134,30 @@ public class ProdutoController {
         }
 		return "estoque"; // Mesmo template da listagem
 	}
+	
+	// Busca produtos com base em um termo e com paginação
+		@GetMapping("/buscaSequencial") // Alterado de @RequestMapping
+		public String buscarProdutosSequencial(@RequestParam(value ="termo1", required=false) String termo1,
+				                           @RequestParam(value ="termo2", required=false) String termo2,
+							               @PageableDefault (size=10 ) Pageable pageable, 
+							               Model model) {
+	        Specification<Produto> spec = SpecificationController.comFiltroSequencial(termo1, termo2);
+			Page<Produto> paginaProdutos = produtoRepository.findAll(spec, pageable);
+	        Page<ProdutoDTO> paginaProdutoDTOs = paginaProdutos.map(this::converterParaDTO);
+
+			// Se precisar carregar categorias e marcas existentes para selects no formulário:
+	        model.addAttribute("categorias", categoriaRepository.findAll());
+	        model.addAttribute("marcas", marcaRepository.findAll());
+			model.addAttribute("paginaProdutos", paginaProdutoDTOs);
+			model.addAttribute("termo1", termo1);
+			model.addAttribute("termo2", termo2);
+	        if (termo1 != null && !termo1.isEmpty() && paginaProdutos.isEmpty()) {
+	            model.addAttribute("mensagemBusca", "Nenhum produto encontrado para o termo: '" + termo1 + "'.");
+	        } else if (termo1 != null && !termo1.isEmpty() && !paginaProdutos.isEmpty()){
+	            model.addAttribute("mensagemBusca", "Exibindo resultados para: '" + termo1 + "'.");
+	        }
+			return "estoque"; // Mesmo template da listagem
+		}
 	
 	// Exibe o formulário de edição de um produto
 	@GetMapping(value = "/editarForm/{idProduto}")

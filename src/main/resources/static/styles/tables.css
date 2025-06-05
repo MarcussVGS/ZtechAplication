@@ -121,6 +121,9 @@ span[class*="status-"] {
     /* background-color: #9C27B0; */
 }
 .filtro{
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
 	display: none;
     width: 49px;
     height: 49px;
@@ -134,5 +137,5 @@ span[class*="status-"] {
     -webkit-appearance: none;
     -moz-appearance: none;
     font-size: 16px;
-    
+	text-indent: -9999px; /* Oculta o texto selecionado */
 }

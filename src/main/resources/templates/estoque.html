@@ -40,14 +40,23 @@
                	  <a th:href="@{/produto/cadastrarForm}">
 					<input class="botao_adicionar" type="button" value="Adicionar Produto"></a>
 
-                <form th:action="@{/produto/buscar}" method="get" style="display: flex; align-items: center; margin-left: 10px; margin-top: 20px; top: 13em; left: 150px;">
-						<select class="filtro" style="display: flex; align-items: center; margin-bottom: auto; margin-top: auto; margin-right: 10px; justify-content: center;">
-							<option></option>
-							<option>socorroooooooooo</option>
-							<option>bbb</option>
+                <form th:action="@{/produto/buscaSequencial}" method="get" style="display: flex; align-items: center; margin-left: 10px; margin-top: 20px; top: 13em; left: 150px;">
+						<select class="filtro" name="termo1" th:value="${termo1}"
+								style="display: flex; align-items: center; margin-bottom: auto; margin-top: auto;
+													  margin-right: 10px; justify-content: center;">
+							    <option value=""></option>
+							    <option th:each="categoriaOpt : ${categorias}"
+							            th:value="${categoriaOpt.nome}"
+							            th:text="${categoriaOpt.nome}">
+							    </option>
+								<option value=""></option>
+								<option th:each="marcaOpt : ${marcas}"
+								        th:value="${marcaOpt.nome}"
+								        th:text="${marcaOpt.nome}">
+								</option>
 						</select>
 					<thead>
-				      <input type="search" name="termo" th:value="${termo}" class="banner_pesquisa"
+				      <input type="search" name="termo2" th:value="${termo2}" class="banner_pesquisa"
 				         placeholder="Buscar por nome, descrição, categoria ou marca...">
 					  <button type="submit" class="botao_pesquisar" style="margin-left: 10px; padding: 10px 15px; border-radius: 20px; background-color: #7C1F1F; color: white; border: none; cursor: pointer;">
                          <i class="fas fa-search"></i> Pesquisar
