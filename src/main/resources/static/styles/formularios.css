@@ -141,3 +141,14 @@ campo_imagem{
     margin-top: -8px;
     margin-bottom: 8px;
 }
+.butcad{
+	font-size: 15px;
+	margin-top: -20px;
+	margin-left: -10px; 
+	width:300px; 
+	background-color: white; 
+	text-align: justify;
+	padding:0, 0, 0, 0;
+	color: #AF1F1F;
+	
+}
