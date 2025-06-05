@@ -116,6 +116,20 @@
 						
                     </tbody>
                 </table>
+				<div th:if="${paginaOrdens != null && paginaOrdens.totalPages > 1}" class="paginacao" style="margin-top: 20px; text-align: center;">
+				    <span th:if="${paginaOrdens.hasPrevious()}">
+				        <a th:href="@{/ordens/listar(termo=${termo}, page=${paginaOrdens.number - 1}, size=${paginaOrdens.size})}">Anterior</a>
+				    </span>
+				    <th:block th:each="i: ${#numbers.sequence(0, paginaOrdens.totalPages - 1)}">
+				        <span th:if="${paginaOrdens.number == i}" class="pagina-atual" style="font-weight: bold; margin: 0 5px;">[[${i + 1}]]</span>
+				        <span th:if="${paginaOrdens.number != i}" style="margin: 0 5px;">
+				            <a th:href="@{/ordens/listar(termo=${termo}, page=${i}, size=${paginaOrdens.size})}">[[${i + 1}]]</a>
+				        </span>
+				    </th:block>
+				    <span th:if="${paginaOrdens.hasNext()}">
+				        <a th:href="@{/ordens/listar(termo=${termo}, page=${paginaOrdens.number + 1}, size=${paginaOrdens.size})}">Próxima</a>
+				    </span>
+				</div>
             </div>
         </div>
     </div>

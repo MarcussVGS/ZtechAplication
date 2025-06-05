@@ -151,11 +151,35 @@ public class ProdutoController {
 			model.addAttribute("paginaProdutos", paginaProdutoDTOs);
 			model.addAttribute("termo1", termo1);
 			model.addAttribute("termo2", termo2);
-	        if (termo1 != null && !termo1.isEmpty() && paginaProdutos.isEmpty()) {
-	            model.addAttribute("mensagemBusca", "Nenhum produto encontrado para o termo: '" + termo1 + "'.");
-	        } else if (termo1 != null && !termo1.isEmpty() && !paginaProdutos.isEmpty()){
-	            model.addAttribute("mensagemBusca", "Exibindo resultados para: '" + termo1 + "'.");
-	        }
+			
+			String mensagemBusca = null;
+//			para ambos os termos
+			if (termo1 != null && !termo1.isEmpty() && termo2 != null && !termo2.isEmpty()) {
+			    if (paginaProdutos.isEmpty()) {
+			        mensagemBusca = "Nenhum produto encontrado para a combinação do Filtro '" + termo1 + "' e do Termo '" + termo2 + "'.";
+			    } else {
+			        mensagemBusca = "Exibindo resultados para a combinação do Filtro '" + termo1 + "' e do Termo '" + termo2 + "'.";
+			    }
+			} // apenas para o filtro
+			else if (termo1 != null && !termo1.isEmpty()) {
+			    if (paginaProdutos.isEmpty()) {
+			        mensagemBusca = "Nenhum produto encontrado para o Filtro: '" + termo1 + "'.";
+			    } else {
+			        mensagemBusca = "Exibindo resultados para o Filtro: '" + termo1 + "'.";
+			    }
+			} // apenas para a busca 
+			else if (termo2 != null && !termo2.isEmpty()) {
+			    if (paginaProdutos.isEmpty()) {
+			        mensagemBusca = "Nenhum produto encontrado para o Termo: '" + termo2 + "'.";
+			    } else {
+			        mensagemBusca = "Exibindo resultados para o Termo: '" + termo2 + "'.";
+			    }
+			}
+
+			if (mensagemBusca != null) {
+			    model.addAttribute("mensagemBusca", mensagemBusca);
+			} 
+	        
 			return "estoque"; // Mesmo template da listagem
 		}
 	
