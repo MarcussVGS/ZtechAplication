@@ -48,10 +48,11 @@
 					    </option>
 					</select>
 					<span th:if="${#fields.hasErrors('idServico')}" th:errors="*{idServico}" class="error"></span>
-					
+					<button class="butcad">Preciso cadastrar um novo Serviço</button>
+										
 					<label for="idProduto">Produto usado no Serviço:</label>
 					<select id="idProduto" th:field="*{idProduto}" class="campo_digitacao" required>
-					    <option value="">Selecione um Servico</option>
+					    <option value="">Selecione um Produto</option>
 					    <option th:each="produtoOpt : ${produtos}"
 					            th:value="${produtoOpt.idProduto}"
 					            th:text="${produtoOpt.nome} + ' (Valor: ' + ${produtoOpt.valor} + ')'">
