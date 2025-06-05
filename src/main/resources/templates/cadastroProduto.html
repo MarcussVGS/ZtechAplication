@@ -68,15 +68,15 @@
                     </dialog>
                     
                     <script>
-                    	const dialogCat = document.querySelector("#modalDialogCat");
+                    	const modalDialogCat = document.querySelector("#modalDialogCat");
                     	const openButtonCat = document.querySelector("#openButtonCat");
                     	const closeButtonCat = document.querySelector("#closeButtonCat");
                     	
                     	openButtonCat.addEventListener("click", (e) =>{
-                    		dialog.showModal();
+                    		modalDialogCat.showModal();
                     	});
                     	closeButtonCat.addEventListener("click", (e) =>{
-                    		dialog.close();
+                    		modalDialogCat.close();
                     	});
                     	openButtonCat.addEventListener("click", (e) =>{
                     		e.preventDefault();
@@ -104,15 +104,15 @@
                     <button class="fecharpop" id="closeButtonMarca">Fechar</button>
                     </dialog>
                     <script>
-                    	const dialogMarca = document.querySelector("#modalDialogMarca");
+                    	const modaldialogMarca = document.querySelector("#modalDialogMarca");
                     	const openButtonMarca = document.querySelector("#openButtonMarca");
                     	const closeButtonMarca = document.querySelector("#closeButtonMarca");
                     	
                     	openButtonMarca.addEventListener("click", (e) =>{
-                    		dialog.showModal();
+                    		modalDialogMarca.showModal();
                     	});
                     	closeButtonMarca.addEventListener("click", (e) =>{
-                    		dialog.close();
+                    		modalDialogMarca.close();
                     	});
                     	openButtonMarca.addEventListener("click", (e) =>{
                     		e.preventDefault();
