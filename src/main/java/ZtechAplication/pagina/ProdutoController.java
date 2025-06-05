@@ -193,8 +193,8 @@ public class ProdutoController {
 		ProdutoDTO produtoDTO = converterParaDTO(produto);
 		mv.addObject("produtoDTO", produtoDTO); // Envia produtoDTO para o formulário
         // Se precisar carregar categorias e marcas existentes para selects:
-        // mv.addObject("categoriasExistentes", categoriaRepository.findAll());
-        // mv.addObject("marcasExistentes", marcaRepository.findAll());
+         mv.addObject("categorias", categoriaRepository.findAll());
+         mv.addObject("marcas", marcaRepository.findAll());
 		return mv;
 	}
 	
