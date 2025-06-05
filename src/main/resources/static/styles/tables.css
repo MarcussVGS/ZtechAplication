@@ -1,8 +1,8 @@
 .tabela{
 	padding: 20px;
 	background-color: white;
-    max-width: 1300px;
-    margin: 20px auto;
+    max-width: 1550px;
+    margin: 10px auto;
 	margin-top: 50px;
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
     overflow-x: auto;
@@ -43,9 +43,9 @@ table {
 	font-weight: 450;
 	padding: 20px;
 	background-color: white;
-    max-width: 1450px;
-    margin: 20px auto;
-	margin-top: 50px;
+    max-width: 1550px;
+    margin: 10px auto;
+	margin-top: 40px;
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
     overflow-x: auto;
 }
@@ -89,7 +89,7 @@ span[class*="status-"] {
     border-radius: 15px;
     font-weight: bold;
     text-align: center;
-    min-width: 110px; /* Ajuste conforme necessário, talvez precise de um pouco mais para "Cliente Ausente" */
+    min-width: 150px; /* Ajuste conforme necessário, talvez precise de um pouco mais para "Cliente Ausente" */
     box-sizing: border-box;
 }
 
