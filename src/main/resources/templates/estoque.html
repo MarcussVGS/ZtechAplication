@@ -40,7 +40,13 @@
                	  <a th:href="@{/produto/cadastrarForm}">
 					<input class="botao_adicionar" type="button" value="Adicionar Produto"></a>
 
-                <form th:action="@{/produto/buscar}" method="get" style="display: flex; align-items: center; margin-left: 10px; margin-top: 20px; top: 13em; left: 210px;">
+                <form th:action="@{/produto/buscar}" method="get" style="display: flex; align-items: center; margin-left: 10px; margin-top: 20px; top: 13em; left: 150px;">
+						<select class="filtro" style="display: flex; align-items: center; margin-right: 10px; justify-content: center;">
+							<option></option>
+							<option>socorroooooooooo</option>
+							<option>bbb</option>
+						</select>
+					<thead>
 				      <input type="search" name="termo" th:value="${termo}" class="banner_pesquisa"
 				         placeholder="Buscar por nome, descrição, categoria ou marca...">
 					  <button type="submit" class="botao_pesquisar" style="margin-left: 10px; padding: 10px 15px; border-radius: 20px; background-color: #7C1F1F; color: white; border: none; cursor: pointer;">
@@ -57,12 +63,6 @@
 
             <div class="tabela" >
                 <table>
-						<select class="filtro">
-							<option></option>
-							<option>socorroooooooooo</option>
-							<option>bbb</option>
-						</select>
-                    <thead>
                         <tr>
 							<th>ID</th>
                             <th>Produto</th>

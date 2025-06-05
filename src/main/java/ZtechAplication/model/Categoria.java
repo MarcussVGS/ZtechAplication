@@ -3,6 +3,8 @@ package ZtechAplication.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,36 +25,34 @@ public class Categoria {
 	@Column(name = "idCategoria")  // Mapeia para a coluna existente
 	private Integer idCategoria;
 	private String nome;
-    
-	 @OneToMany(mappedBy = "categoria")
-	    private List<Produto> produtos = new ArrayList<>();
 
-	    // Getters e Setters
-	    public Integer getIdCategoria() {
-	        return idCategoria;
-	    }
+	@JsonIgnore
+	@OneToMany(mappedBy = "categoria")
+	private List<Produto> produtos = new ArrayList<>();
 
-	    public void setIdCategoria(Integer idCategoria) {
-	        this.idCategoria = idCategoria;
-	    }
+	// Getters e Setters
+	public Integer getIdCategoria() {
+		return idCategoria;
+	}
 
-	    public String getNome() {
-	        return nome;
-	    }
+	public void setIdCategoria(Integer idCategoria) {
+		this.idCategoria = idCategoria;
+	}
 
-	    public void setNome(String nome) {
-	        this.nome = nome;
-	    }
+	public String getNome() {
+		return nome;
+	}
 
-	    public List<Produto> getProdutos() {
-	        return produtos;
-	    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-	    public void setProdutos(List<Produto> produtos) {
-	        this.produtos = produtos;
-	    }
-	
-	
-	
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
+	}
 
 }
